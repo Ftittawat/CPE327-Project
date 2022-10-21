@@ -16,7 +16,7 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 ### Requirements
-- flutter Version: 3.3.4
+- Flutter Version: 3.3.4
 - Dart SDK Version: 2.18.2 
 - Devtools: 2.15.0
 
