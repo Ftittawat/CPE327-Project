@@ -21,12 +21,13 @@ class _LoginState extends State<Login> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
-          border: OutlineInputBorder(
-              // borderSide: BorderSide(width: 1.0, color: Colors.red.shade400), // ไม่เปลี่ยนตามที่ใส่ค่าไว้
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
+      cursorColor: Color(0xFF005792),
     );
   }
 
@@ -40,12 +41,13 @@ class _LoginState extends State<Login> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
-          border: OutlineInputBorder(
-              // borderSide: BorderSide(width: 1.0, color: Colors.red.shade400), // ไม่เปลี่ยนตามที่ใส่ค่าไว้
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
+      cursorColor: Color(0xFF005792),
     );
   }
 

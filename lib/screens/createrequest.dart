@@ -1,131 +1,138 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Register extends StatefulWidget {
-  const Register({super.key});
+class CreateRequest extends StatefulWidget {
+  const CreateRequest({super.key});
 
   @override
-  State<Register> createState() => _RegisterState();
+  State<CreateRequest> createState() => _CreateRequestState();
 }
 
 const darkblue = Color(0xFF005792);
 
-class _RegisterState extends State<Register> {
-  Widget emailBox() {
+class _CreateRequestState extends State<CreateRequest> {
+  Widget topicBox() {
     return TextField(
-      keyboardType: TextInputType.emailAddress,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-          hintText: 'E-mail',
+          hintText: 'Topic',
           hintStyle: GoogleFonts.montserrat(
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
+      minLines: 1,
       cursorColor: Color(0xFF005792),
     );
   }
 
-  Widget usernamebox() {
+  Widget descriptionbox() {
     return TextField(
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-        hintText: 'Username',
-        hintStyle: GoogleFonts.montserrat(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.grey.shade400),
-        enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
-            borderRadius: BorderRadius.circular(10)),
-        focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
-            borderRadius: BorderRadius.circular(10)),
-        suffixIcon: Icon(Icons.check, color: Colors.green),
+          hintText: 'Description',
+          hintStyle: GoogleFonts.montserrat(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey.shade400),
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderRadius: BorderRadius.circular(10))),
+      minLines: 2,
+      maxLines: 3,
+      cursorColor: Color(0xFF005792),
+    );
+  }
+
+  Widget categoryBox() {
+    return TextField(
+      style: GoogleFonts.montserrat(
+          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+      decoration: InputDecoration(
+          hintText: 'Category',
+          hintStyle: GoogleFonts.montserrat(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey.shade400),
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderRadius: BorderRadius.circular(10))),
+      minLines: 1,
+      cursorColor: Color(0xFF005792),
+    );
+  }
+
+  Widget addressBox() {
+    return TextField(
+      style: GoogleFonts.montserrat(
+          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+      decoration: InputDecoration(
+          hintText: 'Address',
+          hintStyle: GoogleFonts.montserrat(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey.shade400),
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderRadius: BorderRadius.circular(10))),
+      minLines: 1,
+      cursorColor: Color(0xFF005792),
+    );
+  }
+
+  Widget zipcodeBox() {
+    return TextField(
+      style: GoogleFonts.montserrat(
+          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+      decoration: InputDecoration(
+          hintText: 'Zip Code',
+          hintStyle: GoogleFonts.montserrat(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey.shade400),
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderRadius: BorderRadius.circular(10))),
+      minLines: 1,
+      cursorColor: Color(0xFF005792),
+    );
+  }
+
+  Widget imageBox() {
+    return Container(
+      height: 50,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(width: 2.0, color: Colors.grey.shade400),
       ),
-      cursorColor: Color(0xFF005792),
     );
   }
 
-  Widget phonebox() {
-    return TextField(
-      keyboardType: TextInputType.phone,
-      style: GoogleFonts.montserrat(
-          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
-      decoration: InputDecoration(
-          hintText: 'Phone',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
-              borderRadius: BorderRadius.circular(10)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
-              borderRadius: BorderRadius.circular(10))),
-      cursorColor: Color(0xFF005792),
-    );
-  }
-
-  Widget passwordBox() {
-    return TextField(
-      keyboardType: TextInputType.emailAddress,
-      obscureText: true,
-      style: GoogleFonts.montserrat(
-          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
-      decoration: InputDecoration(
-          hintText: 'Password',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
-              borderRadius: BorderRadius.circular(10)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
-              borderRadius: BorderRadius.circular(10))),
-      cursorColor: Color(0xFF005792),
-    );
-  }
-
-  Widget signinbutton() {
-    return TextButton(
-        onPressed: () {},
-        child: Text("Sign In",
-            style: GoogleFonts.montserrat(
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF005792))));
-  }
-
-  Widget ortext() {
-    return SizedBox(
-      height: 30,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Divider(height: 10, indent: 10, endIndent: 10, color: Colors.black),
-          Text("Or",
-              style: GoogleFonts.montserrat(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black)),
-          Divider(height: 10, indent: 10, endIndent: 10, color: Colors.black)
-        ],
-      ),
-    );
-  }
-
-  Widget signupButton() {
+  Widget createButton() {
     return ElevatedButton(
       onPressed: () {},
       style: ElevatedButton.styleFrom(
@@ -135,7 +142,7 @@ class _RegisterState extends State<Register> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Create Account",
+          Text("Create Request",
               style: GoogleFonts.montserrat(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
@@ -152,57 +159,50 @@ class _RegisterState extends State<Register> {
       child: Scaffold(
           resizeToAvoidBottomInset: false,
           backgroundColor: Colors.white,
+          appBar: AppBar(
+            centerTitle: true,
+            toolbarHeight: 60,
+            elevation: 0,
+            backgroundColor: Colors.white,
+            title: Text("Create request",
+                style: GoogleFonts.montserrat(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black)),
+          ),
           body: Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 60,
-                  child: Text("Sign Up",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 40,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black)),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 50, 20, 0),
-                  child: emailBox(),
-                ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  child: usernamebox(),
+                  child: topicBox(),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  child: phonebox(),
+                  padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                  child: descriptionbox(),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  child: passwordBox(),
+                  padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                  child: categoryBox(),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                  child: addressBox(),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                  child: zipcodeBox(),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                  child: imageBox(),
                 ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
                   child: SizedBox(
                     height: 55.0,
-                    child: signupButton(),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text("Have an account?",
-                          style: GoogleFonts.montserrat(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black)),
-                      SizedBox(
-                        height: 30.0,
-                        child: signinbutton(),
-                      )
-                    ],
+                    child: createButton(),
                   ),
                 ),
               ],

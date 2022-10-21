@@ -4,6 +4,7 @@ import 'package:helpee/screens/getstart.dart';
 import 'package:helpee/screens/home.dart';
 import 'package:helpee/screens/login.dart';
 import 'package:helpee/screens/register.dart';
+import 'package:helpee/screens/createrequest.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Register(),
+      home: CreateRequest(),
     );
   }
 }
