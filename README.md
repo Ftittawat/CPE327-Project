@@ -14,3 +14,12 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+### Requirements
+- flutter Version: 3.3.4
+- Dart SDK Version: 2.18.2 
+- Devtools: 2.15.0
+
+### Emulator Setting
+- Model: Pixel 4
+- Android Version: 9.0 (Pie)
