@@ -13,14 +13,9 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   Widget createrequestIcon() {
     return SizedBox(
         child: Container(
@@ -31,27 +26,16 @@ class _MyAppState extends State<MyApp> {
 
   int currentIndex = 0;
 
-  final screens = [
-    TestHome(),
-    TestHome(),
-    CreateRequest(),
-    Notificationscreen(),
-    Notificationscreen(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: screens[currentIndex],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: currentIndex,
-          onTap: (index) => setState(() => currentIndex = index),
-          type: BottomNavigationBarType.fixed,
+          onTap: (index) => currentIndex = index,
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          iconSize: 25,
-          selectedIconTheme: IconThemeData(color: Color(0xFF005792), size: 30),
+          selectedFontSize: 16,
           selectedItemColor: Color(0xFF005792),
           unselectedItemColor: Colors.grey.shade600,
           backgroundColor: Colors.grey.shade200,
@@ -82,7 +66,6 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
 
 // Image.asset("assets/images/helpee1.png"),
 // Text("Welcome to helpee", style: GoogleFonts.montserrat(fontSize: 30, fontWeight: FontWeight.w700, color: Color(0xFFFFFFFF))),
