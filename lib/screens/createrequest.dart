@@ -144,8 +144,8 @@ class _CreateRequestState extends State<CreateRequest> {
         children: [
           Text("Create Request",
               style: GoogleFonts.montserrat(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
                   color: Colors.white)),
         ],
       ),
