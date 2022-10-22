@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:helpee/screens/login.dart';
 
 class Getstart extends StatefulWidget {
   const Getstart({super.key});
@@ -11,7 +12,12 @@ class Getstart extends StatefulWidget {
 class _GetstartState extends State<Getstart> {
   Widget getstartButton() {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Login()),
+        );
+      },
       style: ElevatedButton.styleFrom(
           backgroundColor: Colors.white,
           shape:
@@ -22,7 +28,7 @@ class _GetstartState extends State<Getstart> {
           Text("Get Start",
               style: GoogleFonts.montserrat(
                   fontSize: 20,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                   color: Color(0xFF005792))),
           Icon(
             Icons.arrow_forward_rounded,

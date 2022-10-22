@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:helpee/screens/login.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -99,7 +100,12 @@ class _RegisterState extends State<Register> {
 
   Widget signinbutton() {
     return TextButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Login()),
+          );
+        },
         child: Text("Sign In",
             style: GoogleFonts.montserrat(
                 fontSize: 12,
@@ -137,8 +143,8 @@ class _RegisterState extends State<Register> {
         children: [
           Text("Create Account",
               style: GoogleFonts.montserrat(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
                   color: Colors.white)),
         ],
       ),

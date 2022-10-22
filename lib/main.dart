@@ -5,6 +5,7 @@ import 'package:helpee/screens/home.dart';
 import 'package:helpee/screens/login.dart';
 import 'package:helpee/screens/register.dart';
 import 'package:helpee/screens/createrequest.dart';
+import 'package:helpee/screens/notification.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: CreateRequest(),
+      home: Notificationscreen(),
     );
   }
 }
