@@ -122,7 +122,7 @@ class _TestHomeState extends State<TestHome> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
                 child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
@@ -132,32 +132,34 @@ class _TestHomeState extends State<TestHome> {
                     itemCount: list_request.length, //fix bound of request
                     itemBuilder: (BuildContext context, int index) {
                       ListRequest request = list_request[index];
-                      return ListTile(
-                          //leading: Text("test"),
-                          title: Text(
-                            request.title,
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFF005792)),
-                          ),
-                          subtitle: Text(
-                            "${request.subtitle}\nDistance ${request.distance} kilometers.",
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.black,
-                            ),
-                          ),
-                          // enabled: Text(true),
-                          trailing: Icon(Icons.person),
-                          isThreeLine: true,
-                          onTap: () {
-                            print("more detail ${request.title} ");
-                          });
+                      return Card(
+                          child: ListTile(
+                              //leading: Text("test"),
+                              title: Text(
+                                request.title,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color(0xFF005792)),
+                              ),
+                              subtitle: Text(
+                                "${request.subtitle}\n\nDistance ${request.distance} kilometers.\n22 Oct 2022, 10:22",
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              // enabled: Text(true),
+                              trailing: Icon(Icons.person),
+                              isThreeLine: true,
+                              onTap: () {
+                                print("more detail ${request.title} ");
+                              }));
                     },
                   ),
                 ),
               ),
+              Divider(),
             ],
           ),
         ));
