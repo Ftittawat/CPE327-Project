@@ -23,13 +23,15 @@ class _RegisterState extends State<Register> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+          border: OutlineInputBorder(
+              // borderSide: BorderSide(width: 1.0, color: Colors.red.shade400), // ไม่เปลี่ยนตามที่ใส่ค่าไว้
               borderRadius: BorderRadius.circular(10)),
+          // errorBorder: OutlineInputBorder(
+          //     borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
+          //     borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
-      cursorColor: Color(0xFF005792),
     );
   }
 
@@ -38,48 +40,27 @@ class _RegisterState extends State<Register> {
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-        hintText: 'Username',
-        hintStyle: GoogleFonts.montserrat(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.grey.shade400),
-        enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
-            borderRadius: BorderRadius.circular(10)),
-        focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
-            borderRadius: BorderRadius.circular(10)),
-        suffixIcon: Icon(Icons.check, color: Colors.green),
-      ),
-      cursorColor: Color(0xFF005792),
-    );
-  }
-
-  Widget phonebox() {
-    return TextField(
-      keyboardType: TextInputType.phone,
-      style: GoogleFonts.montserrat(
-          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
-      decoration: InputDecoration(
-          hintText: 'Phone',
+          hintText: 'Username',
           hintStyle: GoogleFonts.montserrat(
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+          border: OutlineInputBorder(
+              // borderSide: BorderSide(width: 1.0, color: Colors.red.shade400), // ไม่เปลี่ยนตามที่ใส่ค่าไว้
               borderRadius: BorderRadius.circular(10)),
+          // errorBorder: OutlineInputBorder(
+          //     borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
+          //     borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
-      cursorColor: Color(0xFF005792),
     );
   }
 
   Widget passwordBox() {
     return TextField(
-      keyboardType: TextInputType.emailAddress,
       obscureText: true,
+      keyboardType: TextInputType.visiblePassword,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -88,13 +69,33 @@ class _RegisterState extends State<Register> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+          border: OutlineInputBorder(
+              // borderSide: BorderSide(width: 1.0, color: Colors.red.shade400), // ไม่เปลี่ยนตามที่ใส่ค่าไว้
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
-      cursorColor: Color(0xFF005792),
+    );
+  }
+
+  Widget passwordConfirmBox() {
+    return TextField(
+      obscureText: true,
+      keyboardType: TextInputType.visiblePassword,
+      style: GoogleFonts.montserrat(
+          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+      decoration: InputDecoration(
+          hintText: 'Confirm Password',
+          hintStyle: GoogleFonts.montserrat(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey.shade400),
+          border: OutlineInputBorder(
+              // borderSide: BorderSide(width: 1.0, color: Colors.red.shade400), // ไม่เปลี่ยนตามที่ใส่ค่าไว้
+              borderRadius: BorderRadius.circular(10)),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderRadius: BorderRadius.circular(10))),
     );
   }
 
@@ -156,14 +157,13 @@ class _RegisterState extends State<Register> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: Scaffold(
-          resizeToAvoidBottomInset: false,
           backgroundColor: Colors.white,
           body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  height: 60,
+                  height: 85,
                   child: Text("Sign Up",
                       style: GoogleFonts.montserrat(
                           fontSize: 40,
@@ -171,23 +171,29 @@ class _RegisterState extends State<Register> {
                           color: Colors.black)),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(20, 50, 20, 0),
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                   child: emailBox(),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                  padding: EdgeInsets.fromLTRB(20, 25, 20, 0),
                   child: usernamebox(),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  child: phonebox(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                  padding: EdgeInsets.fromLTRB(20, 25, 20, 0),
                   child: passwordBox(),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
+                  padding: EdgeInsets.fromLTRB(20, 25, 20, 10),
+                  child: passwordConfirmBox(),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                  child: SizedBox(
+                    height: 30.0,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
                   child: SizedBox(
                     height: 55.0,
                     child: signupButton(),
