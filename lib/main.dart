@@ -4,6 +4,7 @@ import 'package:helpee/screens/createrequest.dart';
 import 'package:helpee/screens/getstart.dart';
 import 'package:helpee/screens/home.dart';
 import 'package:helpee/screens/login.dart';
+import 'package:helpee/screens/profile.dart';
 import 'package:helpee/screens/register.dart';
 import 'package:helpee/screens/createrequest.dart';
 import 'package:helpee/screens/notification.dart';
@@ -36,7 +37,7 @@ class _MyAppState extends State<MyApp> {
     TestHome(),
     CreateRequest(),
     Notificationscreen(),
-    Notificationscreen(),
+    Profile(),
   ];
 
   @override
