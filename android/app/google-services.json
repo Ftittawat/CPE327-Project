@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "206409721883",
+    "project_id": "cpe327-termproject",
+    "storage_bucket": "cpe327-termproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:206409721883:android:5734d62e8de6265229f0be",
+        "android_client_info": {
+          "package_name": "com.example.helpee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "206409721883-lvoul63j706j73gkdup12ijehhmtq1ht.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_IASHjy8Tf7Vahd1FpV-FGg8p7Bjqdng"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "206409721883-lvoul63j706j73gkdup12ijehhmtq1ht.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
