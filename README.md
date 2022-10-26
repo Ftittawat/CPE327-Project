@@ -23,3 +23,5 @@ samples, guidance on mobile development, and a full API reference.
 ### Emulator Setting
 - Model: Pixel 4
 - Android Version: 9.0 (Pie)
+
+- test form Ton branch
