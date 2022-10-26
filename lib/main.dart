@@ -22,14 +22,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Widget createrequestIcon() {
-    return SizedBox(
-        child: Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100), color: Color(0xFF005792)),
-    ));
-  }
-
   int currentIndex = 0;
 
   final screens = [
@@ -43,43 +35,46 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: screens[currentIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: currentIndex,
-          onTap: (index) => setState(() => currentIndex = index),
-          type: BottomNavigationBarType.fixed,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          iconSize: 25,
-          selectedIconTheme: IconThemeData(color: Color(0xFF005792), size: 30),
-          selectedItemColor: Color(0xFF005792),
-          unselectedItemColor: Colors.grey.shade600,
-          backgroundColor: Colors.grey.shade200,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.wysiwyg),
-              label: 'Ask for help',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add_circle),
-              label: 'Add',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications),
-              label: 'Notification',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-          ],
-        ),
-      ),
+      home: Register(),
+      // home: Scaffold(
+      //   body: screens[currentIndex],
+      //   bottomNavigationBar: BottomNavigationBar(
+      //     currentIndex: currentIndex,
+      //     onTap: (index) => setState(() => currentIndex = index),
+      //     type: BottomNavigationBarType.fixed,
+      //     showSelectedLabels: false,
+      //     showUnselectedLabels: false,
+      //     selectedFontSize: 14.0,
+      //     unselectedFontSize: 12.0,
+      //     iconSize: 25,
+      //     selectedIconTheme: IconThemeData(color: Color(0xFF005792), size: 27),
+      //     selectedItemColor: Color(0xFF005792),
+      //     unselectedItemColor: Colors.grey.shade600,
+      //     backgroundColor: Colors.grey.shade200,
+      //     items: const <BottomNavigationBarItem>[
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.home),
+      //         label: 'Home',
+      //       ),
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.wysiwyg),
+      //         label: 'Ask for help',
+      //       ),
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.add_circle),
+      //         label: 'Add',
+      //       ),
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.notifications),
+      //         label: 'Notification',
+      //       ),
+      //       BottomNavigationBarItem(
+      //         icon: Icon(Icons.person),
+      //         label: 'Profile',
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }

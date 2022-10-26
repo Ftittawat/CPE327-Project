@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/screens/ListRequest.dart';
+import 'package:helpee/screens/login.dart';
+import 'package:helpee/screens/register.dart';
 import 'package:helpee/screens/test-listview.dart';
 
 class TestHome extends StatefulWidget {
@@ -116,56 +118,57 @@ class _TestHomeState extends State<TestHome> {
             ),
           ],
         ),
-
         /* ----------------- Body ---------------- */
         body: Padding(
           padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: Container(
-                  child: searchBox(),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.white),
-                  height: 500,
-                  child: ListView.builder(
-                    itemCount: list_request.length, //fix bound of request
-                    itemBuilder: (BuildContext context, int index) {
-                      ListRequest request = list_request[index];
-                      return ListTile(
-                          //leading: Text("test"),
-                          title: Text(
-                            request.title,
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xFF005792)),
-                          ),
-                          subtitle: Text(
-                            "${request.subtitle}\nDistance ${request.distance} kilometers.",
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.black,
-                            ),
-                          ),
-                          // enabled: Text(true),
-                          trailing: Icon(Icons.person),
-                          isThreeLine: true,
-                          onTap: () {
-                            print("more detail ${request.title} ");
-                          });
-                    },
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: Container(
+                    child: searchBox(),
                   ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white),
+                    height: 500,
+                    child: ListView.builder(
+                      itemCount: list_request.length, //fix bound of request
+                      itemBuilder: (BuildContext context, int index) {
+                        ListRequest request = list_request[index];
+                        return ListTile(
+                            //leading: Text("test"),
+                            title: Text(
+                              request.title,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF005792)),
+                            ),
+                            subtitle: Text(
+                              "${request.subtitle}\nDistance ${request.distance} kilometers.",
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.black,
+                              ),
+                            ),
+                            // enabled: Text(true),
+                            trailing: Icon(Icons.person),
+                            isThreeLine: true,
+                            onTap: () {
+                              print("more detail ${request.title} ");
+                            });
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ));
   }

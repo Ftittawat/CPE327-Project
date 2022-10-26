@@ -12,7 +12,7 @@ const darkblue = Color(0xFF005792);
 
 class _CreateRequestState extends State<CreateRequest> {
   Widget topicBox() {
-    return TextField(
+    return TextFormField(
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -34,7 +34,7 @@ class _CreateRequestState extends State<CreateRequest> {
   }
 
   Widget descriptionbox() {
-    return TextField(
+    return TextFormField(
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -57,7 +57,7 @@ class _CreateRequestState extends State<CreateRequest> {
   }
 
   Widget categoryBox() {
-    return TextField(
+    return TextFormField(
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -79,7 +79,7 @@ class _CreateRequestState extends State<CreateRequest> {
   }
 
   Widget addressBox() {
-    return TextField(
+    return TextFormField(
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -101,7 +101,7 @@ class _CreateRequestState extends State<CreateRequest> {
   }
 
   Widget zipcodeBox() {
-    return TextField(
+    return TextFormField(
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -170,42 +170,44 @@ class _CreateRequestState extends State<CreateRequest> {
                     fontWeight: FontWeight.w600,
                     color: Colors.black)),
           ),
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  child: topicBox(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                  child: descriptionbox(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                  child: categoryBox(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                  child: addressBox(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                  child: zipcodeBox(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                  child: imageBox(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
-                  child: SizedBox(
-                    height: 55.0,
-                    child: createButton(),
+          body: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                    child: topicBox(),
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                    child: descriptionbox(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                    child: categoryBox(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                    child: addressBox(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                    child: zipcodeBox(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                    child: imageBox(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
+                    child: SizedBox(
+                      height: 55.0,
+                      child: createButton(),
+                    ),
+                  ),
+                ],
+              ),
             ),
           )),
     );
