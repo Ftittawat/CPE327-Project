@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/screens/login.dart';
 
@@ -15,7 +16,7 @@ class _RegisterState extends State<Register> {
   
   
   Widget emailBox() {
-    return TextField(
+    return TextFormField(
       keyboardType: TextInputType.emailAddress,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
@@ -25,6 +26,7 @@ class _RegisterState extends State<Register> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
@@ -35,7 +37,7 @@ class _RegisterState extends State<Register> {
   }
 
   Widget usernamebox() {
-    return TextField(
+    return TextFormField(
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -44,6 +46,28 @@ class _RegisterState extends State<Register> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderRadius: BorderRadius.circular(10))),
+    );
+  }
+
+  Widget phonebox() {
+    return TextFormField(
+      keyboardType: TextInputType.phone,
+      style: GoogleFonts.montserrat(
+          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+      decoration: InputDecoration(
+          hintText: 'Phone',
+          hintStyle: GoogleFonts.montserrat(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey.shade400),
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
@@ -54,7 +78,7 @@ class _RegisterState extends State<Register> {
   }
 
   Widget passwordBox() {
-    return TextField(
+    return TextFormField(
       obscureText: true,
       keyboardType: TextInputType.visiblePassword,
       style: GoogleFonts.montserrat(
@@ -65,6 +89,7 @@ class _RegisterState extends State<Register> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
@@ -75,7 +100,7 @@ class _RegisterState extends State<Register> {
   }
 
   Widget passwordConfirmBox() {
-    return TextField(
+    return TextFormField(
       obscureText: true,
       keyboardType: TextInputType.visiblePassword,
       style: GoogleFonts.montserrat(
@@ -86,6 +111,7 @@ class _RegisterState extends State<Register> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
@@ -154,66 +180,70 @@ class _RegisterState extends State<Register> {
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: Scaffold(
           backgroundColor: Colors.white,
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 85,
-                  child: Text("Sign Up",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 40,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black)),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: emailBox(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 25, 20, 0),
-                  child: usernamebox(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 25, 20, 0),
-                  child: passwordBox(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 25, 20, 10),
-                  child: passwordConfirmBox(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                  child: SizedBox(
-                    height: 30.0,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                  child: SizedBox(
-                    height: 55.0,
-                    child: signupButton(),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                  child: Row(
+          body: SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                child: Form(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("Have an account?",
-                          style: GoogleFonts.montserrat(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black)),
                       SizedBox(
-                        height: 30.0,
-                        child: signinbutton(),
-                      )
+                        height: 85,
+                        child: Text("Sign Up",
+                            style: GoogleFonts.montserrat(
+                                fontSize: 40,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black)),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        child: emailBox(),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                        child: usernamebox(),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                        child: phonebox(),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                        child: passwordBox(),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                        child: passwordConfirmBox(),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                        child: SizedBox(
+                          height: 55.0,
+                          child: signupButton(),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text("Have an account?",
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black)),
+                            SizedBox(
+                              height: 30.0,
+                              child: signinbutton(),
+                            )
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
-              ],
+              ),
             ),
           )),
     );

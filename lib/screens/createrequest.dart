@@ -174,6 +174,60 @@ class _CreateRequestState extends State<CreateRequest> {
 
   @override
   Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+      child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            centerTitle: true,
+            toolbarHeight: 60,
+            elevation: 0,
+            backgroundColor: Colors.white,
+            title: Text("Create request",
+                style: GoogleFonts.montserrat(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black)),
+          ),
+          body: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                    child: topicBox(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                    child: descriptionbox(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                    child: categoryBox(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                    child: addressBox(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                    child: zipcodeBox(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                    child: imageBox(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
+                    child: SizedBox(
+                      height: 55.0,
+                      child: createButton(),
+                    ),
+                  ),
+                ],
+              ),
     return FutureBuilder(
         future: firebase,
         builder: (context, snapshot) {
