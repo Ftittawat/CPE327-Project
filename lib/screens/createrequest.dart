@@ -174,6 +174,7 @@ class _CreateRequestState extends State<CreateRequest> {
 
   @override
   Widget build(BuildContext context) {
+
     return FutureBuilder(
         future: firebase,
         builder: (context, snapshot) {
@@ -203,7 +204,8 @@ class _CreateRequestState extends State<CreateRequest> {
                             fontWeight: FontWeight.w600,
                             color: Colors.black)),
                   ),
-                  body: Center(
+                  body: SingleChildScrollView(
+                    child: Center(
                       child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -240,6 +242,8 @@ class _CreateRequestState extends State<CreateRequest> {
                       ),
                     ],
                   ))),
+                    )
+                      
             );
           }
           return Scaffold(
