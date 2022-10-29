@@ -198,15 +198,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-
-  form_field_validator:
-    dependency: "direct main"
-    description:
-      name: form_field_validator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
-
   google_api_availability:
     dependency: "direct main"
     description:
@@ -214,7 +205,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
-
   google_fonts:
     dependency: "direct main"
     description:
@@ -243,15 +233,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.2"
-
-  intl:
-    dependency: transitive
-    description:
-      name: intl
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.17.0"
-
   js:
     dependency: transitive
     description:
@@ -411,13 +392,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
-  tab_indicator_styler:
-    dependency: "direct main"
-    description:
-      name: tab_indicator_styler
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   term_glyph:
     dependency: transitive
     description:
