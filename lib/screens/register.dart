@@ -13,6 +13,8 @@ class Register extends StatefulWidget {
 const darkblue = Color(0xFF005792);
 
 class _RegisterState extends State<Register> {
+  
+  
   Widget emailBox() {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,

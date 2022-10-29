@@ -9,8 +9,11 @@ import 'package:helpee/screens/register.dart';
 import 'package:helpee/screens/createrequest.dart';
 import 'package:helpee/screens/notification.dart';
 import 'package:helpee/screens/test-listview.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
