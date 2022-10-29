@@ -13,7 +13,7 @@ const darkblue = Color(0xFF005792);
 
 class _LoginState extends State<Login> {
   Widget emailBox() {
-    return TextFormField(
+    return TextField(
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -22,7 +22,6 @@ class _LoginState extends State<Login> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
-          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
@@ -33,8 +32,7 @@ class _LoginState extends State<Login> {
   }
 
   Widget passwordBox() {
-    return TextFormField(
-      obscureText: true,
+    return TextField(
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -43,7 +41,6 @@ class _LoginState extends State<Login> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
-          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
@@ -80,70 +77,17 @@ class _LoginState extends State<Login> {
 
   Widget ortext() {
     return SizedBox(
-      height: 20,
+      height: 30,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
-            width: (MediaQuery.of(context).size.width / 2) - 30,
-            child: Divider(
-                height: 10,
-                indent: 10,
-                endIndent: 10,
-                thickness: 2,
-                color: Colors.black),
-          ),
+          Divider(height: 10, indent: 10, endIndent: 10, color: Colors.black),
           Text("Or",
               style: GoogleFonts.montserrat(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
                   color: Colors.black)),
-          SizedBox(
-            width: (MediaQuery.of(context).size.width / 2) - 30,
-            child: Divider(
-                height: 10,
-                thickness: 2,
-                indent: 10,
-                endIndent: 10,
-                color: Colors.black),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget otherlogin() {
-    return SizedBox(
-      height: 50,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                shape: CircleBorder(),
-                padding: EdgeInsets.all(8),
-                elevation: 0.0,
-              ),
-              child: Image(image: AssetImage("assets/images/google.png")),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                shape: CircleBorder(),
-                padding: EdgeInsets.all(8),
-                elevation: 0.0,
-              ),
-              child: Image(image: AssetImage("assets/images/facebook.png")),
-            ),
-          ),
+          Divider(height: 10, indent: 10, endIndent: 10, color: Colors.black)
         ],
       ),
     );
@@ -175,76 +119,64 @@ class _LoginState extends State<Login> {
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: Scaffold(
           backgroundColor: Colors.white,
-          body: SafeArea(
-            child: Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 50,
-                      child: Text("Sign In",
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 60,
+                  child: Text("Sign In",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 40,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black)),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 80, 20, 0),
+                  child: emailBox(),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
+                  child: passwordBox(),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                  child: SizedBox(
+                    height: 30.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        forgetpasswordbutton(),
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                  child: SizedBox(
+                    height: 55.0,
+                    child: signinButton(),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text("Don’t have an account?",
                           style: GoogleFonts.montserrat(
-                              fontSize: 40,
+                              fontSize: 12,
                               fontWeight: FontWeight.w700,
                               color: Colors.black)),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 50, 20, 0),
-                      child: emailBox(),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
-                      child: passwordBox(),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                      child: SizedBox(
+                      SizedBox(
                         height: 30.0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            forgetpasswordbutton(),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                      child: SizedBox(
-                        height: 55.0,
-                        child: signinButton(),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text("Don’t have an account?",
-                              style: GoogleFonts.montserrat(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black)),
-                          SizedBox(
-                            height: 30.0,
-                            child: signupbutton(),
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                      child: ortext(),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                      child: otherlogin(),
-                    ),
-                  ],
+                        child: signupbutton(),
+                      )
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
           )),
     );
