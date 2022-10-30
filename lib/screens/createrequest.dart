@@ -69,6 +69,51 @@ class _CreateRequestState extends State<CreateRequest> {
     );
   }
 
+  String dropdownvalue = '';
+  var items = [
+    'Mechanic',
+    'Electronic',
+    'Technology',
+    'Food & Medicine',
+    'Garden',
+    'Other',
+  ];
+
+  Widget selectCategory() {
+    return DropdownButtonFormField(
+      isExpanded: false,
+      borderRadius: BorderRadius.circular(10),
+      decoration: InputDecoration(
+          hintText: 'Category',
+          hintStyle: GoogleFonts.montserrat(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey.shade400),
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderRadius: BorderRadius.circular(10))),
+      items: items.map((String items) {
+        return DropdownMenuItem(
+          value: items,
+          child: Text(
+            items,
+            style: GoogleFonts.montserrat(
+                fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+          ),
+        );
+      }).toList(),
+      onChanged: (String? value) {
+        setState(() {
+          dropdownvalue = value!;
+        });
+      },
+    );
+  }
+
   Widget categoryBox() {
     return TextFormField(
       controller: CategoryController,
@@ -138,7 +183,29 @@ class _CreateRequestState extends State<CreateRequest> {
 
   Widget imageBox() {
     return Container(
-      height: 50,
+      height: 180,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(width: 2.0, color: Colors.grey.shade400),
+      ),
+      child: Center(
+        child: IconButton(
+          onPressed: () {},
+          icon: Icon(
+            Icons.add_a_photo_outlined,
+            color: Colors.grey.shade400,
+            size: 40,
+          ),
+          padding: EdgeInsets.all(0.0),
+          splashRadius: 30,
+        ),
+      ),
+    );
+  }
+
+  Widget mapBox() {
+    return Container(
+      height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(width: 2.0, color: Colors.grey.shade400),
