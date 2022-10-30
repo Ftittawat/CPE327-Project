@@ -13,7 +13,7 @@ const darkblue = Color(0xFF005792);
 
 class _LoginState extends State<Login> {
   Widget emailBox() {
-    return TextFormField(
+    return TextField(
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -22,7 +22,6 @@ class _LoginState extends State<Login> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
-          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
@@ -50,7 +49,6 @@ class _LoginState extends State<Login> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
-          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
@@ -100,23 +98,15 @@ class _LoginState extends State<Login> {
 
   Widget ortext() {
     return SizedBox(
-      height: 20,
+      height: 30,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
-            width: (MediaQuery.of(context).size.width / 2) - 30,
-            child: Divider(
-                height: 10,
-                indent: 10,
-                endIndent: 10,
-                thickness: 2,
-                color: Colors.black),
-          ),
+          Divider(height: 10, indent: 10, endIndent: 10, color: Colors.black),
           Text("Or",
               style: GoogleFonts.montserrat(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
                   color: Colors.black)),
           SizedBox(
             width: (MediaQuery.of(context).size.width / 2) - 30,
@@ -169,31 +159,11 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Widget signinButton() {
-    return ElevatedButton(
-      onPressed: () {},
-      style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFF005792),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Sign In",
-              style: GoogleFonts.montserrat(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white)),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-      child: Scaffold(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+        child: Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(
             child: Center(
@@ -269,6 +239,6 @@ class _LoginState extends State<Login> {
               ),
             ),
           )),
-    );
+        ));
   }
 }

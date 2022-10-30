@@ -9,8 +9,11 @@ import 'package:helpee/screens/register.dart';
 import 'package:helpee/screens/createrequest.dart';
 import 'package:helpee/screens/notification.dart';
 import 'package:helpee/screens/test-listview.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -22,6 +25,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  Widget createrequestIcon() {
+    return SizedBox(
+        child: Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100), color: Color(0xFF005792)),
+    ));
+  }
+
   int currentIndex = 0;
 
   final screens = [

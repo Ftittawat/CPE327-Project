@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/screens/login.dart';
 
@@ -13,8 +12,10 @@ class Register extends StatefulWidget {
 const darkblue = Color(0xFF005792);
 
 class _RegisterState extends State<Register> {
+  
+  
   Widget emailBox() {
-    return TextFormField(
+    return TextField(
       keyboardType: TextInputType.emailAddress,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
@@ -24,7 +25,6 @@ class _RegisterState extends State<Register> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
-          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
@@ -35,7 +35,7 @@ class _RegisterState extends State<Register> {
   }
 
   Widget usernamebox() {
-    return TextFormField(
+    return TextField(
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -96,7 +96,6 @@ class _RegisterState extends State<Register> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
-          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
@@ -131,7 +130,6 @@ class _RegisterState extends State<Register> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
-          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
