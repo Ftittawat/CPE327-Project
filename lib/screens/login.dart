@@ -71,6 +71,26 @@ class _LoginState extends State<Login> {
     );
   }
 
+  Widget signinButton() {
+    return ElevatedButton(
+      onPressed: () {},
+      style: ElevatedButton.styleFrom(
+          backgroundColor: Color(0xFF005792),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Sign In",
+              style: GoogleFonts.montserrat(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white)),
+        ],
+      ),
+    );
+  }
+
   Widget forgetpasswordbutton() {
     return TextButton(
         onPressed: () {},
@@ -162,8 +182,8 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-        child: Scaffold(
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+      child: Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(
             child: Center(
@@ -239,6 +259,6 @@ class _LoginState extends State<Login> {
               ),
             ),
           )),
-        ));
+    );
   }
 }
