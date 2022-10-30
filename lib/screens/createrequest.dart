@@ -241,7 +241,6 @@ class _CreateRequestState extends State<CreateRequest> {
 
   @override
   Widget build(BuildContext context) {
-
     return FutureBuilder(
         future: firebase,
         builder: (context, snapshot) {
@@ -256,8 +255,8 @@ class _CreateRequestState extends State<CreateRequest> {
 
           if (snapshot.connectionState == ConnectionState.done) {
             return Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: Scaffold(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                child: Scaffold(
                   resizeToAvoidBottomInset: false,
                   backgroundColor: Colors.white,
                   appBar: AppBar(
@@ -272,34 +271,46 @@ class _CreateRequestState extends State<CreateRequest> {
                             color: Colors.black)),
                   ),
                   body: SingleChildScrollView(
-                    child: Center(
-                      child: Column(
+                      child: Center(
+                          child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      /* ----------------- Topic ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
                         child: topicBox(),
                       ),
+                      /* ----------------- Description ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
                         child: descriptionbox(),
                       ),
+                      /* ----------------- Category ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                        child: categoryBox(),
+                        child: selectCategory(),
                       ),
+                      /* ----------------- Address ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
                         child: addressBox(),
                       ),
+                      /* ----------------- Zip Code ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
                         child: zipcodeBox(),
                       ),
+                      /* ----------------- Image ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
                         child: imageBox(),
                       ),
+                      /* ----------------- Map ---------------- */
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                        child: mapBox(),
+                      ),
+                      /* ----------------- Create Button ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
                         child: SizedBox(
@@ -309,9 +320,7 @@ class _CreateRequestState extends State<CreateRequest> {
                       ),
                     ],
                   ))),
-                    )
-                      
-            );
+                ));
           }
           return Scaffold(
             body: Center(

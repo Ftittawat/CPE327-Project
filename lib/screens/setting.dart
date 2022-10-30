@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:helpee/screens/settingscreens/address.dart';
+import 'package:helpee/screens/settingscreens/changepassword.dart';
+import 'package:helpee/screens/settingscreens/editprofile.dart';
+import 'package:helpee/screens/settingscreens/yourskill.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
@@ -12,10 +16,10 @@ class _SettingState extends State<Setting> {
   Widget editprofilebutton() {
     return ElevatedButton(
       onPressed: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => Login()),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => EditProfile()),
+        );
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
@@ -42,10 +46,10 @@ class _SettingState extends State<Setting> {
   Widget changepasswordbutton() {
     return ElevatedButton(
       onPressed: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => Login()),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ChangePassword()),
+        );
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
@@ -72,10 +76,10 @@ class _SettingState extends State<Setting> {
   Widget yourskillbutton() {
     return ElevatedButton(
       onPressed: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => Login()),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => YourSkill()),
+        );
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
@@ -102,10 +106,10 @@ class _SettingState extends State<Setting> {
   Widget addressbutton() {
     return ElevatedButton(
       onPressed: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => Login()),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Address()),
+        );
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
