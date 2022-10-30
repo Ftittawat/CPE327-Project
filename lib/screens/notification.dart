@@ -89,37 +89,44 @@ class _NotificationscreenState extends State<Notificationscreen> {
                     fontWeight: FontWeight.w600,
                     color: Colors.black)),
           ),
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
-                  child: notificationtext('Your request has been assisted.',
-                      'Your TV installation request has been assisted.', '15'),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
-                  child: notificationtext('Your request has been assisted.',
-                      'Your TV installation request has been assisted.', '15'),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
-                  child: notificationtext('Your request has been assisted.',
-                      'Your TV installation request has been assisted.', '15'),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
-                  child: notificationtext('Your request has been assisted.',
-                      'Your TV installation request has been assisted.', '15'),
-                ),
-              ],
+          body: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
+                    child: notificationtext(
+                        'Your request has been assisted.',
+                        'Your TV installation request has been assisted.',
+                        '15'),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
+                    child: notificationtext(
+                        'Your request has been assisted.',
+                        'Your TV installation request has been assisted.',
+                        '15'),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
+                    child: notificationtext(
+                        'Your request has been assisted.',
+                        'Your TV installation request has been assisted.',
+                        '15'),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
+                    child: notificationtext(
+                        'Your request has been assisted.',
+                        'Your TV installation request has been assisted.',
+                        '15'),
+                  ),
+                ],
+              ),
             ),
           )),
     );
   }
 }
 
-// "Your request has been assisted."
-// "Your TV installation request has been assisted."
-// "15 minutes ago"
