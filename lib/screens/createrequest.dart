@@ -69,6 +69,51 @@ class _CreateRequestState extends State<CreateRequest> {
     );
   }
 
+  String dropdownvalue = '';
+  var items = [
+    'Mechanic',
+    'Electronic',
+    'Technology',
+    'Food & Medicine',
+    'Garden',
+    'Other',
+  ];
+
+  Widget selectCategory() {
+    return DropdownButtonFormField(
+      isExpanded: false,
+      borderRadius: BorderRadius.circular(10),
+      decoration: InputDecoration(
+          hintText: 'Category',
+          hintStyle: GoogleFonts.montserrat(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey.shade400),
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderRadius: BorderRadius.circular(10))),
+      items: items.map((String items) {
+        return DropdownMenuItem(
+          value: items,
+          child: Text(
+            items,
+            style: GoogleFonts.montserrat(
+                fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+          ),
+        );
+      }).toList(),
+      onChanged: (String? value) {
+        setState(() {
+          dropdownvalue = value!;
+        });
+      },
+    );
+  }
+
   Widget categoryBox() {
     return TextFormField(
       controller: CategoryController,
@@ -138,7 +183,29 @@ class _CreateRequestState extends State<CreateRequest> {
 
   Widget imageBox() {
     return Container(
-      height: 50,
+      height: 180,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(width: 2.0, color: Colors.grey.shade400),
+      ),
+      child: Center(
+        child: IconButton(
+          onPressed: () {},
+          icon: Icon(
+            Icons.add_a_photo_outlined,
+            color: Colors.grey.shade400,
+            size: 40,
+          ),
+          padding: EdgeInsets.all(0.0),
+          splashRadius: 30,
+        ),
+      ),
+    );
+  }
+
+  Widget mapBox() {
+    return Container(
+      height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(width: 2.0, color: Colors.grey.shade400),
@@ -174,7 +241,6 @@ class _CreateRequestState extends State<CreateRequest> {
 
   @override
   Widget build(BuildContext context) {
-
     return FutureBuilder(
         future: firebase,
         builder: (context, snapshot) {
@@ -189,8 +255,8 @@ class _CreateRequestState extends State<CreateRequest> {
 
           if (snapshot.connectionState == ConnectionState.done) {
             return Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: Scaffold(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                child: Scaffold(
                   resizeToAvoidBottomInset: false,
                   backgroundColor: Colors.white,
                   appBar: AppBar(
@@ -205,34 +271,46 @@ class _CreateRequestState extends State<CreateRequest> {
                             color: Colors.black)),
                   ),
                   body: SingleChildScrollView(
-                    child: Center(
-                      child: Column(
+                      child: Center(
+                          child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      /* ----------------- Topic ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
                         child: topicBox(),
                       ),
+                      /* ----------------- Description ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
                         child: descriptionbox(),
                       ),
+                      /* ----------------- Category ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                        child: categoryBox(),
+                        child: selectCategory(),
                       ),
+                      /* ----------------- Address ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
                         child: addressBox(),
                       ),
+                      /* ----------------- Zip Code ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
                         child: zipcodeBox(),
                       ),
+                      /* ----------------- Image ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
                         child: imageBox(),
                       ),
+                      /* ----------------- Map ---------------- */
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                        child: mapBox(),
+                      ),
+                      /* ----------------- Create Button ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
                         child: SizedBox(
@@ -242,9 +320,7 @@ class _CreateRequestState extends State<CreateRequest> {
                       ),
                     ],
                   ))),
-                    )
-                      
-            );
+                ));
           }
           return Scaffold(
             body: Center(
