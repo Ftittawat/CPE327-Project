@@ -75,9 +75,22 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
+  Widget changeprofilepicturebutton() {
+    return TextButton(
+        onPressed: () {},
+        child: Text("Change Profile Picture",
+            style: GoogleFonts.montserrat(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF005792))));
+  }
+
   Widget saveButton() {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text("Save!!")));
+      },
       style: ElevatedButton.styleFrom(
           backgroundColor: Color(0xFF005792),
           shape:
@@ -120,15 +133,17 @@ class _EditProfileState extends State<EditProfile> {
             children: [
               /* ----------------- Prifile Image ---------------- */
               Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 30),
-                child: Container(
-                  height: 160,
-                  width: 160,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.blueGrey,
-                  ),
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                child: CircleAvatar(
+                  backgroundColor: Colors.grey.shade400,
+                  radius: 80,
+                  backgroundImage: AssetImage("assets/images/Memoji.png"),
                 ),
+              ),
+              /* ----------------- Change Profile Picture Button ---------------- */
+              Padding(
+                padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
+                child: changeprofilepicturebutton(),
               ),
               /* ----------------- Edit Username ---------------- */
               Padding(

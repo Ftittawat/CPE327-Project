@@ -80,7 +80,10 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   Widget changepasswordButton() {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text("Password is Change")));
+      },
       style: ElevatedButton.styleFrom(
           backgroundColor: Color(0xFF005792),
           shape:

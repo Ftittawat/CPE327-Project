@@ -75,9 +75,18 @@ class _RegisterState extends State<Register> {
     );
   }
 
+  var _isObscuredpassword;
+  var _isObscuredconfirmpassword;
+  @override
+  void initState() {
+    super.initState();
+    _isObscuredpassword = true;
+    _isObscuredconfirmpassword = true;
+  }
+
   Widget passwordBox() {
     return TextFormField(
-      obscureText: true,
+      obscureText: _isObscuredpassword,
       keyboardType: TextInputType.visiblePassword,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
@@ -93,13 +102,26 @@ class _RegisterState extends State<Register> {
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
-              borderRadius: BorderRadius.circular(10))),
+              borderRadius: BorderRadius.circular(10)),
+          suffixIcon: IconButton(
+              onPressed: () {
+                setState(() {
+                  _isObscuredpassword = !_isObscuredpassword;
+                });
+              },
+              icon: _isObscuredpassword
+                  ? Icon(
+                      Icons.visibility_outlined,
+                      color: Colors.grey.shade400,
+                    )
+                  : Icon(Icons.visibility_off_outlined,
+                      color: Colors.grey.shade400))),
     );
   }
 
   Widget passwordConfirmBox() {
     return TextFormField(
-      obscureText: true,
+      obscureText: _isObscuredconfirmpassword,
       keyboardType: TextInputType.visiblePassword,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
@@ -115,7 +137,20 @@ class _RegisterState extends State<Register> {
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
-              borderRadius: BorderRadius.circular(10))),
+              borderRadius: BorderRadius.circular(10)),
+          suffixIcon: IconButton(
+              onPressed: () {
+                setState(() {
+                  _isObscuredconfirmpassword = !_isObscuredconfirmpassword;
+                });
+              },
+              icon: _isObscuredconfirmpassword
+                  ? Icon(
+                      Icons.visibility_outlined,
+                      color: Colors.grey.shade400,
+                    )
+                  : Icon(Icons.visibility_off_outlined,
+                      color: Colors.grey.shade400))),
     );
   }
 
@@ -136,17 +171,70 @@ class _RegisterState extends State<Register> {
 
   Widget ortext() {
     return SizedBox(
-      height: 30,
+      height: 20,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Divider(height: 10, indent: 10, endIndent: 10, color: Colors.black),
+          SizedBox(
+            width: (MediaQuery.of(context).size.width / 2) - 30,
+            child: Divider(
+                height: 10,
+                indent: 10,
+                endIndent: 10,
+                thickness: 2,
+                color: Colors.black),
+          ),
           Text("Or",
               style: GoogleFonts.montserrat(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
                   color: Colors.black)),
-          Divider(height: 10, indent: 10, endIndent: 10, color: Colors.black)
+          SizedBox(
+            width: (MediaQuery.of(context).size.width / 2) - 30,
+            child: Divider(
+                height: 10,
+                thickness: 2,
+                indent: 10,
+                endIndent: 10,
+                color: Colors.black),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget otherlogin() {
+    return SizedBox(
+      height: 50,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                shape: CircleBorder(),
+                padding: EdgeInsets.all(8),
+                elevation: 0.0,
+              ),
+              child: Image(image: AssetImage("assets/images/google.png")),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                shape: CircleBorder(),
+                padding: EdgeInsets.all(8),
+                elevation: 0.0,
+              ),
+              child: Image(image: AssetImage("assets/images/facebook.png")),
+            ),
+          ),
         ],
       ),
     );
@@ -237,6 +325,14 @@ class _RegisterState extends State<Register> {
                             )
                           ],
                         ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                        child: ortext(),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                        child: otherlogin(),
                       ),
                     ],
                   ),

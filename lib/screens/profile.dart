@@ -76,8 +76,8 @@ class _ProfileState extends State<Profile> {
                   height: 30,
                   child: IconButton(
                     onPressed: () {},
-                    icon: Icon(Icons.delete),
-                    iconSize: 18,
+                    icon: Icon(Icons.delete_outlined),
+                    iconSize: 20,
                     splashRadius: 10,
                     color: Colors.grey.shade400,
                   ),
