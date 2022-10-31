@@ -38,6 +38,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_launcher_icons: ^0.10.0
   google_fonts: ^3.0.1
+  firebase_core: ^2.1.0
+  firebase_database: ^10.0.2
+  cloud_firestore: ^4.0.3
+  google_api_availability: ^3.0.1
+  form_field_validator: ^1.1.0
+  tab_indicator_styler: ^2.0.0
 
 flutter_icons:
   android: true

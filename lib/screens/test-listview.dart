@@ -50,12 +50,19 @@ class _TestHomeState extends State<TestHome> {
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
+          prefixIcon: Icon(
+            Icons.search_outlined,
+            color: Colors.grey.shade400,
+          ),
           hintText: 'Search',
           hintStyle: GoogleFonts.montserrat(
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),

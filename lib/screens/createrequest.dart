@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,8 +14,17 @@ class CreateRequest extends StatefulWidget {
 const darkblue = Color(0xFF005792);
 
 class _CreateRequestState extends State<CreateRequest> {
+  final Future<FirebaseApp> firebase = Firebase.initializeApp();
+
+  CollectionReference requestCollection =
+      FirebaseFirestore.instance.collection("Request");
+  TextEditingController TopicController = TextEditingController();
+  TextEditingController DescriptionController = TextEditingController();
+  TextEditingController CategoryController = TextEditingController();
+
   Widget topicBox() {
-    return TextField(
+    return TextFormField(
+      controller: TopicController,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -34,7 +46,8 @@ class _CreateRequestState extends State<CreateRequest> {
   }
 
   Widget descriptionbox() {
-    return TextField(
+    return TextFormField(
+      controller: DescriptionController,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -56,8 +69,54 @@ class _CreateRequestState extends State<CreateRequest> {
     );
   }
 
+  String dropdownvalue = '';
+  var items = [
+    'Mechanic',
+    'Electronic',
+    'Technology',
+    'Food & Medicine',
+    'Garden',
+    'Other',
+  ];
+
+  Widget selectCategory() {
+    return DropdownButtonFormField(
+      isExpanded: false,
+      borderRadius: BorderRadius.circular(10),
+      decoration: InputDecoration(
+          hintText: 'Category',
+          hintStyle: GoogleFonts.montserrat(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey.shade400),
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderRadius: BorderRadius.circular(10))),
+      items: items.map((String items) {
+        return DropdownMenuItem(
+          value: items,
+          child: Text(
+            items,
+            style: GoogleFonts.montserrat(
+                fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+          ),
+        );
+      }).toList(),
+      onChanged: (String? value) {
+        setState(() {
+          dropdownvalue = value!;
+        });
+      },
+    );
+  }
+
   Widget categoryBox() {
-    return TextField(
+    return TextFormField(
+      controller: CategoryController,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -79,7 +138,7 @@ class _CreateRequestState extends State<CreateRequest> {
   }
 
   Widget addressBox() {
-    return TextField(
+    return TextFormField(
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -101,7 +160,7 @@ class _CreateRequestState extends State<CreateRequest> {
   }
 
   Widget zipcodeBox() {
-    return TextField(
+    return TextFormField(
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -124,7 +183,29 @@ class _CreateRequestState extends State<CreateRequest> {
 
   Widget imageBox() {
     return Container(
-      height: 50,
+      height: 180,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(width: 2.0, color: Colors.grey.shade400),
+      ),
+      child: Center(
+        child: IconButton(
+          onPressed: () {},
+          icon: Icon(
+            Icons.add_a_photo_outlined,
+            color: Colors.grey.shade400,
+            size: 40,
+          ),
+          padding: EdgeInsets.all(0.0),
+          splashRadius: 30,
+        ),
+      ),
+    );
+  }
+
+  Widget mapBox() {
+    return Container(
+      height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(width: 2.0, color: Colors.grey.shade400),
@@ -134,7 +215,13 @@ class _CreateRequestState extends State<CreateRequest> {
 
   Widget createButton() {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        requestCollection.add({
+          "Topic": TopicController.text,
+          "Descrition": DescriptionController.text,
+          "Category": CategoryController.text
+        });
+      },
       style: ElevatedButton.styleFrom(
           backgroundColor: Color(0xFF005792),
           shape:
@@ -144,8 +231,8 @@ class _CreateRequestState extends State<CreateRequest> {
         children: [
           Text("Create Request",
               style: GoogleFonts.montserrat(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
                   color: Colors.white)),
         ],
       ),
@@ -154,60 +241,92 @@ class _CreateRequestState extends State<CreateRequest> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-      child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            centerTitle: true,
-            toolbarHeight: 60,
-            elevation: 0,
-            backgroundColor: Colors.white,
-            title: Text("Create request",
-                style: GoogleFonts.montserrat(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black)),
-          ),
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  child: topicBox(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                  child: descriptionbox(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                  child: categoryBox(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                  child: addressBox(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                  child: zipcodeBox(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                  child: imageBox(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
-                  child: SizedBox(
-                    height: 55.0,
-                    child: createButton(),
+    return FutureBuilder(
+        future: firebase,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Scaffold(
+              appBar: AppBar(title: Text("Error")),
+              body: Center(
+                child: Text("${snapshot.error}"),
+              ),
+            );
+          }
+
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                child: Scaffold(
+                  resizeToAvoidBottomInset: false,
+                  backgroundColor: Colors.white,
+                  appBar: AppBar(
+                    centerTitle: true,
+                    toolbarHeight: 60,
+                    elevation: 0,
+                    backgroundColor: Colors.white,
+                    title: Text("Create request",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black)),
                   ),
-                ),
-              ],
+                  body: SingleChildScrollView(
+                      child: Center(
+                          child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      /* ----------------- Topic ---------------- */
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                        child: topicBox(),
+                      ),
+                      /* ----------------- Description ---------------- */
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                        child: descriptionbox(),
+                      ),
+                      /* ----------------- Category ---------------- */
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                        child: selectCategory(),
+                      ),
+                      /* ----------------- Address ---------------- */
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                        child: addressBox(),
+                      ),
+                      /* ----------------- Zip Code ---------------- */
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                        child: zipcodeBox(),
+                      ),
+                      /* ----------------- Image ---------------- */
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                        child: imageBox(),
+                      ),
+                      /* ----------------- Map ---------------- */
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                        child: mapBox(),
+                      ),
+                      /* ----------------- Create Button ---------------- */
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
+                        child: SizedBox(
+                          height: 55.0,
+                          child: createButton(),
+                        ),
+                      ),
+                    ],
+                  ))),
+                ));
+          }
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
             ),
-          )),
-    );
+          );
+        });
   }
 }
