@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
 
   final screens = [
     TestHome(),
-    TestHome(),
+    MyRequest(),
     CreateRequest(),
     Notificationscreen(),
     Profile(),
@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: TestHome(),
+      home: MyRequest(),
     );
   }
 }
