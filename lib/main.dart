@@ -6,6 +6,7 @@ import 'package:helpee/screens/home.dart';
 import 'package:helpee/screens/login.dart';
 import 'package:helpee/screens/register.dart';
 import 'package:helpee/screens/test-listview.dart';
+import 'package:helpee/screens/my-request.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: TestHome(),
+      home: MyRequest(),
     );
   }
 }
