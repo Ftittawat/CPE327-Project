@@ -154,7 +154,6 @@ class _MyRequestState extends State<MyRequest> {
                   ),
                 ),
               ),
-              Divider(),
             ],
           ),
         ));
