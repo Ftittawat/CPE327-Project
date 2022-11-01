@@ -224,7 +224,7 @@ class _CreateRequestState extends State<CreateRequest> {
       child: GoogleMap(
         initialCameraPosition: cameraPosition,
         mapType: MapType.normal,
-        onMapCreated: (GoogleMapController controller)  {
+        onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
       ),
