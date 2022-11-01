@@ -219,7 +219,7 @@ class _CreateRequestState extends State<CreateRequest> {
         requestCollection.add({
           "Topic": TopicController.text,
           "Descrition": DescriptionController.text,
-          "Category": CategoryController.text
+          //"Category": CategoryController.text
         });
       },
       style: ElevatedButton.styleFrom(

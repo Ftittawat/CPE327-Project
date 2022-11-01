@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "206409721883",
-    "project_id": "cpe327-termproject",
-    "storage_bucket": "cpe327-termproject.appspot.com"
+    "project_number": "233413857829",
+    "project_id": "cpe327-project-e644a",
+    "storage_bucket": "cpe327-project-e644a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:206409721883:android:5734d62e8de6265229f0be",
+        "mobilesdk_app_id": "1:233413857829:android:d88966d8879c1ec25fa5cc",
         "android_client_info": {
           "package_name": "com.example.helpee"
         }
       },
       "oauth_client": [
         {
-          "client_id": "206409721883-lvoul63j706j73gkdup12ijehhmtq1ht.apps.googleusercontent.com",
+          "client_id": "233413857829-37s0abla5mrva96m4p1b3n60fun78k2u.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB_IASHjy8Tf7Vahd1FpV-FGg8p7Bjqdng"
+          "current_key": "AIzaSyAMn4wB4Sa0k2-ddCMtzTGMlWAXU9EueZk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "206409721883-lvoul63j706j73gkdup12ijehhmtq1ht.apps.googleusercontent.com",
+              "client_id": "233413857829-37s0abla5mrva96m4p1b3n60fun78k2u.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
