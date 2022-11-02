@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:helpee/screens/shownotification.dart';
+
+import 'ListNotification.dart';
 
 class Notificationscreen extends StatefulWidget {
   const Notificationscreen({super.key});
@@ -11,64 +14,52 @@ class Notificationscreen extends StatefulWidget {
 const darkblue = Color(0xFF005792);
 
 class _NotificationscreenState extends State<Notificationscreen> {
-  Widget notificationtext(
-      String notiTitle, String notiDescription, String notiTime) {
+  /* group data */
+  List<ListNotification> listnotification = [
+    ListNotification(1, "Request accepted.", "Your request has been assisted."),
+    ListNotification(2, "Request Created.", "Your request has been created."),
+    ListNotification(
+        3, "Request Successfully.", "Your request has been successfully."),
+    ListNotification(
+        4, "New Version Update.", "Application has new version update"),
+    ListNotification(1, "Request accepted.", "Your has been assisted."),
+    ListNotification(2, "Request Created.", "Your request has been created."),
+    ListNotification(
+        3, "Request Successfully.", "Your request has been successfully."),
+    ListNotification(
+        4, "New Version Update.", "Application has new version update"),
+    ListNotification(1, "Request accepted.", "Your has been assisted."),
+    ListNotification(2, "Request Created.", "Your request has been created."),
+    ListNotification(
+        3, "Request Successfully.", "Your request has been successfully."),
+    ListNotification(
+        4, "New Version Update.", "Application has new version update"),
+  ];
+
+  String notiurl(int notityoe) {
+    var url;
+    if (notityoe == 1) {
+      url = 'assets/images/bell.png';
+    } else if (notityoe == 2) {
+      url = 'assets/images/sos.png';
+    } else if (notityoe == 3) {
+      url = 'assets/images/checked.png';
+    } else if (notityoe == 4) {
+      url = 'assets/images/warning.png';
+    }
+    return url;
+  }
+
+  Widget cancelButton() {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-      child: SizedBox(
-        height: 50,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 30,
-                  width: 30,
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Icon(
-                      Icons.notifications_active,
-                      size: 20,
-                      color: Color(0xFF005792),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 48,
-                  width: MediaQuery.of(context).size.width - 110,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(notiTitle,
-                          style: GoogleFonts.montserrat(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black)),
-                      Text(notiDescription,
-                          style: GoogleFonts.montserrat(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black)),
-                      Text("$notiTime minutes ago",
-                          style: GoogleFonts.montserrat(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey)),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Divider(
-              height: 2.0,
-              color: Colors.grey.shade400,
-            )
-          ],
-        ),
-      ),
-    );
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+        child: IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.delete_outlined),
+          iconSize: 20,
+          splashRadius: 15,
+          color: Colors.grey.shade400,
+        ));
   }
 
   @override
@@ -76,57 +67,76 @@ class _NotificationscreenState extends State<Notificationscreen> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: Scaffold(
-          resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          centerTitle: true,
+          toolbarHeight: 60,
+          elevation: 0,
           backgroundColor: Colors.white,
-          appBar: AppBar(
-            centerTitle: true,
-            toolbarHeight: 60,
-            elevation: 0,
-            backgroundColor: Colors.white,
-            title: Text("Notification",
-                style: GoogleFonts.montserrat(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black)),
+          title: Text("Notification",
+              style: GoogleFonts.montserrat(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black)),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+          child: ListView.builder(
+            itemCount: listnotification.length,
+            itemBuilder: (BuildContext context, int index) {
+              ListNotification notification = listnotification[index];
+              return Card(
+                // elevation: 0,
+                child: ListTile(
+                    dense: true,
+                    horizontalTitleGap: 0,
+                    leading:
+                        Image(image: AssetImage(notiurl(notification.type))),
+                    title: Text(
+                      notification.title,
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF005792)),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          notification.subtitle,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 3.0),
+                          child: Text(
+                            "15 minutes ago",
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey.shade500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    trailing: cancelButton(),
+                    isThreeLine: true,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ShowNotificationScreen(
+                                listNotification: notification)),
+                      );
+                    }),
+              );
+            },
           ),
-          body: SingleChildScrollView(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
-                    child: notificationtext(
-                        'Your request has been assisted.',
-                        'Your TV installation request has been assisted.',
-                        '15'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
-                    child: notificationtext(
-                        'Your request has been assisted.',
-                        'Your TV installation request has been assisted.',
-                        '15'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
-                    child: notificationtext(
-                        'Your request has been assisted.',
-                        'Your TV installation request has been assisted.',
-                        '15'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
-                    child: notificationtext(
-                        'Your request has been assisted.',
-                        'Your TV installation request has been assisted.',
-                        '15'),
-                  ),
-                ],
-              ),
-            ),
-          )),
+        ),
+      ),
     );
   }
 }
-
