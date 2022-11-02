@@ -118,15 +118,23 @@ class _LoginState extends State<Login> {
 
   Widget ortext() {
     return SizedBox(
-      height: 30,
+      height: 20,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Divider(height: 10, indent: 10, endIndent: 10, color: Colors.black),
+          SizedBox(
+            width: (MediaQuery.of(context).size.width / 2) - 30,
+            child: Divider(
+                height: 10,
+                indent: 10,
+                endIndent: 10,
+                thickness: 2,
+                color: Colors.black),
+          ),
           Text("Or",
               style: GoogleFonts.montserrat(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
                   color: Colors.black)),
           SizedBox(
             width: (MediaQuery.of(context).size.width / 2) - 30,

@@ -62,7 +62,7 @@ class _ProfileState extends State<Profile> {
                   height: 30,
                   child: Padding(
                     padding: EdgeInsets.only(left: 5),
-                    child: Text("skillname",
+                    child: Text("Fix the lights",
                         style: GoogleFonts.montserrat(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
