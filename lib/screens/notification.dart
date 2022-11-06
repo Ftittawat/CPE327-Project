@@ -91,8 +91,11 @@ class _NotificationscreenState extends State<Notificationscreen> {
                 child: ListTile(
                     dense: true,
                     horizontalTitleGap: 0,
-                    leading:
-                        Image(image: AssetImage(notiurl(notification.type))),
+                    leading: SizedBox(
+                        height: 17,
+                        width: 17,
+                        child: Image(
+                            image: AssetImage(notiurl(notification.type)))),
                     title: Text(
                       notification.title,
                       style: TextStyle(

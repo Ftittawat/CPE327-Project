@@ -3,6 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/screens/setting.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
+import '../components/category.dart';
+import 'ListRequest.dart';
+
 class Profile extends StatefulWidget {
   const Profile({super.key});
 
@@ -11,6 +14,25 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  /* group data */
+  List<ListRequest> list_request = [
+    ListRequest(
+        "Repair pipe",
+        "The water pipe has a crack, Please fix the water pipes for me.",
+        "Mechanic",
+        2.0),
+    ListRequest(
+        "My computer won't turn on",
+        "My computer was working fine before, But today my computer won't turn on. ",
+        "Technology",
+        3),
+    ListRequest(
+        "Repair pipe",
+        "The water pipe has a crack, Please fix the water pipes for me.",
+        "Electronic",
+        2.0),
+  ];
+
   Widget skillbox(String skillname, Color boxcolor) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -43,76 +65,61 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+  Widget deleteButton() {
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+        child: IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.delete_outlined),
+          iconSize: 20,
+          splashRadius: 15,
+          color: Colors.grey.shade400,
+        ));
+  }
+
   Widget requesthistory() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
-      child: Container(
-        color: Colors.white,
-        height: 80,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  alignment: Alignment.centerLeft,
-                  color: Colors.white,
-                  width: MediaQuery.of(context).size.width - 90,
-                  height: 30,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 5),
-                    child: Text("Fix the lights",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF005792))),
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.topCenter,
-                  color: Colors.white,
-                  width: 40,
-                  height: 30,
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.delete_outlined),
-                    iconSize: 20,
-                    splashRadius: 10,
-                    color: Colors.grey.shade400,
-                  ),
-                ),
-              ],
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: SizedBox(
-                height: 25,
-                width: 100,
-                child: skillbox('Mechanic', Colors.indigo.shade300),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(5, 2, 0, 2),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: SizedBox(
-                  height: 15,
-                  width: MediaQuery.of(context).size.width,
-                  child: Text("finish: 15 Oct 2022, 10:35 ",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.grey.shade400)),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child:
-                  Divider(height: 2, thickness: 2, color: Colors.grey.shade300),
-            ),
-          ],
+      padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height - 600,
+        child: ListView.builder(
+          itemCount: list_request.length, //fix bound of request
+          itemBuilder: (BuildContext context, int index) {
+            ListRequest request = list_request[index];
+            return Card(
+                child: ListTile(
+                    title: Text(
+                      request.title,
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: Color(0xFF005792)),
+                    ),
+                    subtitle: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Category.tag(request.category),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "22 Oct 2022, 10:22",
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    trailing: deleteButton(),
+                    isThreeLine: true,
+                    onTap: () {}));
+          },
         ),
       ),
     );
@@ -170,12 +177,7 @@ class _ProfileState extends State<Profile> {
                         children: [
                           Padding(
                             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                            child: Column(
-                              children: [
-                                requesthistory(),
-                                requesthistory(),
-                              ],
-                            ),
+                            child: requesthistory(),
                           )
                         ],
                       ),
@@ -188,12 +190,7 @@ class _ProfileState extends State<Profile> {
                         children: [
                           Padding(
                             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                            child: Column(
-                              children: [
-                                requesthistory(),
-                                requesthistory(),
-                              ],
-                            ),
+                            child: requesthistory(),
                           )
                         ],
                       ),
