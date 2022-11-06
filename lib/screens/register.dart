@@ -1,6 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:helpee/models/profile.dart';
 import 'package:helpee/screens/login.dart';
+import 'package:helpee/screens/profile.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -12,10 +17,25 @@ class Register extends StatefulWidget {
 const darkblue = Color(0xFF005792);
 
 class _RegisterState extends State<Register> {
-  
-  
+  final formKey = GlobalKey<FormState>();
+
+  final Future<FirebaseApp> firebase = Firebase.initializeApp();
+  CollectionReference _profilesCollection =
+      FirebaseFirestore.instance.collection("profiles");
+  //controller
+  final emailController = TextEditingController();
+  final usernameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmpasswordController = TextEditingController();
+
   Widget emailBox() {
-    return TextField(
+    return TextFormField(
+      validator: MultiValidator([
+        EmailValidator(errorText: "Please fill the e-mail fommat"),
+        RequiredValidator(errorText: "Please enter your email"),
+      ]),
+      controller: emailController,
       keyboardType: TextInputType.emailAddress,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
@@ -25,8 +45,12 @@ class _RegisterState extends State<Register> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
@@ -35,7 +59,9 @@ class _RegisterState extends State<Register> {
   }
 
   Widget usernamebox() {
-    return TextField(
+    return TextFormField(
+      validator: RequiredValidator(errorText: "Please enter username"),
+      controller: usernameController,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -48,6 +74,9 @@ class _RegisterState extends State<Register> {
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
+          errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
+              borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
@@ -56,6 +85,8 @@ class _RegisterState extends State<Register> {
 
   Widget phonebox() {
     return TextFormField(
+      validator: RequiredValidator(errorText: "Please enter phone"),
+      controller: phoneController,
       keyboardType: TextInputType.phone,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
@@ -68,6 +99,9 @@ class _RegisterState extends State<Register> {
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
@@ -86,6 +120,8 @@ class _RegisterState extends State<Register> {
 
   Widget passwordBox() {
     return TextFormField(
+      validator: RequiredValidator(errorText: "Please enter password"),
+      controller: passwordController,
       obscureText: _isObscuredpassword,
       keyboardType: TextInputType.visiblePassword,
       style: GoogleFonts.montserrat(
@@ -96,8 +132,12 @@ class _RegisterState extends State<Register> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
@@ -120,6 +160,8 @@ class _RegisterState extends State<Register> {
 
   Widget passwordConfirmBox() {
     return TextFormField(
+      validator: RequiredValidator(errorText: "Please enter password comfirm"),
+      controller: confirmpasswordController,
       obscureText: _isObscuredconfirmpassword,
       keyboardType: TextInputType.visiblePassword,
       style: GoogleFonts.montserrat(
@@ -130,8 +172,12 @@ class _RegisterState extends State<Register> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
@@ -240,7 +286,37 @@ class _RegisterState extends State<Register> {
 
   Widget signupButton() {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () async {
+        if (formKey.currentState!.validate()) {
+          var email = emailController.text;
+          var username = usernameController.text;
+          var phone = phoneController.text;
+          var password = passwordController.text;
+          var confirmpassword = confirmpasswordController.text;
+
+          Profiles statement = Profiles(
+              email: email,
+              username: username,
+              phone: phone,
+              password: password,
+              confirmpassword: confirmpassword);
+
+          print(statement.email);
+          print(statement.username);
+          print(statement.phone);
+          print(statement.password);
+          print(statement.confirmpassword);
+
+          await _profilesCollection.add({
+            "Email": statement.email,
+            "Username": statement.username,
+            "Phone": statement.phone,
+            "Password": statement.password,
+            "Confirmpassword": statement.confirmpassword
+          });
+          formKey.currentState!.reset();
+        }
+      },
       style: ElevatedButton.styleFrom(
           backgroundColor: Color(0xFF005792),
           shape:
@@ -260,84 +336,105 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-      child: Scaffold(
-          backgroundColor: Colors.white,
-          body: SafeArea(
-            child: Center(
-              child: SingleChildScrollView(
-                child: Form(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 85,
-                        child: Text("Sign Up",
-                            style: GoogleFonts.montserrat(
-                                fontSize: 40,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.black)),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                        child: emailBox(),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                        child: usernamebox(),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                        child: phonebox(),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                        child: passwordBox(),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                        child: passwordConfirmBox(),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                        child: SizedBox(
-                          height: 55.0,
-                          child: signupButton(),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                        child: Row(
+    return FutureBuilder(
+      future: firebase,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Scaffold(
+            appBar: AppBar(title: Text("Error")),
+            body: Center(
+              child: Text("${snapshot.error}"),
+            ),
+          );
+        }
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            child: Scaffold(
+                backgroundColor: Colors.white,
+                body: SafeArea(
+                  child: Center(
+                    child: SingleChildScrollView(
+                      child: Form(
+                        key: formKey,
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text("Have an account?",
-                                style: GoogleFonts.montserrat(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black)),
                             SizedBox(
-                              height: 30.0,
-                              child: signinbutton(),
-                            )
+                              height: 85,
+                              child: Text("Sign Up",
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 40,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black)),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                              child: emailBox(),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                              child: usernamebox(),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                              child: phonebox(),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                              child: passwordBox(),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                              child: passwordConfirmBox(),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                              child: SizedBox(
+                                height: 55.0,
+                                child: signupButton(),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text("Have an account?",
+                                      style: GoogleFonts.montserrat(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black)),
+                                  SizedBox(
+                                    height: 30.0,
+                                    child: signinbutton(),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                              child: ortext(),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                              child: otherlogin(),
+                            ),
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                        child: ortext(),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                        child: otherlogin(),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            ),
-          )),
+                )),
+          );
+        }
+        return Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      },
     );
   }
 }
