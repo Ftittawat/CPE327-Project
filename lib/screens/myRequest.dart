@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/screens/ListRequest.dart';
 import 'package:helpee/screens/allRequest.dart';
+import 'package:helpee/screens/showmyrequest.dart';
 
 class MyRequest extends StatefulWidget {
   const MyRequest({super.key});
@@ -51,7 +52,7 @@ class _MyRequestState extends State<MyRequest> {
           onPressed: () {},
           icon: Icon(Icons.delete_outlined),
           iconSize: 20,
-          splashRadius: 10,
+          splashRadius: 15,
           color: Colors.grey.shade400,
         ));
   }
@@ -120,7 +121,12 @@ class _MyRequestState extends State<MyRequest> {
                             trailing: cancelButton(),
                             isThreeLine: true,
                             onTap: () {
-                              print("more detail ${request.title} ");
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ShowMyRequestScreen(
+                                        listRequest: request),
+                                  ));
                             }));
                   },
                 ),

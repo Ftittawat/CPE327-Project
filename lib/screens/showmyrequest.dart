@@ -1,12 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/screens/ListRequest.dart';
 
 import '../components/category.dart';
 
-class ShowAllRequestScreen extends StatelessWidget {
+class ShowMyRequestScreen extends StatelessWidget {
   final ListRequest listRequest;
-  const ShowAllRequestScreen({super.key, required this.listRequest});
+  const ShowMyRequestScreen({super.key, required this.listRequest});
 
   Widget imageBox() {
     return Container(
@@ -25,7 +26,27 @@ class ShowAllRequestScreen extends StatelessWidget {
     );
   }
 
-  Widget acceptRequest(BuildContext context) {
+  Widget editRequest() {
+    return ElevatedButton(
+      onPressed: () {},
+      style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.grey,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Edit Request",
+              style: GoogleFonts.montserrat(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white)),
+        ],
+      ),
+    );
+  }
+
+  Widget cancelRequest(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
         showDialog(
@@ -60,7 +81,7 @@ class ShowAllRequestScreen extends StatelessWidget {
                 TextButton(
                   onPressed: () {},
                   child: Text(
-                    "Accept Request",
+                    "Confirm",
                     style: TextStyle(
                         fontWeight: FontWeight.w600, color: Color(0xFF005792)),
                   ),
@@ -71,18 +92,35 @@ class ShowAllRequestScreen extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFF005792),
+          backgroundColor: Colors.red,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Accept Request",
+          Text("Cancel Request",
               style: GoogleFonts.montserrat(
-                  fontSize: 18,
+                  fontSize: 12,
                   fontWeight: FontWeight.w600,
                   color: Colors.white)),
         ],
+      ),
+    );
+  }
+
+  Widget confirmModal() {
+    return Container(
+      height: 230,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(width: 2.0, color: Colors.grey.shade400),
+      ),
+      child: Center(
+        child: Icon(
+          Icons.photo,
+          color: Colors.grey.shade400,
+          size: 40,
+        ),
       ),
     );
   }
@@ -98,7 +136,7 @@ class ShowAllRequestScreen extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        title: Text("Request",
+        title: Text("Ask for help",
             style: GoogleFonts.montserrat(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -159,10 +197,21 @@ class ShowAllRequestScreen extends StatelessWidget {
             ),
             /* ----------------- Accept Request ---------------- */
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-              child: SizedBox(
-                height: 55.0,
-                child: acceptRequest(context),
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    height: 35.0,
+                    width: 150.0,
+                    child: editRequest(),
+                  ),
+                  SizedBox(
+                    height: 35.0,
+                    width: 150.0,
+                    child: cancelRequest(context),
+                  ),
+                ],
               ),
             ),
           ],
