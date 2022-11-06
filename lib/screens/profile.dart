@@ -29,7 +29,7 @@ class _ProfileState extends State<Profile> {
     ListRequest(
         "Repair pipe",
         "The water pipe has a crack, Please fix the water pipes for me.",
-        "Electronic",
+        "Electric",
         2.0),
   ];
 
@@ -292,19 +292,16 @@ class _ProfileState extends State<Profile> {
                       children: [
                         Padding(
                             padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child:
-                                skillbox('Mechanic', Colors.indigo.shade300)),
+                            child: Category.tag('Mechanic')),
                         Padding(
                             padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child:
-                                skillbox('Technology', Colors.green.shade300)),
+                            child: Category.tag('Electric')),
                         Padding(
                             padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child:
-                                skillbox('Electronic', Colors.pink.shade200)),
+                            child: Category.tag('Garden')),
                         Padding(
                             padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: skillbox('Electronic', Colors.red.shade300)),
+                            child: Category.tag('Wooden')),
                       ],
                     ),
                   ),

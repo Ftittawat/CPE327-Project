@@ -26,20 +26,17 @@ class _TestHomeState extends State<TestHome> {
     ListRequest(
         "Repair pipe",
         "The water pipe has a crack, Please fix the water pipes for me sssssssssssssssssssssssssssssssssssssssssssssss",
-        "Electronic",
+        "Electric",
         2.0),
-    ListRequest(
-        "Repair sink",
-        "My sink is leaking. Please fix the sink for me. :(",
-        "Food&Medicine",
-        3),
+    ListRequest("Repair sink",
+        "My sink is leaking. Please fix the sink for me. :(", "Electric", 3),
     ListRequest(
         "Repair pipe",
         "The water pipe has a crack, Please fix the water pipes for me",
-        "Health&Fitness",
+        "Plumbing",
         2.0),
     ListRequest("Repair sink",
-        "My sink is leaking. Please fix the sink for me. :|", "Pet", 3),
+        "My sink is leaking. Please fix the sink for me. :|", "Plumbing", 3),
     ListRequest(
         "Repair pipe",
         "The water pipe has a crack, Please fix the water pipes for me",
