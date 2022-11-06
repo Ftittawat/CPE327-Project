@@ -31,7 +31,10 @@ class _RegisterState extends State<Register> {
 
   Widget emailBox() {
     return TextFormField(
-      validator: RequiredValidator(errorText: "Please enter email"),
+      validator: MultiValidator([
+        EmailValidator(errorText: "Please fill the e-mail fommat"),
+        RequiredValidator(errorText: "Please enter your email"),
+      ]),
       controller: emailController,
       keyboardType: TextInputType.emailAddress,
       style: GoogleFonts.montserrat(
