@@ -49,6 +49,7 @@ dependencies:
   get: any
   http: any
   form_validator: ^1.0.3
+  location: ^4.4.0
 
 flutter_icons:
   android: true
