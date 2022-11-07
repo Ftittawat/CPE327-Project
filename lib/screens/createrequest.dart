@@ -332,7 +332,7 @@ class _CreateRequestState extends State<CreateRequest> {
                       ),
                       /* ----------------- Create Button ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
+                        padding: EdgeInsets.fromLTRB(20, 30, 20, 30),
                         child: SizedBox(
                           height: 55.0,
                           child: createButton(),
