@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:helpee/components/utils.dart';
 import 'package:helpee/models/profile.dart';
+import 'package:helpee/screens/home.dart';
 import 'package:helpee/screens/login.dart';
 import 'package:helpee/screens/profile.dart';
 
@@ -18,6 +22,7 @@ const darkblue = Color(0xFF005792);
 
 class _RegisterState extends State<Register> {
   final formKey = GlobalKey<FormState>();
+  final navigatorKey = GlobalKey<NavigatorState>();
 
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
   CollectionReference _profilesCollection =
@@ -286,37 +291,49 @@ class _RegisterState extends State<Register> {
 
   Widget signupButton() {
     return ElevatedButton(
-      onPressed: () async {
-        if (formKey.currentState!.validate()) {
-          var email = emailController.text;
-          var username = usernameController.text;
-          var phone = phoneController.text;
-          var password = passwordController.text;
-          var confirmpassword = confirmpasswordController.text;
+      // onPressed: () async {
+      //   if (formKey.currentState!.validate()) {
+      //     var email = emailController.text;
+      //     var username = usernameController.text;
+      //     var phone = phoneController.text;
+      //     var password = passwordController.text;
+      //     var confirmpassword = confirmpasswordController.text;
 
-          Profiles statement = Profiles(
-              email: email,
-              username: username,
-              phone: phone,
-              password: password,
-              confirmpassword: confirmpassword);
+      //     Profiles statement = Profiles(
+      //         email: email,
+      //         username: username,
+      //         phone: phone,
+      //         password: password,
+      //         confirmpassword: confirmpassword);
 
-          print(statement.email);
-          print(statement.username);
-          print(statement.phone);
-          print(statement.password);
-          print(statement.confirmpassword);
+      //     print(statement.email);
+      //     print(statement.username);
+      //     print(statement.phone);
+      //     print(statement.password);
+      //     print(statement.confirmpassword);
 
-          await _profilesCollection.add({
-            "Email": statement.email,
-            "Username": statement.username,
-            "Phone": statement.phone,
-            "Password": statement.password,
-            "Confirmpassword": statement.confirmpassword
-          });
-          formKey.currentState!.reset();
-        }
-      },
+      //     await _profilesCollection.add({
+      //       "Email": statement.email,
+      //       "Username": statement.username,
+      //       "Phone": statement.phone,
+      //       "Password": statement.password,
+      //       "Confirmpassword": statement.confirmpassword
+      //     });
+      //     try {
+      //       await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      //           email: statement.email, password: statement.password);
+      //       Fluttertoast.showToast(msg: "Account has been created");
+      //       formKey.currentState!.reset();
+      //     } on FirebaseAuthException catch (e) {
+      //       print(e.message);
+      //       print(e.code);
+
+      //       Fluttertoast.showToast(
+      //           msg: e.message.toString(), gravity: ToastGravity.CENTER);
+      //     }
+      //   }
+      // },
+      onPressed: signUp,
       style: ElevatedButton.styleFrom(
           backgroundColor: Color(0xFF005792),
           shape:
@@ -332,6 +349,27 @@ class _RegisterState extends State<Register> {
         ],
       ),
     );
+  }
+
+  Future signUp() async {
+    final isValid = formKey.currentState!.validate();
+    if (!isValid) return;
+
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim());
+      Fluttertoast.showToast(
+          msg: "Account has been created", gravity: ToastGravity.CENTER);
+      formKey.currentState!.reset();
+      print("showDialog");
+    } on FirebaseAuthException catch (e) {
+      print(e);
+      print("FirebaseAuthException");
+
+      Utils.showSnackBar(e.message);
+    }
+    print("Test");
   }
 
   @override
@@ -372,22 +410,22 @@ class _RegisterState extends State<Register> {
                               padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                               child: emailBox(),
                             ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                              child: usernamebox(),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                              child: phonebox(),
-                            ),
+                            // Padding(
+                            //   padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                            //   child: usernamebox(),
+                            // ),
+                            // Padding(
+                            //   padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                            //   child: phonebox(),
+                            // ),
                             Padding(
                               padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
                               child: passwordBox(),
                             ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                              child: passwordConfirmBox(),
-                            ),
+                            // Padding(
+                            //   padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                            //   child: passwordConfirmBox(),
+                            // ),
                             Padding(
                               padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
                               child: SizedBox(
