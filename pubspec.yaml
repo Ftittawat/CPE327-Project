@@ -48,6 +48,7 @@ dependencies:
   image_picker: ^0.8.6
   get: any
   http: any
+  form_validator: ^1.0.3
 
 flutter_icons:
   android: true
