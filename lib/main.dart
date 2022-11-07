@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:helpee/components/utils.dart';
 import 'package:helpee/screens/createrequest.dart';
 import 'package:helpee/screens/getstart.dart';
 import 'package:helpee/screens/home.dart';
@@ -43,10 +44,12 @@ class _MyAppState extends State<MyApp> {
     Notificationscreen(),
     Profile(),
   ];
-
+  final navigatorKey = GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: Utils.messengerKey,
+      navigatorKey: navigatorKey,
       home: Register(),
       // home: Scaffold(
       //   body: screens[currentIndex],
