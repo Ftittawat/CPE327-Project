@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 class CreateRequest extends StatefulWidget {
   const CreateRequest({super.key});
@@ -21,6 +25,8 @@ class _CreateRequestState extends State<CreateRequest> {
   TextEditingController TopicController = TextEditingController();
   TextEditingController DescriptionController = TextEditingController();
   TextEditingController CategoryController = TextEditingController();
+  TextEditingController AddressController = TextEditingController();
+  TextEditingController ZipCodeController = TextEditingController();
 
   Widget topicBox() {
     return TextFormField(
@@ -114,7 +120,7 @@ class _CreateRequestState extends State<CreateRequest> {
     );
   }
 
-  Widget categoryBox() {
+/*   Widget categoryBox() {
     return TextFormField(
       controller: CategoryController,
       style: GoogleFonts.montserrat(
@@ -135,7 +141,7 @@ class _CreateRequestState extends State<CreateRequest> {
       minLines: 1,
       cursorColor: Color(0xFF005792),
     );
-  }
+  } */
 
   Widget addressBox() {
     return TextFormField(
@@ -203,24 +209,64 @@ class _CreateRequestState extends State<CreateRequest> {
     );
   }
 
+  //Map field
+  Completer<GoogleMapController> _controller = Completer();
+  late LocationData currentLocation;
+
+  Future<LocationData?> getCurrentLocation() async {
+    Location location = Location();
+    try {
+      return await location.getLocation();
+    } on PlatformException catch (e) {
+      if (e.code == 'PERMISSION_DENIED') {
+        // Permission denied
+      }
+      return null;
+    }
+  }
+
+  Future _goToMe() async {
+    final GoogleMapController controller = await _controller.future;
+    currentLocation = (await getCurrentLocation())!;
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+      target: LatLng(currentLocation.latitude!, currentLocation.longitude!),
+      zoom: 16,
+    )));
+  }
+
   Widget mapBox() {
+    LatLng latLng = LatLng(13.651158, 100.496454);
+    CameraPosition cameraPosition = CameraPosition(
+      target: latLng,
+      zoom: 16.0,
+    );
+
     return Container(
       height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(width: 2.0, color: Colors.grey.shade400),
       ),
+      child: GoogleMap(
+        initialCameraPosition: cameraPosition,
+        mapType: MapType.normal,
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
+      ),
     );
   }
 
   Widget createButton() {
     return ElevatedButton(
-      onPressed: () {
-        requestCollection.add({
+      onPressed: () async {
+        await requestCollection.add({
           "Topic": TopicController.text,
           "Descrition": DescriptionController.text,
-          "Category": CategoryController.text
+          //"Category": CategoryController.text
         });
+        TopicController.clear();
+        DescriptionController.clear();
       },
       style: ElevatedButton.styleFrom(
           backgroundColor: Color(0xFF005792),
