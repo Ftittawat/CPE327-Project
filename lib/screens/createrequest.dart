@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 
 class CreateRequest extends StatefulWidget {
@@ -27,6 +29,7 @@ class _CreateRequestState extends State<CreateRequest> {
   TextEditingController CategoryController = TextEditingController();
   TextEditingController AddressController = TextEditingController();
   TextEditingController ZipCodeController = TextEditingController();
+  File? file;
 
   Widget topicBox() {
     return TextFormField(
@@ -187,26 +190,67 @@ class _CreateRequestState extends State<CreateRequest> {
     );
   }
 
+  Future<Null> chooseImage(ImageSource imageSource) async {
+    try {
+      var object = await ImagePicker()
+          .pickImage(source: imageSource, maxHeight: 800.0, maxWidth: 800.0);
+      setState(() {
+        file = File(object!.path);
+      });
+    } catch (e) {}
+  }
+
   Widget imageBox() {
-    return Container(
-      height: 180,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(width: 2.0, color: Colors.grey.shade400),
-      ),
-      child: Center(
-        child: IconButton(
-          onPressed: () {},
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        IconButton(
           icon: Icon(
-            Icons.add_a_photo_outlined,
-            color: Colors.grey.shade400,
-            size: 40,
+            Icons.add_a_photo,
+            size: 36.0,
           ),
-          padding: EdgeInsets.all(0.0),
-          splashRadius: 30,
+          onPressed: () {
+            chooseImage(ImageSource.camera);
+          },
         ),
-      ),
+        SizedBox(
+          width: 250.0,
+          child: file == null
+              ? Image.asset("assets/images/download.png")
+              : Image.file(file!),
+        ),
+        IconButton(
+          icon: Icon(
+            Icons.add_photo_alternate,
+            size: 36.0,
+          ),
+          onPressed: () {
+            chooseImage(ImageSource.gallery);
+          },
+        ),
+      ],
     );
+    // return Container(
+    //   height: 180,
+    //   decoration: BoxDecoration(
+    //     borderRadius: BorderRadius.circular(10),
+    //     border: Border.all(width: 2.0, color: Colors.grey.shade400),
+    //   ),
+    //   child: Center(
+    //     child: IconButton(
+    //       onPressed: () {
+    //         chooseImage(ImageSource.gallery);
+    //       },
+    //       icon: Icon(
+    //         Icons.add_a_photo_outlined,
+    //         color: Colors.grey.shade400,
+    //         size: 40,
+    //       ),
+    //       padding: EdgeInsets.all(0.0),
+    //       splashRadius: 30,
+    //     ),
+    //   ),
+    // );
   }
 
   //Map field
