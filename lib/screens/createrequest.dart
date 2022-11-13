@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -119,6 +120,50 @@ class _CreateRequestState extends State<CreateRequest> {
       },
     );
   }
+
+  Widget categoryBox() {
+    return DropdownSearch<String>(
+      popupProps: PopupProps.menu(
+        showSearchBox: true,
+        showSelectedItems: true,
+        searchFieldProps: TextFieldProps(
+          decoration: InputDecoration(
+              hintText: 'Search',
+              hintStyle: GoogleFonts.montserrat(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey.shade400),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+              filled: true,
+              fillColor: Colors.grey.shade100,
+              enabledBorder: OutlineInputBorder(
+                  borderSide:
+                      BorderSide(width: 1.0, color: Colors.grey.shade100),
+                  borderRadius: BorderRadius.circular(10)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide:
+                      BorderSide(width: 2.0, color: Colors.grey.shade100),
+                  borderRadius: BorderRadius.circular(10))),
+        ),
+      ),
+      items: items,
+      dropdownDecoratorProps: DropDownDecoratorProps(
+        dropdownSearchDecoration: InputDecoration(
+            hintText: 'Category',
+            hintStyle: GoogleFonts.montserrat(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey.shade400),
+            contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+                borderRadius: BorderRadius.circular(10)),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+                borderRadius: BorderRadius.circular(10))),
+      ),
+      onChanged: print,
 
 /*   Widget categoryBox() {
     return TextFormField(
@@ -334,7 +379,7 @@ class _CreateRequestState extends State<CreateRequest> {
                       /* ----------------- Category ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                        child: selectCategory(),
+                        child: categoryBox(),
                       ),
                       /* ----------------- Address ---------------- */
                       Padding(

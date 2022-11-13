@@ -44,12 +44,15 @@ dependencies:
   google_api_availability: ^3.0.1
   form_field_validator: ^1.1.0
   tab_indicator_styler: ^2.0.0
+
+  dropdown_search: ^5.0.3
   google_maps_flutter: ^2.2.1
   image_picker: ^0.8.6
   get: any
   http: any
   form_validator: ^1.0.3
   location: ^4.4.0
+
 
 flutter_icons:
   android: true

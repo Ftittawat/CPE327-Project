@@ -16,6 +16,7 @@ class _LoginState extends State<Login> {
     return TextField(
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+      cursorColor: Color(0xFF005792),
       decoration: InputDecoration(
           hintText: 'E-mail',
           hintStyle: GoogleFonts.montserrat(
@@ -24,6 +25,12 @@ class _LoginState extends State<Login> {
               color: Colors.grey.shade400),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
@@ -43,6 +50,7 @@ class _LoginState extends State<Login> {
       obscureText: _isObscured,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+      cursorColor: Color(0xFF005792),
       decoration: InputDecoration(
           hintText: 'Password',
           hintStyle: GoogleFonts.montserrat(
@@ -51,6 +59,12 @@ class _LoginState extends State<Login> {
               color: Colors.grey.shade400),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
@@ -104,10 +118,10 @@ class _LoginState extends State<Login> {
   Widget signupbutton() {
     return TextButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Register()),
-          );
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+            return Register();
+          }));
         },
         child: Text("Sign Up",
             style: GoogleFonts.montserrat(
@@ -193,6 +207,30 @@ class _LoginState extends State<Login> {
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: Scaffold(
           backgroundColor: Colors.white,
+          /* ----------------- App Bar ---------------- */
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.white,
+            foregroundColor: Color(0xFF005792),
+            toolbarHeight: 60,
+            automaticallyImplyLeading: false,
+            actions: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.close_outlined,
+                    size: 35,
+                  ),
+                  splashRadius: 20,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ],
+          ),
+          /* ----------------- Body ---------------- */
           body: SafeArea(
             child: Center(
               child: Form(
