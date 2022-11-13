@@ -5,11 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:helpee/components/dialog.dart';
 import 'package:helpee/components/utils.dart';
 import 'package:helpee/models/profile.dart';
+import 'package:helpee/models/user_models.dart';
+import 'package:helpee/providers/google_sign_in.dart';
 import 'package:helpee/screens/home.dart';
 import 'package:helpee/screens/login.dart';
 import 'package:helpee/screens/profile.dart';
+import 'package:provider/provider.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -34,8 +39,11 @@ class _RegisterState extends State<Register> {
   final passwordController = TextEditingController();
   final confirmpasswordController = TextEditingController();
 
+  late String email, password, name;
+
   Widget emailBox() {
     return TextFormField(
+      onChanged: (value) => email = value.trim(),
       validator: MultiValidator([
         EmailValidator(errorText: "Please fill the e-mail fommat"),
         RequiredValidator(errorText: "Please enter your email"),
@@ -65,6 +73,7 @@ class _RegisterState extends State<Register> {
 
   Widget usernamebox() {
     return TextFormField(
+      onChanged: (value) => name = value.trim(),
       validator: RequiredValidator(errorText: "Please enter username"),
       controller: usernameController,
       style: GoogleFonts.montserrat(
@@ -125,6 +134,7 @@ class _RegisterState extends State<Register> {
 
   Widget passwordBox() {
     return TextFormField(
+      onChanged: (value) => password = value.trim(),
       validator: RequiredValidator(errorText: "Please enter password"),
       controller: passwordController,
       obscureText: _isObscuredpassword,
@@ -261,7 +271,13 @@ class _RegisterState extends State<Register> {
           Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed:
+                  processSignInGoogle /*() {
+                final provider =
+                    Provider.of<GoogleSignInProvider>(context, listen: false);
+                provider.googleLogin();
+              }*/
+              ,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 shape: CircleBorder(),
@@ -289,50 +305,39 @@ class _RegisterState extends State<Register> {
     );
   }
 
+  Future<Null> processSignInGoogle() async {
+    print(" # Logging in ... #");
+    GoogleSignIn _googleSignIn = GoogleSignIn(
+      scopes: [
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
+    );
+
+    await Firebase.initializeApp().then((value) async {
+      await _googleSignIn.signIn().then((value) async {
+        String? name = value!.displayName;
+        String email = value.email;
+
+        await value.authentication.then((value2) async {
+          AuthCredential authCredential = GoogleAuthProvider.credential(
+            idToken: value2.idToken,
+            accessToken: value2.accessToken,
+          );
+          await FirebaseAuth.instance
+              .signInWithCredential(authCredential)
+              .then((value3) {
+            String uid = value3.user!.uid;
+            print(
+                " # Login With Gmail Success With name = $name, email = $email, uid =$uid# ");
+          });
+        });
+      });
+    });
+  }
+
   Widget signupButton() {
     return ElevatedButton(
-      // onPressed: () async {
-      //   if (formKey.currentState!.validate()) {
-      //     var email = emailController.text;
-      //     var username = usernameController.text;
-      //     var phone = phoneController.text;
-      //     var password = passwordController.text;
-      //     var confirmpassword = confirmpasswordController.text;
-
-      //     Profiles statement = Profiles(
-      //         email: email,
-      //         username: username,
-      //         phone: phone,
-      //         password: password,
-      //         confirmpassword: confirmpassword);
-
-      //     print(statement.email);
-      //     print(statement.username);
-      //     print(statement.phone);
-      //     print(statement.password);
-      //     print(statement.confirmpassword);
-
-      //     await _profilesCollection.add({
-      //       "Email": statement.email,
-      //       "Username": statement.username,
-      //       "Phone": statement.phone,
-      //       "Password": statement.password,
-      //       "Confirmpassword": statement.confirmpassword
-      //     });
-      //     try {
-      //       await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      //           email: statement.email, password: statement.password);
-      //       Fluttertoast.showToast(msg: "Account has been created");
-      //       formKey.currentState!.reset();
-      //     } on FirebaseAuthException catch (e) {
-      //       print(e.message);
-      //       print(e.code);
-
-      //       Fluttertoast.showToast(
-      //           msg: e.message.toString(), gravity: ToastGravity.CENTER);
-      //     }
-      //   }
-      // },
       onPressed: signUp,
       style: ElevatedButton.styleFrom(
           backgroundColor: Color(0xFF005792),
@@ -351,25 +356,53 @@ class _RegisterState extends State<Register> {
     );
   }
 
+  // Future<Null> createAccountAndInsertInformation() async {
+  //   await Firebase.initializeApp().then((value) async {
+  //     print("## Firebase Initialize Success ##");
+  //     await FirebaseAuth.instance
+  //         .createUserWithEmailAndPassword(
+  //             email: emailController.text.trim(),
+  //             password: passwordController.text.trim())
+  //         .then((value) => print('Create Account Success'))
+  //         .catchError((onError) =>
+  //             normalDialog(context, onError.code, onError.message));
+  //   });
+  // }
+
   Future signUp() async {
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;
 
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim());
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: emailController.text.trim(),
+              password: passwordController.text.trim())
+          .then((value) async {
+        String uid = value.user!.uid;
+        print("## uid = $uid");
+        UserModel user = UserModel(
+            email: emailController.text.trim(),
+            password: passwordController.text.trim());
+        Map<String, dynamic> data = user.toMap();
+        await FirebaseFirestore.instance
+            .collection('user')
+            .doc(uid)
+            .set(data)
+            .then((value) {
+          print(' # Insert Value To Firestore Success');
+          // Navigator
+        });
+      });
       Fluttertoast.showToast(
           msg: "Account has been created", gravity: ToastGravity.CENTER);
-      formKey.currentState!.reset();
-      print("showDialog");
+
+      emailController.clear();
+      passwordController.clear();
+      print(" # Create Account Success #");
     } on FirebaseAuthException catch (e) {
       print(e);
-      print("FirebaseAuthException");
-
-      Utils.showSnackBar(e.message);
     }
-    print("Test");
   }
 
   @override

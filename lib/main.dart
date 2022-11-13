@@ -48,7 +48,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
       scaffoldMessengerKey: Utils.messengerKey,
       navigatorKey: navigatorKey,
       home: Register(),
@@ -91,7 +90,6 @@ class _MyAppState extends State<MyApp> {
       //     ],
       //   ),
       // ),
-
     );
   }
 }
