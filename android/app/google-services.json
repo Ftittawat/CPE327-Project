@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "206409721883-spnoqhd4mghfv1g3rrrcniahs7nlbf14.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.helpee",
+            "certificate_hash": "c0746400677869528a3514421586e1523b70e965"
+          }
+        },
+        {
           "client_id": "206409721883-lvoul63j706j73gkdup12ijehhmtq1ht.apps.googleusercontent.com",
           "client_type": 3
         }
