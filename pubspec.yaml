@@ -45,6 +45,9 @@ dependencies:
   form_field_validator: ^1.1.0
   tab_indicator_styler: ^2.0.0
 
+
+  dropdown_search: ^5.0.3
+
   google_maps_flutter: ^2.2.1
   image_picker: ^0.8.6
   get: any
@@ -52,11 +55,13 @@ dependencies:
   form_validator: ^1.0.3
   location: ^4.4.0
 
+
   firebase_auth: ^4.1.1
   fluttertoast: ^8.1.1
 
   google_sign_in: ^5.4.2
   provider: ^6.0.4
+
 
 
 flutter_icons:

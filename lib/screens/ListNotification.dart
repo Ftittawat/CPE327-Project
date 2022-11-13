@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class ListNotification {
   int type;
   String title;
