@@ -292,16 +292,16 @@ class _ProfileState extends State<Profile> {
                       children: [
                         Padding(
                             padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: Category.tag('Mechanic')),
+                            child: Category.taginprofile('Mechanic')),
                         Padding(
                             padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: Category.tag('Electric')),
+                            child: Category.taginprofile('Electric')),
                         Padding(
                             padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: Category.tag('Garden')),
+                            child: Category.taginprofile('Technology')),
                         Padding(
                             padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: Category.tag('Wooden')),
+                            child: Category.taginprofile('Wooden')),
                       ],
                     ),
                   ),

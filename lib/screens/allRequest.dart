@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:helpee/components/filterChoice.dart';
 import 'package:helpee/screens/ListRequest.dart';
 import 'package:helpee/screens/showallrequest.dart';
 
 import '../components/category.dart';
+import 'login.dart';
 
 class TestHome extends StatefulWidget {
   const TestHome({super.key});
@@ -64,6 +66,7 @@ class _TestHomeState extends State<TestHome> {
   Widget searchBox() {
     return TextField(
       keyboardType: TextInputType.text,
+      cursorColor: Colors.grey,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -77,12 +80,13 @@ class _TestHomeState extends State<TestHome> {
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-          fillColor: Colors.grey.shade400,
+          filled: true,
+          fillColor: Colors.grey.shade100,
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade100),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade100),
               borderRadius: BorderRadius.circular(10))),
     );
   }
@@ -112,32 +116,6 @@ class _TestHomeState extends State<TestHome> {
 
   /*---------------------- Save Box ---------------------- */
   bool _selected = false;
-
-  Widget categorgButton() {
-    return StatefulBuilder(builder: ((context, setState) {
-      return ChoiceChip(
-          selected: _selected,
-          label: Text("Settings",
-              style: GoogleFonts.montserrat(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-              )),
-          labelStyle: TextStyle(
-            color: _selected ? Colors.white : Colors.grey.shade400,
-          ),
-          disabledColor: Colors.white,
-          selectedColor: Color(0xFF005792),
-          backgroundColor: Colors.white,
-          side: BorderSide(
-              color: _selected ? Color(0xFF005792) : Colors.grey.shade400,
-              width: _selected ? 0 : 1.5),
-          onSelected: (bool selected) {
-            setState(() {
-              _selected = !_selected;
-            });
-          });
-    }));
-  }
 
   /*---------------------- Distance Slider ---------------------- */
   double _currentSliderValue = 10;
@@ -189,7 +167,7 @@ class _TestHomeState extends State<TestHome> {
               ),
               builder: (BuildContext context) {
                 return SizedBox(
-                  height: 300,
+                  height: 320,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: Column(
@@ -206,13 +184,74 @@ class _TestHomeState extends State<TestHome> {
                           ),
                         ),
                         Padding(
-                            padding: EdgeInsets.only(top: 20),
-                            child: SizedBox(
-                              height: 50,
-                              child: categorgButton(),
-                            )),
+                          padding: EdgeInsets.only(top: 0),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
+                                      child: FilterChoice.mechanic(
+                                          (MediaQuery.of(context).size.width /
+                                                  3) -
+                                              50)),
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
+                                      child: FilterChoice.electric(
+                                          (MediaQuery.of(context).size.width /
+                                                  3) -
+                                              50)),
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
+                                      child: FilterChoice.technology(
+                                          (MediaQuery.of(context).size.width /
+                                                  3) -
+                                              50)),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
+                                      child: FilterChoice.garden(
+                                          (MediaQuery.of(context).size.width /
+                                                  3) -
+                                              50)),
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
+                                      child: FilterChoice.wooden(
+                                          (MediaQuery.of(context).size.width /
+                                                  3) -
+                                              50)),
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
+                                      child: FilterChoice.plumbing(
+                                          (MediaQuery.of(context).size.width /
+                                                  3) -
+                                              50)),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                      child: FilterChoice.others(
+                                          (MediaQuery.of(context).size.width /
+                                                  3) -
+                                              50)),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                         Padding(
-                          padding: EdgeInsets.only(top: 20),
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text("Distance",
@@ -285,8 +324,10 @@ class _TestHomeState extends State<TestHome> {
               icon: const Icon(Icons.person),
               splashRadius: 20,
               onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('This is your icon')));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Login()),
+                );
               },
             ),
           ),

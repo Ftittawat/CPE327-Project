@@ -39,6 +39,7 @@ class _RegisterState extends State<Register> {
       keyboardType: TextInputType.emailAddress,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+      cursorColor: Color(0xFF005792),
       decoration: InputDecoration(
           hintText: 'E-mail',
           hintStyle: GoogleFonts.montserrat(
@@ -50,6 +51,9 @@ class _RegisterState extends State<Register> {
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedErrorBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
@@ -64,6 +68,7 @@ class _RegisterState extends State<Register> {
       controller: usernameController,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+      cursorColor: Color(0xFF005792),
       decoration: InputDecoration(
           hintText: 'Username',
           hintStyle: GoogleFonts.montserrat(
@@ -75,6 +80,9 @@ class _RegisterState extends State<Register> {
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedErrorBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
@@ -90,6 +98,7 @@ class _RegisterState extends State<Register> {
       keyboardType: TextInputType.phone,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+      cursorColor: Color(0xFF005792),
       decoration: InputDecoration(
           hintText: 'Phone',
           hintStyle: GoogleFonts.montserrat(
@@ -101,6 +110,9 @@ class _RegisterState extends State<Register> {
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedErrorBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
@@ -126,6 +138,7 @@ class _RegisterState extends State<Register> {
       keyboardType: TextInputType.visiblePassword,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+      cursorColor: Color(0xFF005792),
       decoration: InputDecoration(
           hintText: 'Password',
           hintStyle: GoogleFonts.montserrat(
@@ -137,6 +150,9 @@ class _RegisterState extends State<Register> {
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedErrorBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
@@ -166,6 +182,7 @@ class _RegisterState extends State<Register> {
       keyboardType: TextInputType.visiblePassword,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+      cursorColor: Color(0xFF005792),
       decoration: InputDecoration(
           hintText: 'Confirm Password',
           hintStyle: GoogleFonts.montserrat(
@@ -177,6 +194,9 @@ class _RegisterState extends State<Register> {
               borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedErrorBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
@@ -201,10 +221,10 @@ class _RegisterState extends State<Register> {
   Widget signinbutton() {
     return TextButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => Login()),
-          );
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+            return Login();
+          }));
         },
         child: Text("Sign In",
             style: GoogleFonts.montserrat(
@@ -352,6 +372,30 @@ class _RegisterState extends State<Register> {
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: Scaffold(
                 backgroundColor: Colors.white,
+                /* ----------------- App Bar ---------------- */
+                appBar: AppBar(
+                  elevation: 0,
+                  backgroundColor: Colors.white,
+                  foregroundColor: Color(0xFF005792),
+                  toolbarHeight: 60,
+                  automaticallyImplyLeading: false,
+                  actions: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.close_outlined,
+                          size: 35,
+                        ),
+                        splashRadius: 20,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                /* ----------------- Body ---------------- */
                 body: SafeArea(
                   child: Center(
                     child: SingleChildScrollView(
