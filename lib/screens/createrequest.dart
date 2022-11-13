@@ -164,8 +164,10 @@ class _CreateRequestState extends State<CreateRequest> {
                 borderRadius: BorderRadius.circular(10))),
       ),
       onChanged: print,
+    );
+  }
 
-/*   Widget categoryBox() {
+  /*Widget categoryBox() {
     return TextFormField(
       controller: CategoryController,
       style: GoogleFonts.montserrat(
@@ -186,7 +188,7 @@ class _CreateRequestState extends State<CreateRequest> {
       minLines: 1,
       cursorColor: Color(0xFF005792),
     );
-  } */
+  }*/
 
   Widget addressBox() {
     return TextFormField(
