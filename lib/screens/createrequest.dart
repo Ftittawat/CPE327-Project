@@ -164,6 +164,8 @@ class _CreateRequestState extends State<CreateRequest> {
                 borderRadius: BorderRadius.circular(10))),
       ),
       onChanged: print,
+    );
+  }
 
 /*   Widget categoryBox() {
     return TextFormField(

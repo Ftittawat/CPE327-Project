@@ -39,7 +39,7 @@ class _RegisterState extends State<Register> {
   final passwordController = TextEditingController();
   final confirmpasswordController = TextEditingController();
 
-  late String email, password, name;
+  late String email, password, name, uid, typeUser;
 
   Widget emailBox() {
     return TextFormField(
@@ -336,8 +336,8 @@ class _RegisterState extends State<Register> {
 
     await Firebase.initializeApp().then((value) async {
       await _googleSignIn.signIn().then((value) async {
-        String? name = value!.displayName;
-        String email = value.email;
+        name = value!.displayName!;
+        email = value.email;
 
         await value.authentication.then((value2) async {
           AuthCredential authCredential = GoogleAuthProvider.credential(
@@ -346,12 +346,42 @@ class _RegisterState extends State<Register> {
           );
           await FirebaseAuth.instance
               .signInWithCredential(authCredential)
-              .then((value3) {
-            String uid = value3.user!.uid;
+              .then((value3) async {
+            uid = value3.user!.uid;
             print(
                 " # Login With Gmail Success With name = $name, email = $email, uid =$uid# ");
+            insertValueToCloudFirestore();
+
+            // await FirebaseFirestore.instance
+            //     .collection('user')
+            //     .doc(uid)
+            //     .snapshots()
+            //     .listen((event) {
+            //   print('event ==> ${event.data()}');
+            //   if (event.data() == null) {
+            //     // Call TypeUser
+            //   } else {
+            //     // Route to Service by TypeUser
+            //   }
+            // });
+            Navigator.pop(context);
           });
         });
+      });
+    });
+  }
+
+  Future<Null> insertValueToCloudFirestore() async {
+    UserModel user = UserModel(email: email, name: name);
+    Map<String, dynamic> data = user.toMap();
+    await Firebase.initializeApp().then((value) async {
+      await FirebaseFirestore.instance
+          .collection('user')
+          .doc(uid)
+          .set(data)
+          .then((value) {
+        print(' # Insert Value To Firestore Success');
+        // Navigator
       });
     });
   }
@@ -403,7 +433,7 @@ class _RegisterState extends State<Register> {
         print("## uid = $uid");
         UserModel user = UserModel(
             email: emailController.text.trim(),
-            password: passwordController.text.trim());
+            name: usernameController.text.trim());
         Map<String, dynamic> data = user.toMap();
         await FirebaseFirestore.instance
             .collection('user')
@@ -413,13 +443,15 @@ class _RegisterState extends State<Register> {
           print(' # Insert Value To Firestore Success');
           // Navigator
         });
+        print(" # Create Account Success With email = $email, uid = $uid # ");
       });
       Fluttertoast.showToast(
           msg: "Account has been created", gravity: ToastGravity.CENTER);
 
       emailController.clear();
-      passwordController.clear();
-      print(" # Create Account Success #");
+      usernameController.clear();
+
+      Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       print(e);
     }
