@@ -51,6 +51,7 @@ dependencies:
   form_validator: ^1.0.3
   location: ^4.4.0
   geolocator: ^9.0.2
+  getwidget: ^3.0.1
 
 flutter_icons:
   android: true

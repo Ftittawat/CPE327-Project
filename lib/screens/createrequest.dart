@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
+import 'package:getwidget/getwidget.dart';
 
 class CreateRequest extends StatefulWidget {
   const CreateRequest({super.key});
@@ -202,32 +203,30 @@ class _CreateRequestState extends State<CreateRequest> {
 
   Widget imageBox() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        IconButton(
-          icon: Icon(
-            Icons.add_a_photo,
-            size: 36.0,
-          ),
-          onPressed: () {
-            chooseImage(ImageSource.camera);
-          },
-        ),
-        SizedBox(
-          width: 250.0,
-          child: file == null
-              ? Image.asset("assets/images/download.png")
-              : Image.file(file!),
-        ),
-        IconButton(
-          icon: Icon(
-            Icons.add_photo_alternate,
-            size: 36.0,
-          ),
-          onPressed: () {
-            chooseImage(ImageSource.gallery);
-          },
-        ),
+        Container(
+            child: Row(
+          // mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            ElevatedButton.icon(
+              onPressed: () {
+                chooseImage(ImageSource.camera);
+              },
+              icon: Icon(Icons.add_a_photo), //icon data for elevated button
+              label: Text("Upload Image"), //label text
+            ),
+            Text("      "),
+            ElevatedButton.icon(
+              onPressed: () {
+                chooseImage(ImageSource.gallery);
+              },
+              icon: Icon(
+                  Icons.add_photo_alternate), //icon data for elevated button
+              label: Text("Choose Image"), //label text
+            )
+          ],
+        )),
       ],
     );
     // return Container(
@@ -329,6 +328,31 @@ class _CreateRequestState extends State<CreateRequest> {
     );
   }
 
+  Widget defaultPicture() {
+    return SizedBox(
+      width: 450.0,
+      //height: 100.0,
+      child: Card(
+        color: Colors.white,
+        child: Center(
+          child: Column(
+            children: [
+              Image.asset(
+                "assets/images/upload.png",
+                width: 250.0,
+                height: 250.0,
+              ),
+              Text(
+                'please upload image\n',
+                style: TextStyle(color: Colors.black),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -395,14 +419,51 @@ class _CreateRequestState extends State<CreateRequest> {
                         padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
                         child: imageBox(),
                       ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
+                        child: SizedBox(
+                          //width: 0.0,
+                          child: file == null
+                              ? defaultPicture()
+                              //Image.asset("assets/images/upload.png")
+                              : Image.file(file!),
+                        ),
+                      ),
+                      const Divider(
+                        height: 10,
+                        thickness: 0,
+                        indent: 20,
+                        endIndent: 20,
+                        color: Colors.black,
+                      ),
                       /* ----------------- Map ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                        padding: EdgeInsets.fromLTRB(25, 10, 25, 0),
+                        child: GFButton(
+                          onPressed: () {},
+                          text: "select location",
+                          icon: Icon(
+                            Icons.location_pin,
+                            color: Colors.white,
+                          ),
+                          shape: GFButtonShape.pills,
+                          fullWidthButton: true,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 5, 20, 10),
                         child: mapBox(),
+                      ),
+                      const Divider(
+                        height: 10,
+                        thickness: 0,
+                        indent: 20,
+                        endIndent: 20,
+                        color: Colors.black,
                       ),
                       /* ----------------- Create Button ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 30, 20, 30),
+                        padding: EdgeInsets.fromLTRB(20, 15, 20, 30),
                         child: SizedBox(
                           height: 55.0,
                           child: createButton(),

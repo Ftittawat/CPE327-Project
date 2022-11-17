@@ -6,7 +6,6 @@ import 'package:helpee/screens/home.dart';
 import 'package:helpee/screens/login.dart';
 import 'package:helpee/screens/profile.dart';
 import 'package:helpee/screens/register.dart';
-import 'package:helpee/screens/createrequest.dart';
 import 'package:helpee/screens/notification.dart';
 import 'package:helpee/screens/allRequest.dart';
 import 'package:helpee/screens/myRequest.dart';
@@ -34,7 +33,7 @@ class _MyAppState extends State<MyApp> {
     ));
   }
 
-  int currentIndex = 0;
+  /*int currentIndex = 0;
 
   final screens = [
     TestHome(),
@@ -42,49 +41,171 @@ class _MyAppState extends State<MyApp> {
     CreateRequest(),
     Notificationscreen(),
     Profile(),
+  ];*/
+
+  int currentTab = 0;
+  final List<Widget> screens2 = [
+    TestHome(),
+    MyRequest(),
+    Notificationscreen(),
+    Profile(),
   ];
+
+  final PageStorageBucket bucket = PageStorageBucket();
+  Widget currentScreen = TestHome();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       // home: Register(),
       home: Scaffold(
-        body: screens[currentIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: currentIndex,
-          onTap: (index) => setState(() => currentIndex = index),
-          type: BottomNavigationBarType.fixed,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          selectedFontSize: 16.0,
-          unselectedFontSize: 12.0,
-          iconSize: 25,
-          selectedIconTheme: IconThemeData(color: Color(0xFF005792), size: 27),
-          selectedItemColor: Color(0xFF005792),
-          unselectedItemColor: Colors.grey.shade600,
-          backgroundColor: Colors.grey.shade200,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
+        /* ----------------- Body ---------------- */
+        body: PageStorage(
+          bucket: bucket,
+          child: currentScreen,
+        ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Color(0xFF005792),
+          child: Icon(Icons.add),
+          onPressed: () {
+            setState(() {
+              currentScreen = CreateRequest();
+              currentTab = 5;
+            });
+          },
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.grey.shade200,
+          shape: CircularNotchedRectangle(),
+          notchMargin: 10,
+          child: Container(
+            height: 60,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MaterialButton(
+                      minWidth: 40,
+                      onPressed: () {
+                        setState(() {
+                          currentScreen = TestHome();
+                          currentTab = 0;
+                        });
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.dashboard,
+                            color: currentTab == 0
+                                ? Color(0xFF005792)
+                                : Colors.grey.shade600,
+                          ),
+                          Text(
+                            'Home',
+                            style: TextStyle(
+                                color: currentTab == 0
+                                    ? Color(0xFF005792)
+                                    : Colors.grey.shade600),
+                          )
+                        ],
+                      ),
+                    ),
+                    MaterialButton(
+                      minWidth: 40,
+                      onPressed: () {
+                        setState(() {
+                          currentScreen = MyRequest();
+                          currentTab = 1;
+                        });
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.chat,
+                            color: currentTab == 1
+                                ? Color(0xFF005792)
+                                : Colors.grey.shade600,
+                          ),
+                          Text(
+                            'My Request',
+                            style: TextStyle(
+                                color: currentTab == 1
+                                    ? Color(0xFF005792)
+                                    : Colors.grey.shade600),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                // Right Tab Bar Icons
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MaterialButton(
+                      minWidth: 40,
+                      onPressed: () {
+                        setState(() {
+                          currentScreen = Notificationscreen();
+                          currentTab = 2;
+                        });
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.notifications,
+                            color: currentTab == 2
+                                ? Color(0xFF005792)
+                                : Colors.grey.shade600,
+                          ),
+                          Text(
+                            'Notification',
+                            style: TextStyle(
+                                color: currentTab == 2
+                                    ? Color(0xFF005792)
+                                    : Colors.grey.shade600),
+                          )
+                        ],
+                      ),
+                    ),
+                    MaterialButton(
+                      minWidth: 40,
+                      onPressed: () {
+                        setState(() {
+                          currentScreen = Profile();
+                          currentTab = 3;
+                        });
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.person,
+                            color: currentTab == 3
+                                ? Color(0xFF005792)
+                                : Colors.grey.shade600,
+                          ),
+                          Text(
+                            'Profile',
+                            style: TextStyle(
+                                color: currentTab == 3
+                                    ? Color(0xFF005792)
+                                    : Colors.grey.shade600),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.wysiwyg),
-              label: 'Ask for help',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add_circle),
-              label: 'Add',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications),
-              label: 'Notification',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-          ],
+          ),
         ),
       ),
     );
