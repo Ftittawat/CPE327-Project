@@ -124,29 +124,6 @@ class _CreateRequestState extends State<CreateRequest> {
     );
   }
 
-/*   Widget categoryBox() {
-    return TextFormField(
-      controller: CategoryController,
-      style: GoogleFonts.montserrat(
-          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
-      decoration: InputDecoration(
-          hintText: 'Category',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
-          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
-              borderRadius: BorderRadius.circular(10)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
-              borderRadius: BorderRadius.circular(10))),
-      minLines: 1,
-      cursorColor: Color(0xFF005792),
-    );
-  } */
-
   Widget addressBox() {
     return TextFormField(
       style: GoogleFonts.montserrat(
@@ -303,9 +280,13 @@ class _CreateRequestState extends State<CreateRequest> {
   Widget createButton() {
     return ElevatedButton(
       onPressed: () async {
+        if (file == null) {
+         
+        }
         await requestCollection.add({
           "Topic": TopicController.text,
           "Descrition": DescriptionController.text,
+          "Create Time": DateTime.now(),
           //"Category": CategoryController.text
         });
         TopicController.clear();
