@@ -7,7 +7,6 @@ import 'package:helpee/screens/home.dart';
 import 'package:helpee/screens/login.dart';
 import 'package:helpee/screens/profile.dart';
 import 'package:helpee/screens/register.dart';
-import 'package:helpee/screens/createrequest.dart';
 import 'package:helpee/screens/notification.dart';
 import 'package:helpee/screens/allRequest.dart';
 import 'package:helpee/screens/myRequest.dart';
@@ -35,7 +34,7 @@ class _MyAppState extends State<MyApp> {
     ));
   }
 
-  int currentIndex = 0;
+  /*int currentIndex = 0;
 
   final screens = [
     TestHome(),
@@ -43,7 +42,16 @@ class _MyAppState extends State<MyApp> {
     CreateRequest(),
     Notificationscreen(),
     Profile(),
+  ];*/
+
+  int currentTab = 0;
+  final List<Widget> screens2 = [
+    TestHome(),
+    MyRequest(),
+    Notificationscreen(),
+    Profile(),
   ];
+
   final navigatorKey = GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {

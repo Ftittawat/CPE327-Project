@@ -62,6 +62,16 @@ class _TestHomeState extends State<TestHome> {
         "My sink is leaking. Please fix the sink for me. :|", "Mechanic", 3),
   ];
 
+  List<ListRequest> inprogress = [
+    ListRequest(
+        "Repair pipe",
+        "The water pipe has a crack, Please fix the water pipes for me",
+        "Mechanic",
+        2.0),
+    ListRequest("Repair sink",
+        "My sink is leaking. Please fix the sink for me. :) ", "Technology", 3)
+  ];
+
   /*---------------------- Search Box ---------------------- */
   Widget searchBox() {
     return TextField(
@@ -350,11 +360,91 @@ class _TestHomeState extends State<TestHome> {
             //   ),
             // ),
             Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 0), child: searchBox()),
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 10), child: searchBox()),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(5, 0, 0, 3),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  children: const [
+                    Icon(
+                      Icons.warning,
+                      size: 25,
+                      color: Color.fromARGB(255, 255, 164, 19),
+                    ),
+                    Text(
+                      " In Progress",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+              child: Expanded(
+                child: SizedBox(
+                  height: 60,
+                  child: ListView.builder(
+                    itemCount: inprogress.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      ListRequest request = inprogress[index];
+                      return Card(
+                          child: ListTile(
+                              /* ----------------- Title ---------------- */
+                              title: Text(
+                                request.title,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
+                                    color: Color(0xFF005792)),
+                              ),
+                              subtitle: Column(
+                                children: [
+                                  /* ----------------- Date Time ---------------- */
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 3),
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        "start time 22 Oct 2022, 10:22",
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.grey.shade400,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              dense: true,
+                              // enabled: Text(true),
+                              isThreeLine: true,
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ShowAllRequestScreen(
+                                              listRequest: request),
+                                    ));
+                              }));
+                    },
+                  ),
+                ),
+              ),
+            ),
+            Divider(),
             Padding(
                 padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                 child: Align(
                     alignment: Alignment.centerLeft, child: filterButton())),
+
             Expanded(
               child: ListView.builder(
                 itemCount: listrequest.length,
