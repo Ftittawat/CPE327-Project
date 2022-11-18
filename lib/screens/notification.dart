@@ -54,7 +54,51 @@ class _NotificationscreenState extends State<Notificationscreen> {
     return Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
         child: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                  title: Text("Delete",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black)),
+                  contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                  // content: Text("Are You Sure?",
+                  //     style: GoogleFonts.montserrat(
+                  //         fontSize: 14,
+                  //         fontWeight: FontWeight.w500,
+                  //         color: Colors.black)),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF005792)),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Delete",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF005792)),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
           icon: Icon(Icons.delete_outlined),
           iconSize: 20,
           splashRadius: 15,

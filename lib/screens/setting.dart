@@ -166,7 +166,49 @@ class _SettingState extends State<Setting> {
 
   Widget logoutButton() {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+              title: Text("Log Out",
+                  style: GoogleFonts.montserrat(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black)),
+              contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+              content: Text("Are You Sure?",
+                  style: GoogleFonts.montserrat(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black)),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600, color: Colors.black),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "Log Out",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600, color: Colors.black),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
       style: ElevatedButton.styleFrom(
           backgroundColor: Colors.black,
           shape:

@@ -12,28 +12,37 @@ class Login extends StatefulWidget {
 const darkblue = Color(0xFF005792);
 
 class _LoginState extends State<Login> {
+  Widget textLabel(String nametext) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+      child: Text(nametext,
+          style: GoogleFonts.montserrat(
+              fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black)),
+    );
+  }
+
   Widget emailBox() {
     return TextField(
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       cursorColor: Color(0xFF005792),
       decoration: InputDecoration(
-          hintText: 'E-mail',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
+          // hintText: 'E-mail',
+          // hintStyle: GoogleFonts.montserrat(
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w600,
+          //     color: Colors.grey.shade400),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
     );
   }
@@ -52,22 +61,22 @@ class _LoginState extends State<Login> {
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       cursorColor: Color(0xFF005792),
       decoration: InputDecoration(
-          hintText: 'Password',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
+          // hintText: 'Password',
+          // hintStyle: GoogleFonts.montserrat(
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w600,
+          //     color: Colors.grey.shade400),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10)),
           suffixIcon: IconButton(
               onPressed: () {
@@ -236,7 +245,6 @@ class _LoginState extends State<Login> {
               child: Form(
                 child: SingleChildScrollView(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
                         height: 50,
@@ -247,12 +255,26 @@ class _LoginState extends State<Login> {
                                 color: Colors.black)),
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 50, 20, 0),
-                        child: emailBox(),
+                        padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: textLabel('E-mail')),
+                            emailBox(),
+                          ],
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
-                        child: passwordBox(),
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: textLabel('Password')),
+                            passwordBox(),
+                          ],
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
