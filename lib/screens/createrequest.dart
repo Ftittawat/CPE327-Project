@@ -29,23 +29,32 @@ class _CreateRequestState extends State<CreateRequest> {
   TextEditingController AddressController = TextEditingController();
   TextEditingController ZipCodeController = TextEditingController();
 
+  Widget textLabel(String nametext) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+      child: Text(nametext,
+          style: GoogleFonts.montserrat(
+              fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black)),
+    );
+  }
+
   Widget topicBox() {
     return TextFormField(
       controller: TopicController,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-          hintText: 'Topic',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
+          // hintText: 'Topic',
+          // hintStyle: GoogleFonts.montserrat(
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w600,
+          //     color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
       minLines: 1,
       cursorColor: Color(0xFF005792),
@@ -58,17 +67,17 @@ class _CreateRequestState extends State<CreateRequest> {
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-          hintText: 'Description',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
+          // hintText: 'Description',
+          // hintStyle: GoogleFonts.montserrat(
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w600,
+          //     color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
       minLines: 2,
       maxLines: 3,
@@ -91,17 +100,17 @@ class _CreateRequestState extends State<CreateRequest> {
       isExpanded: false,
       borderRadius: BorderRadius.circular(10),
       decoration: InputDecoration(
-          hintText: 'Category',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
+          // hintText: 'Category',
+          // hintStyle: GoogleFonts.montserrat(
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w600,
+          //     color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
       items: items.map((String items) {
         return DropdownMenuItem(
@@ -127,6 +136,9 @@ class _CreateRequestState extends State<CreateRequest> {
         showSearchBox: true,
         showSelectedItems: true,
         searchFieldProps: TextFieldProps(
+          cursorColor: Color(0xFF005792),
+          style: GoogleFonts.montserrat(
+              fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
           decoration: InputDecoration(
               hintText: 'Search',
               hintStyle: GoogleFonts.montserrat(
@@ -143,24 +155,26 @@ class _CreateRequestState extends State<CreateRequest> {
                   borderRadius: BorderRadius.circular(10)),
               focusedBorder: OutlineInputBorder(
                   borderSide:
-                      BorderSide(width: 2.0, color: Colors.grey.shade100),
+                      BorderSide(width: 21.0, color: Colors.grey.shade100),
                   borderRadius: BorderRadius.circular(10))),
         ),
       ),
+      dropdownButtonProps:
+          DropdownButtonProps(splashRadius: 15, color: Colors.grey.shade400),
       items: items,
       dropdownDecoratorProps: DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(
-            hintText: 'Category',
-            hintStyle: GoogleFonts.montserrat(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.grey.shade400),
+            // hintText: 'Category',
+            // hintStyle: GoogleFonts.montserrat(
+            //     fontSize: 16,
+            //     fontWeight: FontWeight.w600,
+            //     color: Colors.grey.shade400),
             contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
             enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+                borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
                 borderRadius: BorderRadius.circular(10)),
             focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+                borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
                 borderRadius: BorderRadius.circular(10))),
       ),
       onChanged: print,
@@ -195,17 +209,17 @@ class _CreateRequestState extends State<CreateRequest> {
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-          hintText: 'Address',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
+          // hintText: 'Address',
+          // hintStyle: GoogleFonts.montserrat(
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w600,
+          //     color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
       minLines: 1,
       cursorColor: Color(0xFF005792),
@@ -217,17 +231,17 @@ class _CreateRequestState extends State<CreateRequest> {
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-          hintText: 'Zip Code',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
+          // hintText: 'Zip Code',
+          // hintStyle: GoogleFonts.montserrat(
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w600,
+          //     color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
       minLines: 1,
       cursorColor: Color(0xFF005792),
@@ -239,7 +253,7 @@ class _CreateRequestState extends State<CreateRequest> {
       height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(width: 2.0, color: Colors.grey.shade400),
+        border: Border.all(width: 1.0, color: Colors.grey.shade400),
       ),
       child: Center(
         child: IconButton(
@@ -292,7 +306,7 @@ class _CreateRequestState extends State<CreateRequest> {
       height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(width: 2.0, color: Colors.grey.shade400),
+        border: Border.all(width: 1.0, color: Colors.grey.shade400),
       ),
       child: GoogleMap(
         initialCameraPosition: cameraPosition,
@@ -309,11 +323,39 @@ class _CreateRequestState extends State<CreateRequest> {
       onPressed: () async {
         await requestCollection.add({
           "Topic": TopicController.text,
-          "Descrition": DescriptionController.text,
+          "Description": DescriptionController.text,
           //"Category": CategoryController.text
         });
         TopicController.clear();
         DescriptionController.clear();
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+              title: Text("Success",
+                  style: GoogleFonts.montserrat(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black)),
+              contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "OK",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600, color: Color(0xFF005792)),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
       },
       style: ElevatedButton.styleFrom(
           backgroundColor: Color(0xFF005792),
@@ -370,38 +412,87 @@ class _CreateRequestState extends State<CreateRequest> {
                     children: [
                       /* ----------------- Topic ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                        child: topicBox(),
+                        padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: textLabel('Topic')),
+                            topicBox(),
+                          ],
+                        ),
                       ),
                       /* ----------------- Description ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                        child: descriptionbox(),
+                        padding: EdgeInsets.fromLTRB(20, 12, 20, 0),
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: textLabel('Description')),
+                            descriptionbox(),
+                          ],
+                        ),
                       ),
                       /* ----------------- Category ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                        child: categoryBox(),
+                        padding: EdgeInsets.fromLTRB(20, 12, 20, 0),
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: textLabel('Category')),
+                            categoryBox(),
+                          ],
+                        ),
                       ),
                       /* ----------------- Address ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                        child: addressBox(),
+                        padding: EdgeInsets.fromLTRB(20, 12, 20, 0),
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: textLabel('Address')),
+                            addressBox(),
+                          ],
+                        ),
                       ),
                       /* ----------------- Zip Code ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                        child: zipcodeBox(),
+                        padding: EdgeInsets.fromLTRB(20, 12, 20, 0),
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: textLabel('Zip Code')),
+                            zipcodeBox(),
+                          ],
+                        ),
                       ),
                       /* ----------------- Image ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                        child: imageBox(),
+                        padding: EdgeInsets.fromLTRB(20, 12, 20, 0),
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: textLabel('Image')),
+                            imageBox(),
+                          ],
+                        ),
                       ),
                       /* ----------------- Map ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                        child: mapBox(),
+                        padding: EdgeInsets.fromLTRB(20, 12, 20, 0),
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: textLabel('Location')),
+                            mapBox(),
+                          ],
+                        ),
                       ),
                       /* ----------------- Create Button ---------------- */
                       Padding(
