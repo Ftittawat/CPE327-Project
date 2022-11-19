@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/screens/settingscreens/address.dart';
 import 'package:helpee/screens/settingscreens/changepassword.dart';
@@ -197,7 +200,16 @@ class _SettingState extends State<Setting> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await Firebase.initializeApp().then((value) async {
+                      await FirebaseAuth.instance.signOut().then((value) {
+                        Fluttertoast.showToast(
+                            msg: "Log-Out Success",
+                            gravity: ToastGravity.CENTER);
+                        Navigator.pop(context);
+                      });
+                    });
+                  },
                   child: Text(
                     "Log Out",
                     style: TextStyle(
