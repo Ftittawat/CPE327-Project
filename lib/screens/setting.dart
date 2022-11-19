@@ -169,7 +169,6 @@ class _SettingState extends State<Setting> {
 
   Widget logoutButton() {
     return ElevatedButton(
-
       onPressed: () {
         showDialog(
           context: context,
@@ -202,14 +201,15 @@ class _SettingState extends State<Setting> {
                 ),
                 TextButton(
                   onPressed: () async {
-        await Firebase.initializeApp().then((value) async {
-          await FirebaseAuth.instance.signOut().then((value) {
-            Fluttertoast.showToast(
-                msg: "Log-Out Success", gravity: ToastGravity.CENTER);
-            Navigator.pop(context);
-          });
-        });
-      },
+                    await Firebase.initializeApp().then((value) async {
+                      await FirebaseAuth.instance.signOut().then((value) {
+                        Fluttertoast.showToast(
+                            msg: "Log-Out Success",
+                            gravity: ToastGravity.CENTER);
+                        Navigator.pop(context);
+                      });
+                    });
+                  },
                   child: Text(
                     "Log Out",
                     style: TextStyle(
@@ -220,7 +220,7 @@ class _SettingState extends State<Setting> {
             );
           },
         );
-      ,
+      },
       style: ElevatedButton.styleFrom(
           backgroundColor: Colors.black,
           shape:
