@@ -90,6 +90,7 @@ packages:
     description:
       name: collection
       url: "https://pub.dartlang.org"
+
     source: hosted
     version: "1.16.0"
   convert:
@@ -124,7 +125,8 @@ packages:
     dependency: "direct main"
     description:
       name: dropdown_search
-      url: "https://pub.dartlang.org"
+      sha256: "8f1b1034092ba8f974d25ee4bb0f5336cfabd5737e6e7373d93691893234fbea"
+      url: "https://pub.dev"
     source: hosted
     version: "5.0.3"
   fake_async:
@@ -664,6 +666,7 @@ packages:
       name: stream_channel
       url: "https://pub.dartlang.org"
     source: hosted
+
     version: "2.1.0"
   stream_transform:
     dependency: transitive

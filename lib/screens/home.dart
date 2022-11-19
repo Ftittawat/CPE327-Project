@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,6 +11,25 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  late String name, email;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    findNameAndEmail();
+  }
+
+  Future<Null> findNameAndEmail() async {
+    await Firebase.initializeApp().then((value) async {
+      await FirebaseAuth.instance.authStateChanges().listen((event) {
+        setState(() {
+          name = FirebaseAuth.instance.currentUser!.displayName!;
+          email = FirebaseAuth.instance.currentUser!.email!;
+        });
+      });
+    });
+  }
+
   /*---------------------- widgets ---------------------- */
   Widget searchBox() {
     return TextField(
