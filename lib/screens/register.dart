@@ -78,13 +78,13 @@ class _RegisterState extends State<Register> {
   Widget usernamebox() {
     return TextFormField(
       onChanged: (value) => name = value.trim(),
-      validator: RequiredValidator(errorText: "Please enter username"),
+      validator: RequiredValidator(errorText: "Please enter name"),
       controller: usernameController,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       cursorColor: Color(0xFF005792),
       decoration: InputDecoration(
-          hintText: 'Username',
+          hintText: 'Name',
           hintStyle: GoogleFonts.montserrat(
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -349,7 +349,7 @@ class _RegisterState extends State<Register> {
               .then((value3) async {
             uid = value3.user!.uid;
             print(
-                " # Login With Gmail Success With name = $name, email = $email, uid =$uid# ");
+                " # Login With Gmail Success With name = $name, email = $email, uid =$uid #");
             insertValueToCloudFirestore();
 
             // await FirebaseFirestore.instance
@@ -380,7 +380,7 @@ class _RegisterState extends State<Register> {
           .doc(uid)
           .set(data)
           .then((value) {
-        print(' # Insert Value To Firestore Success');
+        print(' # Insert Value To Firestore Success Email= $email #');
         // Navigator
       });
     });
@@ -519,10 +519,10 @@ class _RegisterState extends State<Register> {
                               padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                               child: emailBox(),
                             ),
-                            // Padding(
-                            //   padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                            //   child: usernamebox(),
-                            // ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                              child: usernamebox(),
+                            ),
                             // Padding(
                             //   padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
                             //   child: phonebox(),

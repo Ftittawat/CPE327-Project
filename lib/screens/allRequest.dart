@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,6 +18,23 @@ class TestHome extends StatefulWidget {
 }
 
 class _TestHomeState extends State<TestHome> {
+  late String name, email, displayName;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    findNameAndEmail();
+  }
+
+  Future<Null> findNameAndEmail() async {
+    await Firebase.initializeApp().then((value) async {
+      await FirebaseAuth.instance.authStateChanges().listen((event) {
+        // displayName = event!.displayName!;
+        // print("DisplayName : " + displayName);
+      });
+    });
+  }
+
   /* group data */
   List<ListRequest> listrequest = [
     ListRequest(
@@ -312,7 +331,7 @@ class _TestHomeState extends State<TestHome> {
         backgroundColor: Colors.white,
         foregroundColor: Color(0xFF005792),
         toolbarHeight: 60,
-        title: Text("Hi Username",
+        title: Text(FirebaseAuth.instance.currentUser?.displayName ?? 'No Name',
             style: GoogleFonts.montserrat(
                 fontSize: 27,
                 fontWeight: FontWeight.w700,

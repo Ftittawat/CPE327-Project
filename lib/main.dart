@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/components/utils.dart';
@@ -13,10 +14,20 @@ import 'package:helpee/screens/allRequest.dart';
 import 'package:helpee/screens/myRequest.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-void main() async {
+String initialRoute = '/authen';
+
+Future<Null> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
+  await Firebase.initializeApp().then((value) async {
+    await FirebaseAuth.instance.authStateChanges().listen((event) {
+      if (event != null) {
+        print("Event = $event");
+      } else {
+        print("Please Login first");
+      }
+      runApp(MyApp());
+    });
+  });
 }
 
 class MyApp extends StatefulWidget {
