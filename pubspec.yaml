@@ -54,6 +54,8 @@ dependencies:
   http: any
   form_validator: ^1.0.3
   location: ^4.4.0
+  geolocator: ^9.0.2
+  getwidget: ^3.0.1
 
 
   firebase_auth: ^4.1.1

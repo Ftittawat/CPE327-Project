@@ -67,10 +67,12 @@ class _YourSkillState extends State<YourSkill> {
                             borderRadius: BorderRadius.circular(10)),
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
-                                width: 2.0, color: Colors.grey.shade100),
+                                width: 1.0, color: Colors.grey.shade100),
                             borderRadius: BorderRadius.circular(10))),
                   ),
                 ),
+                dropdownButtonProps: DropdownButtonProps(
+                    splashRadius: 15, color: Colors.grey.shade400),
                 dropdownDecoratorProps: DropDownDecoratorProps(
                   dropdownSearchDecoration: InputDecoration(
                       hintText: 'Select Skill',
@@ -80,11 +82,11 @@ class _YourSkillState extends State<YourSkill> {
                           color: Colors.grey.shade400),
                       enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              width: 2.0, color: Colors.grey.shade400),
+                              width: 1.0, color: Colors.grey.shade400),
                           borderRadius: BorderRadius.circular(10)),
                       focusedBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(width: 2.0, color: Color(0xFF005792)),
+                              BorderSide(width: 1.0, color: Color(0xFF005792)),
                           borderRadius: BorderRadius.circular(10))),
                 ),
                 onChanged: print,
