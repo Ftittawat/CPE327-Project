@@ -31,6 +31,8 @@ class _TestHomeState extends State<TestHome> {
       await FirebaseAuth.instance.authStateChanges().listen((event) {
         // displayName = event!.displayName!;
         // print("DisplayName : " + displayName);
+        displayName = FirebaseAuth.instance.currentUser!.email!;
+        print("### DisplayName = " + displayName);
       });
     });
   }
@@ -331,9 +333,9 @@ class _TestHomeState extends State<TestHome> {
         backgroundColor: Colors.white,
         foregroundColor: Color(0xFF005792),
         toolbarHeight: 60,
-        title: Text(FirebaseAuth.instance.currentUser?.displayName ?? 'No Name',
+        title: Text(FirebaseAuth.instance.currentUser?.email ?? 'Hi',
             style: GoogleFonts.montserrat(
-                fontSize: 27,
+                fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: Color(0xFF000000))),
         actions: <Widget>[
@@ -346,7 +348,11 @@ class _TestHomeState extends State<TestHome> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Login()),
-                );
+                ).then((value) {
+                  setState(() {
+                    print(" ## Set State Work");
+                  });
+                });
               },
             ),
           ),
