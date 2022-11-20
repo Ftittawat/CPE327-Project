@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/components/filterChoice.dart';
 
-import 'package:helpee/screens/ListRequest.dart';
 import 'package:helpee/screens/loginwithgoogle.dart';
 import 'package:helpee/screens/profile.dart';
 import 'package:helpee/screens/showallrequest.dart';
@@ -27,6 +26,7 @@ class _TestHomeState extends State<TestHome> {
   final user = FirebaseAuth.instance.currentUser;
 
   final uid = FirebaseAuth.instance.currentUser?.uid;
+  String keywords = "";
 
   late String name, email, displayName;
   var loginKey;
@@ -34,7 +34,6 @@ class _TestHomeState extends State<TestHome> {
   var checkKey;
   @override
   void initState() {
-    displayAllRequest();
     super.initState();
 
     print("--- ### AllRequest ### ---");
@@ -43,29 +42,15 @@ class _TestHomeState extends State<TestHome> {
 
     checkKey = check();
     print("Check = " + checkKey.toString());
-
   }
 
-  // Search function
-  List searchResult = [];
+  // void displayAllRequest() async {
+  //   final result = await FirebaseFirestore.instance.collection('Request').get();
 
-  void searchFromFirebase(String query) async {
-    final result = await FirebaseFirestore.instance
-        .collection('Request')
-        .where("Topic", isGreaterThanOrEqualTo: query)
-        .get();
-    setState(() {
-      searchResult = result.docs.map((e) => e.data()).toList();
-    });
-  }
-
-  void displayAllRequest() async {
-    final result = await FirebaseFirestore.instance.collection('Request').get();
-
-    setState(() {
-      searchResult = result.docs.map((e) => e.data()).toList();
-    });
-  }
+  //   setState(() {
+  //     searchResult = result.docs.map((e) => e.data()).toList();
+  //   });
+  // }
 
   /*---------------------- Search Box ---------------------- */
   Widget searchBox() {
@@ -95,7 +80,9 @@ class _TestHomeState extends State<TestHome> {
             borderRadius: BorderRadius.circular(10)),
       ),
       onChanged: (query) {
-        searchFromFirebase(query);
+        setState(() {
+          keywords = query;
+        });
       },
     );
   }
@@ -360,87 +347,6 @@ class _TestHomeState extends State<TestHome> {
           children: [
             Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 10), child: searchBox()),
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(5, 0, 0, 3),
-            //   child: Align(
-            //     alignment: Alignment.centerLeft,
-            //     child: Row(
-            //       children: const [
-            //         Icon(
-            //           Icons.warning,
-            //           size: 25,
-            //           color: Color.fromARGB(255, 255, 164, 19),
-            //         ),
-            //         Text(
-            //           " In Progress",
-            //           style: TextStyle(
-            //             fontSize: 20,
-            //             fontWeight: FontWeight.w700,
-            //             color: Colors.black,
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-            // Padding(
-            //   padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-            //   child: Expanded(
-            //     child: SizedBox(
-            //       height: 60,
-            //       child: ListView.builder(
-            //         itemCount: inprogress.length,
-            //         itemBuilder: (BuildContext context, int index) {
-            //           ListRequest request = inprogress[index];
-            //           return Card(
-            //               child: ListTile(
-            //                   /* ----------------- Title ---------------- */
-            //                   title: Text(
-            //                     request.title,
-            //                     style: TextStyle(
-            //                         fontSize: 20,
-            //                         fontWeight: FontWeight.w700,
-            //                         color: Color(0xFF005792)),
-            //                   ),
-            //                   subtitle: Column(
-            //                     children: [
-            //                       /* ----------------- Date Time ---------------- */
-            //                       Padding(
-            //                         padding: const EdgeInsets.only(bottom: 3),
-            //                         child: Align(
-            //                           alignment: Alignment.centerLeft,
-            //                           child: Text(
-            //                             "start time 22 Oct 2022, 10:22",
-            //                             style: TextStyle(
-            //                               fontSize: 13,
-            //                               fontWeight: FontWeight.w400,
-            //                               color: Colors.grey.shade400,
-            //                             ),
-            //                           ),
-            //                         ),
-            //                       ),
-            //                     ],
-            //                   ),
-            //                   dense: true,
-            //                   // enabled: Text(true),
-            //                   isThreeLine: true,
-            //                   onTap: () {
-            //                     Navigator.push(
-            //                         context,
-            //                         MaterialPageRoute(
-            //                           builder: (context) =>
-            //                               ShowAllRequestScreen(
-            //                                   listRequest: request),
-            //                         ));
-            //                   }));
-            //         },
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // Divider(),
-            Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 10), child: searchBox()),
             Padding(
               padding: const EdgeInsets.fromLTRB(5, 0, 0, 3),
               child: Align(
@@ -453,7 +359,7 @@ class _TestHomeState extends State<TestHome> {
                       color: Color.fromARGB(255, 255, 164, 19),
                     ),
                     Text(
-                      " In Progress",
+                      " In Progresssss",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
@@ -464,165 +370,260 @@ class _TestHomeState extends State<TestHome> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-              child: SizedBox(
-                height: 60,
-                child: ListView.builder(
-                  itemCount: inprogress.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    ListRequest request = inprogress[index];
-                    return Card(
-                        child: ListTile(
-                            /* ----------------- Title ---------------- */
-                            title: Text(
-                              request.title,
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color(0xFF005792)),
-                            ),
-                            subtitle: Column(
-                              children: [
-                                /* ----------------- Date Time ---------------- */
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 3),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "start time 22 Oct 2022, 10:22",
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.grey.shade400,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            dense: true,
-                            // enabled: Text(true),
-                            isThreeLine: true,
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ShowAllRequestScreen(
-                                        listRequest: request),
-                                  ));
-                            }));
-                  },
-                ),
-              ),
-              padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-              child:
-                  Align(alignment: Alignment.centerLeft, child: filterButton()),
-            ),
+            Divider(),
             Expanded(
-              child: ListView.builder(
-                itemCount: searchResult.length,
-                itemBuilder: (BuildContext context, int index) {
-                  DateTime? dateTime;
-                  if (searchResult[index]['Create Time'] != null) {
-                    Timestamp t =
-                        searchResult[index]['Create Time'] as Timestamp;
-                    dateTime = t.toDate();
-                  }
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection("Request")
+                    // .where("Status", isEqualTo: "Available")
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  return (snapshot.connectionState == ConnectionState.waiting)
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ListView.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            var data = snapshot.data!.docs[index].data()
+                                as Map<String, dynamic>;
 
-                  return Card(
-                    child: ListTile(
-                        /* ----------------- Title ---------------- */
-                        title: Text(
-                          "Topic: ${searchResult[index]["Topic"]}",
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF005792)),
-                        ),
-                        subtitle: Column(
-                          children: [
-                            /* ----------------- Category ---------------- */
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Category.tag(
-                                    "${searchResult[index]['category']}"),
-                              ),
-                            ),
-                            /* ----------------- Subtitle ---------------- */
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                              child: Text(
-                                "Subtitle: ${searchResult[index]['Descrition']}",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            /* ----------------- Distance ---------------- */
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Row(
-                                  children: [
-                                    /* ----------------- Distance Icon ---------------- */
-                                    Icon(
-                                      Icons.location_on_outlined,
-                                      size: 18,
-                                      color: Colors.black,
-                                    ),
-                                    /* ----------------- Distance Text ---------------- */
-                                    Text(
-                                      "Distance ${searchResult[index]['distance']} kilometers.",
+                            // Convert Timestamp to DateTime
+                            DateTime? dateTime;
+                            if (data['Create Time'] != null) {
+                              Timestamp t = data['Create Time'] as Timestamp;
+                              dateTime = t.toDate();
+                            }
+
+                            // empty keywords
+                            if (keywords.isEmpty) {
+                              return Card(
+                                child: ListTile(
+                                    /* ----------------- Title ---------------- */
+                                    title: Text(
+                                      "Topic: ${data["Topic"]}",
                                       style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.black,
-                                      ),
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF005792)),
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            /* ----------------- Date Time ---------------- */
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 5),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  dateTime == null
-                                      ? "time is null"
-                                      : "Created Time : ${dateTime!.day}/${dateTime!.month}/${dateTime!.year}, ${dateTime.hour}:${dateTime.minute}",
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey.shade400,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        // enabled: Text(true),
-                        trailing: Icon(Icons.person),
-                        isThreeLine: true,
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ShowAllRequestScreen(
-                                    data: searchResult[index]),
-                              ));
-                        }),
-                  );
+                                    subtitle: Column(
+                                      children: [
+                                        /* ----------------- Category ---------------- */
+                                        Padding(
+                                          padding:
+                                              EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Category.tag(
+                                                "${data['category']}"),
+                                          ),
+                                        ),
+                                        /* ----------------- Subtitle ---------------- */
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 5, 0, 5),
+                                          child: Text(
+                                            "Subtitle: ${data['Descrition']}",
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                        /* ----------------- Distance ---------------- */
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 0, 0, 5),
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Row(
+                                              children: [
+                                                /* ----------------- Distance Icon ---------------- */
+                                                Icon(
+                                                  Icons.location_on_outlined,
+                                                  size: 18,
+                                                  color: Colors.black,
+                                                ),
+                                                /* ----------------- Distance Text ---------------- */
+                                                Text(
+                                                  "Distance ${data['distance']} kilometers.",
+                                                  style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        /* ----------------- Date Time ---------------- */
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 5),
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              dateTime == null
+                                                  ? "Created at : Unknown"
+                                                  : "Created at : ${dateTime!.day}/${dateTime!.month}/${dateTime!.year}, ${dateTime.hour}:${dateTime.minute}",
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.grey.shade400,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        /* ----------------- Created By ---------------- */
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 5),
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              data['Created By'] == null
+                                                  ? "Created By : Anonymous"
+                                                  : "Created By : ${data['Created By']}",
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.grey.shade400,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    trailing: Icon(Icons.person),
+                                    isThreeLine: true,
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ShowAllRequestScreen(
+                                              data: data,
+                                              docID:
+                                                  snapshot.data!.docs[index].id,
+                                            ),
+                                          ));
+                                      print(
+                                          "docID : ${snapshot.data!.docs[index].id}");
+                                    }),
+                              );
+                            }
+                            // entered keywords
+                            if (data["Topic"]
+                                .toString()
+                                .toLowerCase()
+                                .contains(keywords.toLowerCase())) {
+                              return Card(
+                                child: ListTile(
+                                    /* ----------------- Title ---------------- */
+                                    title: Text(
+                                      "Topic: ${data["Topic"]}",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF005792)),
+                                    ),
+                                    subtitle: Column(
+                                      children: [
+                                        /* ----------------- Category ---------------- */
+                                        Padding(
+                                          padding:
+                                              EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Category.tag(
+                                                "${data['category']}"),
+                                          ),
+                                        ),
+                                        /* ----------------- Subtitle ---------------- */
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 5, 0, 5),
+                                          child: Text(
+                                            "Subtitle: ${data['Descrition']}",
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                        /* ----------------- Distance ---------------- */
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 0, 0, 5),
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Row(
+                                              children: [
+                                                /* ----------------- Distance Icon ---------------- */
+                                                Icon(
+                                                  Icons.location_on_outlined,
+                                                  size: 18,
+                                                  color: Colors.black,
+                                                ),
+                                                /* ----------------- Distance Text ---------------- */
+                                                Text(
+                                                  "Distance ${data['distance']} kilometers.",
+                                                  style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        /* ----------------- Date Time ---------------- */
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 5),
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              dateTime == null
+                                                  ? "time is null"
+                                                  : "Created Time : ${dateTime!.day}/${dateTime!.month}/${dateTime!.year}, ${dateTime.hour}:${dateTime.minute}",
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.grey.shade400,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    trailing: Icon(Icons.person),
+                                    isThreeLine: true,
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ShowAllRequestScreen(
+                                              data: data,
+                                              docID:
+                                                  snapshot.data!.docs[index].id,
+                                            ),
+                                          ));
+                                    }),
+                              );
+                            }
+                            return Container();
+                          },
+                        );
                 },
               ),
-            ),
+            )
           ],
         ),
       ),

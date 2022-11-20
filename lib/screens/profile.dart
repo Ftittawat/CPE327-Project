@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/screens/setting.dart';
+import 'package:helpee/screens/showallrequest.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 import '../components/authen_service.dart';
@@ -22,7 +24,6 @@ class _ProfileState extends State<Profile> {
   var loginKey;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print("--- ### Proflie ### ---");
     loginCheck();
@@ -112,11 +113,11 @@ class _ProfileState extends State<Profile> {
                           fontWeight: FontWeight.w600,
                           color: Colors.black)),
                   contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  // content: Text("Are You Sure?",
-                  //     style: GoogleFonts.montserrat(
-                  //         fontSize: 14,
-                  //         fontWeight: FontWeight.w500,
-                  //         color: Colors.black)),
+                  content: Text("ยังลบไม่ได้นะจ้ะ",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black)),
                   actions: [
                     TextButton(
                       onPressed: () {
@@ -148,6 +149,131 @@ class _ProfileState extends State<Profile> {
           splashRadius: 15,
           color: Colors.grey.shade400,
         ));
+  }
+
+  Widget userRequestHistory(String status) {
+    return Expanded(
+      child: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection("Request")
+            .where("Accepted by",
+                isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+            .where("Status", isEqualTo: status)
+            .snapshots(),
+        builder: (context, snapshot) {
+          return (snapshot.connectionState == ConnectionState.waiting)
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : ListView.builder(
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    var data = snapshot.data!.docs[index].data()
+                        as Map<String, dynamic>;
+
+                    // Convert Timestamp to DateTime
+                    DateTime? dateTime;
+                    if (data['Create Time'] != null) {
+                      Timestamp t = data['Create Time'] as Timestamp;
+                      dateTime = t.toDate();
+                    }
+                    return Card(
+                      child: ListTile(
+                          /* ----------------- Title ---------------- */
+                          title: Text(
+                            "Topic: ${data["Topic"]}",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF005792)),
+                          ),
+                          subtitle: Column(
+                            children: [
+                              /* ----------------- Category ---------------- */
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Category.tag("${data['category']}"),
+                                ),
+                              ),
+                              /* ----------------- Subtitle ---------------- */
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                child: Text(
+                                  "Subtitle: ${data['Descrition']}",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              /* ----------------- Distance ---------------- */
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Row(
+                                    children: [
+                                      /* ----------------- Distance Icon ---------------- */
+                                      Icon(
+                                        Icons.location_on_outlined,
+                                        size: 18,
+                                        color: Colors.black,
+                                      ),
+                                      /* ----------------- Distance Text ---------------- */
+                                      Text(
+                                        "Distance ${data['distance']} kilometers.",
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              /* ----------------- Date Time ---------------- */
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 5),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    dateTime == null
+                                        ? "time is null"
+                                        : "Created Time : ${dateTime!.day}/${dateTime!.month}/${dateTime!.year}, ${dateTime.hour}:${dateTime.minute}",
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.grey.shade400,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          // trailing: Icon(Icons.person),
+                          // isThreeLine: true,
+                          // onTap: () {
+                          //   Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //         builder: (context) => ShowAllRequestScreen(
+                          //           data: data,
+                          //           docID: snapshot.data!.docs[index].id,
+                          //         ),
+                          //       ));
+                          // },
+                          trailing: deleteButton(),
+                          isThreeLine: true,
+                          onTap: () {}),
+                    );
+                  });
+        },
+      ),
+    );
   }
 
   Widget requesthistory() {
@@ -205,10 +331,9 @@ class _ProfileState extends State<Profile> {
       color: Colors.white,
       child: SizedBox(
         child: DefaultTabController(
-          length: 2,
+          length: 3,
           initialIndex: 0,
           child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(
                 height: 30,
@@ -225,14 +350,21 @@ class _ProfileState extends State<Profile> {
                     ),
                     tabs: [
                       Tab(
-                        child: Text("Your request",
+                        child: Text("Available",
                             style: GoogleFonts.montserrat(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                             )),
                       ),
                       Tab(
-                        child: Text("Provide assistance",
+                        child: Text("In progress",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            )),
+                      ),
+                      Tab(
+                        child: Text("Completed",
                             style: GoogleFonts.montserrat(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -240,37 +372,21 @@ class _ProfileState extends State<Profile> {
                       ),
                     ]),
               ),
-              SizedBox(
-                height: 190,
-                child: TabBarView(children: [
-                  Center(
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                            child: requesthistory(),
-                          )
-                        ],
-                      ),
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    Column(
+                      children: [userRequestHistory("Available")],
                     ),
-                  ),
-                  Center(
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                            child: requesthistory(),
-                          )
-                        ],
-                      ),
+                    Column(
+                      children: [userRequestHistory("In Progress")],
                     ),
-                  ),
-                ]),
-              )
+                    Column(
+                      children: [userRequestHistory("Completed")],
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -402,7 +518,7 @@ class _ProfileState extends State<Profile> {
                 padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("History",
+                  child: Text("History request",
                       style: GoogleFonts.montserrat(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
