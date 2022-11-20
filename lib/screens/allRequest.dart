@@ -354,7 +354,7 @@ class _TestHomeState extends State<TestHome> {
             style: GoogleFonts.montserrat(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
-                color: Color(0xFF000000))),
+                color: Colors.black)),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 20),
