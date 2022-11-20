@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:helpee/main.dart';
 import 'package:helpee/screens/setting.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
@@ -25,7 +26,8 @@ class _ProfileState extends State<Profile> {
     // TODO: implement initState
     super.initState();
     print("--- ### Proflie ### ---");
-    loginCheck();
+    checkKey = check();
+    print("Check = " + checkKey.toString());
   }
 
   Future<Null> loginCheck() async {
