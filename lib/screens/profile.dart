@@ -332,8 +332,7 @@ class _ProfileState extends State<Profile> {
                   backgroundColor: Colors.grey.shade400,
                   radius: 80,
                   backgroundImage: NetworkImage(
-                      FirebaseAuth.instance.currentUser?.photoURL ??
-                          "assets/images/Memoji.png"),
+                      FirebaseAuth.instance.currentUser?.photoURL ?? ""),
                   // backgroundImage: NetworkImage(
                   //     user?.photoURL! ?? "assets/images/Memoji.png"),
                 ),

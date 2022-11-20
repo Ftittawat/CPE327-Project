@@ -44,6 +44,18 @@ Future<Null> loginCheck() async {
   });
 }
 
+List<String> docIDs = [];
+
+Future getDocId() async {
+  await FirebaseFirestore.instance
+      .collection('user')
+      .get()
+      .then((snapshot) => snapshot.docs.forEach((document) {
+            print(document.reference);
+            docIDs.add(document.reference.id);
+          }));
+}
+
 // Future<Null> processSignInGoogle() async {
 //   late String email, password, name, uid;
 //   print(" # Logging in ... #");
