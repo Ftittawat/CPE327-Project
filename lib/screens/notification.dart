@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/screens/shownotification.dart';
 
+import '../components/authen_service.dart';
 import 'ListNotification.dart';
 
 class Notificationscreen extends StatefulWidget {
@@ -14,6 +15,16 @@ class Notificationscreen extends StatefulWidget {
 const darkblue = Color(0xFF005792);
 
 class _NotificationscreenState extends State<Notificationscreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("--- ### Notification ### ---");
+
+    int checkKey = check();
+    print("Check = " + checkKey.toString());
+  }
+
   /* group data */
   List<ListNotification> listnotification = [
     ListNotification(1, "Request accepted.", "Your request has been assisted."),

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +12,7 @@ import 'package:helpee/screens/showallrequest.dart';
 
 import '../components/authen_service.dart';
 import '../components/category.dart';
+import '../models/user_models.dart';
 import 'login.dart';
 
 class TestHome extends StatefulWidget {
@@ -22,34 +24,23 @@ class TestHome extends StatefulWidget {
 
 class _TestHomeState extends State<TestHome> {
   final user = FirebaseAuth.instance.currentUser;
+
+  final uid = FirebaseAuth.instance.currentUser?.uid;
+
   late String name, email, displayName;
   var loginKey;
   bool loginKey2 = true;
+  var checkKey;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     print("--- ### AllRequest ### ---");
-    loginCheck();
-  }
 
-  Future<Null> loginCheck() async {
-    await Firebase.initializeApp().then((value) async {
-      await FirebaseAuth.instance.authStateChanges().listen((User? user) async {
-        if (user == null) {
-          print('User is currently signed out!');
-          loginKey = 0;
-          loginKey2 = true;
-          print(loginKey2);
-        } else {
-          print('User is signed in! ${user.displayName}');
-          loginKey = 1;
-          loginKey2 = false;
-          print(loginKey2);
-        }
-        print(loginKey != null ? '==> LoginKey : $loginKey' : "Empty");
-      });
-    });
+    print(uid);
+
+    checkKey = check();
+    print("Check = " + checkKey.toString());
   }
 
   /* group data */
@@ -358,7 +349,7 @@ class _TestHomeState extends State<TestHome> {
         backgroundColor: Colors.white,
         foregroundColor: Color(0xFF005792),
         toolbarHeight: 60,
-        title: Text(FirebaseAuth.instance.currentUser?.email ?? 'Hi',
+        title: Text(FirebaseAuth.instance.currentUser?.displayName ?? 'Hi',
             style: GoogleFonts.montserrat(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
@@ -366,7 +357,7 @@ class _TestHomeState extends State<TestHome> {
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 20),
-            child: loginKey2
+            child: checkKey == 0
                 ? IconButton(
                     icon: const Icon(Icons.person),
                     splashRadius: 20,
@@ -383,7 +374,7 @@ class _TestHomeState extends State<TestHome> {
                     },
                   )
                 : IconButton(
-                    icon: const Icon(Icons.alarm),
+                    icon: const Icon(Icons.logout),
                     splashRadius: 20,
                     onPressed: () {},
                   ),

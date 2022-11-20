@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,6 +34,7 @@ class _CreateRequestState extends State<CreateRequest> {
   TextEditingController AddressController = TextEditingController();
   TextEditingController ZipCodeController = TextEditingController();
   File? file;
+  String? picURL;
 
   Widget textLabel(String nametext) {
     return Padding(
@@ -134,13 +137,13 @@ class _CreateRequestState extends State<CreateRequest> {
     );
   }
 
-
   Widget categoryBox() {
     return DropdownSearch<String>(
       popupProps: PopupProps.menu(
         showSearchBox: true,
         showSelectedItems: true,
         searchFieldProps: TextFieldProps(
+
           cursorColor: Color(0xFF005792),
           style: GoogleFonts.montserrat(
               fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
@@ -185,7 +188,6 @@ class _CreateRequestState extends State<CreateRequest> {
       onChanged: print,
     );
   }
-
 
   Widget addressBox() {
     return TextFormField(
@@ -339,17 +341,51 @@ class _CreateRequestState extends State<CreateRequest> {
       ),
     );
   }
+  // Future<void> showAlert(String title,String message) async{
+  //   showDialog(context: context,
+  //   builder: (BuildContext context) {
+  //     return AlertDialog(
+  //       title: Text(title),
+  //       content: Text(message),
+  //       actions: <Widget>[
+  //         createButton(
+  //           onpress
+  //         )
+  //       ],
+  //     )
+
+  //   },);
+
+  // }
+
+  Future<void> uploadPicture() async {
+    Random random = Random();
+    int i = random.nextInt(10000);
+
+    FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+    Reference reference =
+        firebaseStorage.ref().child('RequestPic/Request$i.png');
+    UploadTask uploadTask = reference.putFile(file!);
+
+    picURL = await (await uploadTask).ref.getDownloadURL();
+    print('URL = $picURL');
+    //Uri pic = Uri.file(new File(file));
+  }
 
   Widget createButton() {
     return ElevatedButton(
       onPressed: () async {
         if (file == null) {
-         
+          print('file = null');
+        } else {
+          await uploadPicture();
         }
         await requestCollection.add({
           "Topic": TopicController.text,
           "Description": DescriptionController.text,
           "Create Time": DateTime.now(),
+          "Created By": FirebaseAuth.instance.currentUser?.uid,
+          "Picture": picURL,
           //"Category": CategoryController.text
         });
         TopicController.clear();
