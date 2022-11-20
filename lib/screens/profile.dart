@@ -331,9 +331,8 @@ class _ProfileState extends State<Profile> {
                     backgroundColor: Colors.grey.shade400,
                     radius: 80,
                     backgroundImage: NetworkImage(
-                      FirebaseAuth.instance.currentUser?.photoURL ?? ""),
+                        FirebaseAuth.instance.currentUser!.photoURL.toString()),
                   ),
-
                 ),
                 /* ----------------- Username ---------------- */
                 Padding(
