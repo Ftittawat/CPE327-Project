@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/screens/setting.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
+import '../components/authen_service.dart';
 import '../components/category.dart';
 import 'ListRequest.dart';
 
@@ -14,6 +17,32 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final user = FirebaseAuth.instance.currentUser;
+  late String name, email, displayName;
+  var loginKey;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("--- ### Proflie ### ---");
+    loginCheck();
+  }
+
+  Future<Null> loginCheck() async {
+    await Firebase.initializeApp().then((value) async {
+      await FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+        if (user == null) {
+          print('User is currently signed out!');
+          loginKey = 0;
+        } else {
+          print('User is signed in! ${user.displayName}');
+          loginKey = 1;
+        }
+        print(loginKey != null ? '==> LoginKey : $loginKey' : "Empty");
+      });
+    });
+  }
+
   /* group data */
   List<ListRequest> list_request = [
     ListRequest(
@@ -29,7 +58,7 @@ class _ProfileState extends State<Profile> {
     ListRequest(
         "Repair pipe",
         "The water pipe has a crack, Please fix the water pipes for me.",
-        "Electronic",
+        "Electric",
         2.0),
   ];
 
@@ -69,7 +98,51 @@ class _ProfileState extends State<Profile> {
     return Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
         child: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                  title: Text("Delete",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black)),
+                  contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                  // content: Text("Are You Sure?",
+                  //     style: GoogleFonts.montserrat(
+                  //         fontSize: 14,
+                  //         fontWeight: FontWeight.w500,
+                  //         color: Colors.black)),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF005792)),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Delete",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF005792)),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
           icon: Icon(Icons.delete_outlined),
           iconSize: 20,
           splashRadius: 15,
@@ -205,6 +278,13 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+//   getProfileImage() {
+//     if (FirebaseAuth.instance.currentUser?.photoURL != null) {
+//       return Image.network(
+// ;
+//     } else {}
+//   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -232,7 +312,11 @@ class _ProfileState extends State<Profile> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Setting()),
-                );
+                ).then((value) {
+                  setState(() {
+                    print("Set State");
+                  });
+                });
               },
             ),
           ],
@@ -247,13 +331,19 @@ class _ProfileState extends State<Profile> {
                 child: CircleAvatar(
                   backgroundColor: Colors.grey.shade400,
                   radius: 80,
-                  backgroundImage: AssetImage("assets/images/Memoji.png"),
+                  backgroundImage: NetworkImage(
+                      FirebaseAuth.instance.currentUser?.photoURL ??
+                          "assets/images/Memoji.png"),
+                  // backgroundImage: NetworkImage(
+                  //     user?.photoURL! ?? "assets/images/Memoji.png"),
                 ),
               ),
               /* ----------------- Username ---------------- */
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: Text("Tittawat",
+                child: Text(
+                    FirebaseAuth.instance.currentUser?.displayName ??
+                        'DisplayName',
                     style: GoogleFonts.montserrat(
                         fontSize: 27,
                         fontWeight: FontWeight.w600,
@@ -292,19 +382,16 @@ class _ProfileState extends State<Profile> {
                       children: [
                         Padding(
                             padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child:
-                                skillbox('Mechanic', Colors.indigo.shade300)),
+                            child: Category.taginprofile('Mechanic')),
                         Padding(
                             padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child:
-                                skillbox('Technology', Colors.green.shade300)),
+                            child: Category.taginprofile('Electric')),
                         Padding(
                             padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child:
-                                skillbox('Electronic', Colors.pink.shade200)),
+                            child: Category.taginprofile('Technology')),
                         Padding(
                             padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: skillbox('Electronic', Colors.red.shade300)),
+                            child: Category.taginprofile('Wooden')),
                       ],
                     ),
                   ),

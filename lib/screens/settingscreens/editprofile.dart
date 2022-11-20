@@ -9,22 +9,37 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  Widget textLabel(String nametext) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+      child: Text(nametext,
+          style: GoogleFonts.montserrat(
+              fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black)),
+    );
+  }
+
   Widget usernameBox() {
     return TextField(
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-          hintText: 'Username',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
+          // hintText: 'Username',
+          // hintStyle: GoogleFonts.montserrat(
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w600,
+          //     color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
+              borderRadius: BorderRadius.circular(10)),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
       minLines: 1,
       cursorColor: Color(0xFF005792),
@@ -36,17 +51,23 @@ class _EditProfileState extends State<EditProfile> {
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-          hintText: 'E-mail',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
+          // hintText: 'E-mail',
+          // hintStyle: GoogleFonts.montserrat(
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w600,
+          //     color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
+              borderRadius: BorderRadius.circular(10)),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
       minLines: 1,
       cursorColor: Color(0xFF005792),
@@ -58,17 +79,23 @@ class _EditProfileState extends State<EditProfile> {
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-          hintText: 'Phone',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
+          // hintText: 'Phone',
+          // hintStyle: GoogleFonts.montserrat(
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w600,
+          //     color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
+              borderRadius: BorderRadius.circular(10)),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
       minLines: 1,
       cursorColor: Color(0xFF005792),
@@ -148,17 +175,38 @@ class _EditProfileState extends State<EditProfile> {
               /* ----------------- Edit Username ---------------- */
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: usernameBox(),
+                child: Column(
+                  children: [
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: textLabel('Username')),
+                    usernameBox(),
+                  ],
+                ),
               ),
               /* ----------------- Edit Email ---------------- */
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                child: emailBox(),
+                child: Column(
+                  children: [
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: textLabel('E-mail')),
+                    emailBox(),
+                  ],
+                ),
               ),
               /* ----------------- Edit Phone ---------------- */
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                child: phoneBox(),
+                child: Column(
+                  children: [
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: textLabel('Phone')),
+                    phoneBox(),
+                  ],
+                ),
               ),
               /* ----------------- Save Button ---------------- */
               Padding(

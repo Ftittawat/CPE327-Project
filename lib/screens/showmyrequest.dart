@@ -56,7 +56,7 @@ class ShowMyRequestScreen extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-              title: Text("Confirm",
+              title: Text("Cancel Request",
                   style: GoogleFonts.montserrat(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -199,13 +199,13 @@ class ShowMyRequestScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  SizedBox(
-                    height: 35.0,
-                    width: 150.0,
-                    child: editRequest(),
-                  ),
+                  // SizedBox(
+                  //   height: 35.0,
+                  //   width: 150.0,
+                  //   child: editRequest(),
+                  // ),
                   SizedBox(
                     height: 35.0,
                     width: 150.0,
