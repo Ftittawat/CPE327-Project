@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:helpee/screens/ListRequest.dart';
-import 'package:helpee/screens/allRequest.dart';
+import 'package:helpee/components/category.dart';
+import 'package:helpee/get_data/getMyRequest.dart';
+import 'package:helpee/models/ListRequest.dart';
+import 'package:helpee/screens/showallrequest.dart';
 import 'package:helpee/screens/showmyrequest.dart';
 
 class MyRequest extends StatefulWidget {
@@ -12,19 +15,40 @@ class MyRequest extends StatefulWidget {
 }
 
 class _MyRequestState extends State<MyRequest> {
-  /* group data */
-  List<ListRequest> list_request = [
-    ListRequest(
-        "Repair pipe",
-        "The water pipe has a crack, Please fix the water pipes for me.",
-        "Mechanic",
-        2.0),
-    ListRequest(
-        "My computer won't turn on",
-        "My computer was working fine before, But today my computer won't turn on. ",
-        "Technology",
-        3)
-  ];
+  // documents IDs
+  List<String> docIDs = [];
+
+  // get docIDs
+  Future getDocId() async {
+    await FirebaseFirestore.instance.collection('Request').get().then(
+          (snapshot) => snapshot.docs.forEach(
+            (document) {
+              // print(document.reference);
+              docIDs.add(document.reference.id);
+            },
+          ),
+        );
+  }
+
+  @override
+  void initState() {
+    // getDocId();
+    displayUserRequest();
+    super.initState();
+  }
+
+  List userRequested = [];
+
+  void displayUserRequest() async {
+    final result = await FirebaseFirestore.instance
+        .collection('Request')
+        .where("Topic", isGreaterThanOrEqualTo: 'test pic')
+        .get();
+
+    setState(() {
+      userRequested = result.docs.map((e) => e.data()).toList();
+    });
+  }
 
   /*---------------------- widgets ---------------------- */
   Widget searchBox() {
@@ -111,10 +135,10 @@ class _MyRequestState extends State<MyRequest> {
         toolbarHeight: 60,
         elevation: 0,
         backgroundColor: Colors.white,
-        title: Text("Ask for help",
+        title: Text("Your Request",
             style: GoogleFonts.montserrat(
                 fontSize: 18,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
                 color: Colors.black)),
       ),
 
@@ -123,57 +147,137 @@ class _MyRequestState extends State<MyRequest> {
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-              child: SizedBox(
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Your Request",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black)),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height - 210,
-                child: ListView.builder(
-                  itemCount: list_request.length, //fix bound of request
-                  itemBuilder: (BuildContext context, int index) {
-                    ListRequest request = list_request[index];
-                    return Card(
-                        child: ListTile(
-                            //leading: Text("test"),
-                            title: Text(
-                              request.title,
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF005792)),
-                            ),
-                            subtitle: Text(
-                              "${request.subtitle}\n22 Oct 2022, 10:22",
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: Colors.black,
+            // Padding(
+            //   padding: EdgeInsets.fromLTRB(10, 0, 0, 5),
+            //   child: SizedBox(
+            //     child: Align(
+            //       alignment: Alignment.centerLeft,
+            //       child: Text("Your Request",
+            //           style: GoogleFonts.montserrat(
+            //               fontSize: 16,
+            //               fontWeight: FontWeight.w700,
+            //               color: Colors.black)),
+            //     ),
+            //   ),
+            // ),
+            // This comment below is the widget that show all request by
+            // Expanded(
+            //   child: FutureBuilder(
+            //     future: getDocId(),
+            //     builder: (context, snapshot) {
+            //       return ListView.builder(
+            //         itemCount: docIDs.length,
+            //         itemBuilder: ((context, index) {
+            //           return GetMyRequests(documentID: docIDs[index]);
+            //         }),
+            //       );
+            //     },
+            //   ),
+            // ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: userRequested.length,
+                itemBuilder: (BuildContext context, int index) {
+                  DateTime? dateTime;
+                  if (userRequested[index]["Create Time"] != null) {
+                    Timestamp t =
+                        userRequested[index]["Create Time"] as Timestamp;
+                    dateTime = t.toDate();
+                  }
+                  return Card(
+                    child: ListTile(
+                        /* ----------------- Title ---------------- */
+                        title: Text(
+                          "Topic: ${userRequested[index]["Topic"]}",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF005792)),
+                        ),
+                        subtitle: Column(
+                          children: [
+                            /* ----------------- Category ---------------- */
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Category.tag(
+                                    "${userRequested[index]['category']}"),
                               ),
                             ),
-                            // enabled: Text(true),
-                            trailing: cancelButton(),
-                            isThreeLine: true,
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ShowMyRequestScreen(
-                                        listRequest: request),
-                                  ));
-                            }));
-                  },
-                ),
+                            /* ----------------- Subtitle ---------------- */
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                              child: Text(
+                                userRequested[index]['Descrition'] == null
+                                    ? "Subtitle: No details."
+                                    : "Subtitle: ${userRequested[index]['Descrition']}",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            /* ----------------- Distance ---------------- */
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  children: [
+                                    /* ----------------- Distance Icon ---------------- */
+                                    Icon(
+                                      Icons.location_on_outlined,
+                                      size: 18,
+                                      color: Colors.black,
+                                    ),
+                                    /* ----------------- Distance Text ---------------- */
+                                    Text(
+                                      userRequested[index]['distance'] == null
+                                          ? "Not specified distance."
+                                          : "Distance ${userRequested[index]['distance']} kilometers.",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            /* ----------------- Date Time ---------------- */
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  dateTime == null
+                                      ? "time is null"
+                                      : "Created Time : ${dateTime!.day}/${dateTime!.month}/${dateTime!.year}, ${dateTime.hour}:${dateTime.minute}",
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.grey.shade400,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        trailing: Icon(Icons.person),
+                        isThreeLine: true,
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ShowAllRequestScreen(
+                                    data: userRequested[index]),
+                              ));
+                        }),
+                  );
+                },
               ),
             ),
           ],

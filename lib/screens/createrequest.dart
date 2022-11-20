@@ -244,32 +244,27 @@ class _CreateRequestState extends State<CreateRequest> {
   }
 
   Widget imageBox() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-            child: Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            ElevatedButton.icon(
-              onPressed: () {
-                chooseImage(ImageSource.camera);
-              },
-              icon: Icon(Icons.add_a_photo), //icon data for elevated button
-              label: Text("Upload Image"), //label text
-            ),
-            Text("      "),
-            ElevatedButton.icon(
-              onPressed: () {
-                chooseImage(ImageSource.gallery);
-              },
-              icon: Icon(
-                  Icons.add_photo_alternate), //icon data for elevated button
-              label: Text("Choose Image"), //label text
-            )
-          ],
-        )),
-      ],
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ElevatedButton.icon(
+            onPressed: () {
+              chooseImage(ImageSource.camera);
+            },
+            icon: Icon(Icons.add_a_photo), //icon data for elevated button
+            label: Text("Upload Image"), //label text
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              chooseImage(ImageSource.gallery);
+            },
+            icon:
+                Icon(Icons.add_photo_alternate), //icon data for elevated button
+            label: Text("Choose Image"), //label text
+          )
+        ],
+      ),
     );
     // return Container(
     //   height: 180,
