@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:helpee/screens/ListRequest.dart';
+import 'package:helpee/models/ListRequest.dart';
 
 import '../components/category.dart';
 
 class ShowAllRequestScreen extends StatelessWidget {
-  final ListRequest listRequest;
-  const ShowAllRequestScreen({super.key, required this.listRequest});
+  // final ListRequest listRequest;
+  final data;
+  // const ShowAllRequestScreen({super.key, required this.listRequest});
+  const ShowAllRequestScreen({super.key, required this.data});
 
   Widget imageBox() {
     return Container(
@@ -113,7 +115,8 @@ class ShowAllRequestScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(listRequest.title,
+                child: Text("Topic: ${data["Topic"]}",
+                    // listRequest.title,
                     style: GoogleFonts.montserrat(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
@@ -125,7 +128,7 @@ class ShowAllRequestScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Category.tag(listRequest.category),
+                child: Category.tag("${data["category"]}"),
               ),
             ),
             /* ----------------- Sub Title ---------------- */
@@ -133,7 +136,7 @@ class ShowAllRequestScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Align(
                 alignment: Alignment.topLeft,
-                child: Text(listRequest.subtitle,
+                child: Text("Subtitle: ${data['Descrition']}",
                     style: GoogleFonts.montserrat(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -150,7 +153,7 @@ class ShowAllRequestScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text('15 Oct 2022, 22:00 ',
+                child: Text("${data["Create Time"]}",
                     style: GoogleFonts.montserrat(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,

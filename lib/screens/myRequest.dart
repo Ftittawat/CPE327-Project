@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:helpee/screens/ListRequest.dart';
-import 'package:helpee/screens/allRequest.dart';
+import 'package:helpee/get_data/getMyRequest.dart';
+import 'package:helpee/models/ListRequest.dart';
 import 'package:helpee/screens/showmyrequest.dart';
 
 class MyRequest extends StatefulWidget {
@@ -12,19 +13,26 @@ class MyRequest extends StatefulWidget {
 }
 
 class _MyRequestState extends State<MyRequest> {
-  /* group data */
-  List<ListRequest> list_request = [
-    ListRequest(
-        "Repair pipe",
-        "The water pipe has a crack, Please fix the water pipes for me.",
-        "Mechanic",
-        2.0),
-    ListRequest(
-        "My computer won't turn on",
-        "My computer was working fine before, But today my computer won't turn on. ",
-        "Technology",
-        3)
-  ];
+  // documents IDs
+  List<String> docIDs = [];
+
+  // get docIDs
+  Future getDocId() async {
+    await FirebaseFirestore.instance.collection('Request').get().then(
+          (snapshot) => snapshot.docs.forEach(
+            (document) {
+              // print(document.reference);
+              docIDs.add(document.reference.id);
+            },
+          ),
+        );
+  }
+
+  @override
+  void initState() {
+    // getDocId();
+    super.initState();
+  }
 
   /*---------------------- widgets ---------------------- */
   Widget searchBox() {
@@ -136,44 +144,17 @@ class _MyRequestState extends State<MyRequest> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height - 210,
-                child: ListView.builder(
-                  itemCount: list_request.length, //fix bound of request
-                  itemBuilder: (BuildContext context, int index) {
-                    ListRequest request = list_request[index];
-                    return Card(
-                        child: ListTile(
-                            //leading: Text("test"),
-                            title: Text(
-                              request.title,
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF005792)),
-                            ),
-                            subtitle: Text(
-                              "${request.subtitle}\n22 Oct 2022, 10:22",
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: Colors.black,
-                              ),
-                            ),
-                            // enabled: Text(true),
-                            trailing: cancelButton(),
-                            isThreeLine: true,
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ShowMyRequestScreen(
-                                        listRequest: request),
-                                  ));
-                            }));
-                  },
-                ),
+            Expanded(
+              child: FutureBuilder(
+                future: getDocId(),
+                builder: (context, snapshot) {
+                  return ListView.builder(
+                    itemCount: docIDs.length,
+                    itemBuilder: ((context, index) {
+                      return GetMyRequests(documentID: docIDs[index]);
+                    }),
+                  );
+                },
               ),
             ),
           ],

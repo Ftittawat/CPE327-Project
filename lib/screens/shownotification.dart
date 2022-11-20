@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/screens/notification.dart';
 
-import 'ListNotification.dart';
+import '../models/ListNotification.dart';
 
 class ShowNotificationScreen extends StatelessWidget {
   final ListNotification listNotification;

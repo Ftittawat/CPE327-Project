@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/screens/shownotification.dart';
 
-import 'ListNotification.dart';
+import '../models/ListNotification.dart';
 
 class Notificationscreen extends StatefulWidget {
   const Notificationscreen({super.key});

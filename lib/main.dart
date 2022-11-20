@@ -39,10 +39,11 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Widget createrequestIcon() {
     return SizedBox(
-        child: Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100), color: Color(0xFF005792)),
-    ));
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100), color: Color(0xFF005792)),
+      ),
+    );
   }
 
   int currentIndex = 0;

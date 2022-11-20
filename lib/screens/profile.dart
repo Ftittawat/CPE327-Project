@@ -4,7 +4,7 @@ import 'package:helpee/screens/setting.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 import '../components/category.dart';
-import 'ListRequest.dart';
+import '../models/ListRequest.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
