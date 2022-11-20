@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:helpee/models/user_models.dart';
 
+import '../main.dart';
+
 Future<Null> findNameAndEmail() async {
   await Firebase.initializeApp().then((value) async {
     await FirebaseAuth.instance.authStateChanges().listen((event) {
@@ -12,6 +14,32 @@ Future<Null> findNameAndEmail() async {
       // print("DisplayName : " + displayName);
       var displayName = FirebaseAuth.instance.currentUser!.displayName!;
       print("### Display Name : " + displayName);
+    });
+  });
+}
+
+int check() {
+  loginCheck();
+  if (loginKey == 0) {
+    loginKey = 0;
+  } else {
+    loginKey = 1;
+  }
+
+  return loginKey;
+}
+
+Future<Null> loginCheck() async {
+  await Firebase.initializeApp().then((value) async {
+    await FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+      if (user == null) {
+        print('User is currently signed out!');
+        loginKey = 0;
+      } else {
+        print('User is signed in! ${user.displayName}');
+        loginKey = 1;
+      }
+      print(loginKey != null ? '==> LoginKey : $loginKey' : "Empty");
     });
   });
 }
