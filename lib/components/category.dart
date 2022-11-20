@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 Map categorycolor = {
-  'Mechanic': Colors.indigo.shade300,
-  'Electric': Colors.orange.shade300,
-  'Technology': Colors.teal.shade300,
-  'Wooden': Colors.brown.shade300,
-  'Plumbing': Colors.lightBlue.shade300,
-  'Garden': Colors.green.shade300,
-  'Other': Colors.blueGrey.shade300,
+  'mechanic': Colors.indigo.shade300,
+  'electric': Colors.orange.shade300,
+  'technology': Colors.teal.shade300,
+  'wooden': Colors.brown.shade300,
+  'plumbing': Colors.lightBlue.shade300,
+  'garden': Colors.green.shade300,
+  'other': Colors.blueGrey.shade300,
 };
 
 class Category {
@@ -18,7 +18,7 @@ class Category {
       width: 100,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        color: categorycolor[name],
+        color: categorycolor[name.toLowerCase()],
         boxShadow: [
           BoxShadow(
             color: Colors.black38,
@@ -47,7 +47,7 @@ class Category {
       width: 120,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        color: categorycolor[name],
+        color: categorycolor[name.toLowerCase()],
         boxShadow: [
           BoxShadow(
             color: Colors.black38,

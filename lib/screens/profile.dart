@@ -60,6 +60,11 @@ class _ProfileState extends State<Profile> {
         "The water pipe has a crack, Please fix the water pipes for me.",
         "Electric",
         2.0),
+    ListRequest(
+        "Repair pipe",
+        "The water pipe has a crack, Please fix the water pipes for me.",
+        "Electric",
+        2.0),
   ];
 
   Widget skillbox(String skillname, Color boxcolor) {
@@ -154,7 +159,7 @@ class _ProfileState extends State<Profile> {
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
       child: SizedBox(
-        height: MediaQuery.of(context).size.height - 600,
+        height: 295,
         child: ListView.builder(
           itemCount: list_request.length, //fix bound of request
           itemBuilder: (BuildContext context, int index) {
@@ -199,81 +204,74 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget historyall() {
-    return Container(
-      height: 220,
-      width: MediaQuery.of(context).size.width,
-      color: Colors.white,
-      child: SizedBox(
-        child: DefaultTabController(
-          length: 2,
-          initialIndex: 0,
-          child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(
-                height: 30,
-                child: TabBar(
-                    labelColor: Colors.black,
-                    unselectedLabelColor: Colors.grey.shade400,
-                    indicatorColor: Colors.black,
-                    indicator: MaterialIndicator(
-                      height: 3,
-                      bottomLeftRadius: 5,
-                      bottomRightRadius: 5,
-                      horizontalPadding: 50,
-                      tabPosition: TabPosition.bottom,
-                    ),
-                    tabs: [
-                      Tab(
-                        child: Text("Your request",
-                            style: GoogleFonts.montserrat(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            )),
-                      ),
-                      Tab(
-                        child: Text("Provide assistance",
-                            style: GoogleFonts.montserrat(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            )),
-                      ),
-                    ]),
-              ),
-              SizedBox(
-                height: 190,
-                child: TabBarView(children: [
-                  Center(
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                            child: requesthistory(),
-                          )
-                        ],
-                      ),
-                    ),
+    return DefaultTabController(
+      length: 2,
+      initialIndex: 0,
+      child: Column(
+        // crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            height: 30,
+            child: TabBar(
+                labelColor: Colors.black,
+                unselectedLabelColor: Colors.grey.shade400,
+                indicatorColor: Colors.black,
+                indicator: MaterialIndicator(
+                  height: 3,
+                  bottomLeftRadius: 5,
+                  bottomRightRadius: 5,
+                  horizontalPadding: 50,
+                  tabPosition: TabPosition.bottom,
+                ),
+                tabs: [
+                  Tab(
+                    child: Text("Your request",
+                        style: GoogleFonts.montserrat(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        )),
                   ),
-                  Center(
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                            child: requesthistory(),
-                          )
-                        ],
-                      ),
-                    ),
+                  Tab(
+                    child: Text("Provide assistance",
+                        style: GoogleFonts.montserrat(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        )),
                   ),
                 ]),
-              )
-            ],
           ),
-        ),
+          SizedBox(
+            height: 300,
+            child: TabBarView(children: [
+              Center(
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        child: requesthistory(),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Center(
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        child: requesthistory(),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ]),
+          )
+        ],
       ),
     );
   }
@@ -322,104 +320,106 @@ class _ProfileState extends State<Profile> {
           ],
         ),
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              /* ----------------- Prifile Image ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                child: CircleAvatar(
-                  backgroundColor: Colors.grey.shade400,
-                  radius: 80,
-                  backgroundImage: AssetImage("assets/images/Memoji.png"),
-                  // backgroundImage: NetworkImage(
-                  //     user?.photoURL! ?? "assets/images/Memoji.png"),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                /* ----------------- Prifile Image ---------------- */
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.grey.shade400,
+                    radius: 80,
+                    backgroundImage: AssetImage("assets/images/Memoji.png"),
+                    // backgroundImage: NetworkImage(
+                    //     user?.photoURL! ?? "assets/images/Memoji.png"),
+                  ),
                 ),
-              ),
-              /* ----------------- Username ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: Text(
-                    FirebaseAuth.instance.currentUser?.displayName ??
-                        'DisplayName',
-                    style: GoogleFonts.montserrat(
-                        fontSize: 27,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-              ),
-              /* ----------------- Address ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                child: Text("Thung khru, Bangkok.",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black)),
-              ),
-              /* ----------------- Your Skills Name ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Your Skills",
+                /* ----------------- Username ---------------- */
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                  child: Text(
+                      FirebaseAuth.instance.currentUser?.displayName ??
+                          'DisplayName',
                       style: GoogleFonts.montserrat(
-                          fontSize: 18,
+                          fontSize: 27,
                           fontWeight: FontWeight.w600,
                           color: Colors.black)),
                 ),
-              ),
-              /* ----------------- Your Skills ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                child: SizedBox(
-                  height: 40,
-                  width: MediaQuery.of(context).size.width,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: Category.taginprofile('Mechanic')),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: Category.taginprofile('Electric')),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: Category.taginprofile('Technology')),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: Category.taginprofile('Wooden')),
-                      ],
+                /* ----------------- Address ---------------- */
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                  child: Text("Thung khru, Bangkok.",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black)),
+                ),
+                /* ----------------- Your Skills Name ---------------- */
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("Your Skills",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black)),
+                  ),
+                ),
+                /* ----------------- Your Skills ---------------- */
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                  child: SizedBox(
+                    height: 40,
+                    width: MediaQuery.of(context).size.width,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          Padding(
+                              padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                              child: Category.taginprofile('Mechanic')),
+                          Padding(
+                              padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                              child: Category.taginprofile('Electric')),
+                          Padding(
+                              padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                              child: Category.taginprofile('Technology')),
+                          Padding(
+                              padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                              child: Category.taginprofile('Wooden')),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              /* ----------------- History Name ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("History",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black)),
+                /* ----------------- History Name ---------------- */
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("History",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black)),
+                  ),
                 ),
-              ),
-              /* ----------------- History TabBar ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: historyall(),
+                /* ----------------- History TabBar ---------------- */
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: historyall(),
+                  ),
                 ),
-              ),
-              /* ----------------- History ----------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-              ),
-            ],
+                /* ----------------- History ----------------- */
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                ),
+              ],
+            ),
           ),
         ),
       ),
