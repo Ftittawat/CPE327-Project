@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -31,6 +34,7 @@ class _CreateRequestState extends State<CreateRequest> {
   TextEditingController AddressController = TextEditingController();
   TextEditingController ZipCodeController = TextEditingController();
   File? file;
+  String? picURL;
 
   Widget topicBox() {
     return TextFormField(
@@ -121,6 +125,52 @@ class _CreateRequestState extends State<CreateRequest> {
           dropdownvalue = value!;
         });
       },
+    );
+  }
+
+  Widget categoryBox() {
+    return DropdownSearch<String>(
+      popupProps: PopupProps.menu(
+        showSearchBox: true,
+        showSelectedItems: true,
+        searchFieldProps: TextFieldProps(
+          decoration: InputDecoration(
+              hintText: 'Search',
+              hintStyle: GoogleFonts.montserrat(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey.shade400),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+              filled: true,
+              fillColor: Colors.grey.shade100,
+              enabledBorder: OutlineInputBorder(
+                  borderSide:
+                      BorderSide(width: 1.0, color: Colors.grey.shade100),
+                  borderRadius: BorderRadius.circular(10)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide:
+                      BorderSide(width: 2.0, color: Colors.grey.shade100),
+                  borderRadius: BorderRadius.circular(10))),
+        ),
+      ),
+      items: items,
+      dropdownDecoratorProps: DropDownDecoratorProps(
+        dropdownSearchDecoration: InputDecoration(
+            hintText: 'Category',
+            hintStyle: GoogleFonts.montserrat(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.grey.shade400),
+            contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+                borderRadius: BorderRadius.circular(10)),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+                borderRadius: BorderRadius.circular(10))),
+      ),
+      onChanged: print,
     );
   }
 
@@ -276,17 +326,50 @@ class _CreateRequestState extends State<CreateRequest> {
       ),
     );
   }
+  // Future<void> showAlert(String title,String message) async{
+  //   showDialog(context: context,
+  //   builder: (BuildContext context) {
+  //     return AlertDialog(
+  //       title: Text(title),
+  //       content: Text(message),
+  //       actions: <Widget>[
+  //         createButton(
+  //           onpress
+  //         )
+  //       ],
+  //     )
+
+  //   },);
+
+  // }
+
+  Future<void> uploadPicture() async {
+    Random random = Random();
+    int i = random.nextInt(10000);
+
+    FirebaseStorage firebaseStorage = FirebaseStorage.instance;
+    Reference reference =
+        firebaseStorage.ref().child('RequestPic/Request$i.png');
+    UploadTask uploadTask = reference.putFile(file!);
+
+    picURL = await (await uploadTask).ref.getDownloadURL();
+    print('URL = $picURL');
+    //Uri pic = Uri.file(new File(file));
+  }
 
   Widget createButton() {
     return ElevatedButton(
       onPressed: () async {
         if (file == null) {
-         
+          print('file = null');
+        } else {
+          await uploadPicture();
         }
         await requestCollection.add({
           "Topic": TopicController.text,
           "Descrition": DescriptionController.text,
           "Create Time": DateTime.now(),
+          "Picture": picURL,
           //"Category": CategoryController.text
         });
         TopicController.clear();
