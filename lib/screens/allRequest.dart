@@ -1,10 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/components/filterChoice.dart';
 import 'package:helpee/screens/ListRequest.dart';
+import 'package:helpee/screens/loginwithgoogle.dart';
+import 'package:helpee/screens/profile.dart';
 import 'package:helpee/screens/showallrequest.dart';
 
+import '../components/authen_service.dart';
 import '../components/category.dart';
 import 'login.dart';
 
@@ -16,6 +21,32 @@ class TestHome extends StatefulWidget {
 }
 
 class _TestHomeState extends State<TestHome> {
+  final user = FirebaseAuth.instance.currentUser;
+  late String name, email, displayName;
+  var loginKey;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("--- ### AllRequest ### ---");
+    loginCheck();
+  }
+
+  Future<Null> loginCheck() async {
+    await Firebase.initializeApp().then((value) async {
+      await FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+        if (user == null) {
+          print('User is currently signed out!');
+          loginKey = 0;
+        } else {
+          print('User is signed in! ${user.displayName}');
+          loginKey = 1;
+        }
+        print(loginKey != null ? '==> LoginKey : $loginKey' : "Empty");
+      });
+    });
+  }
+
   /* group data */
   List<ListRequest> listrequest = [
     ListRequest(
@@ -322,9 +353,9 @@ class _TestHomeState extends State<TestHome> {
         backgroundColor: Colors.white,
         foregroundColor: Color(0xFF005792),
         toolbarHeight: 60,
-        title: Text("Hi Username",
+        title: Text(FirebaseAuth.instance.currentUser?.email ?? 'Hi',
             style: GoogleFonts.montserrat(
-                fontSize: 27,
+                fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: Color(0xFF000000))),
         actions: <Widget>[
@@ -336,8 +367,12 @@ class _TestHomeState extends State<TestHome> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Login()),
-                );
+                  MaterialPageRoute(builder: (context) => LoginWithGoogle()),
+                ).then((value) {
+                  setState(() {
+                    print(" ## Set State Work");
+                  });
+                });
               },
             ),
           ),
@@ -386,56 +421,53 @@ class _TestHomeState extends State<TestHome> {
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-              child: Expanded(
-                child: SizedBox(
-                  height: 60,
-                  child: ListView.builder(
-                    itemCount: inprogress.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      ListRequest request = inprogress[index];
-                      return Card(
-                          child: ListTile(
-                              /* ----------------- Title ---------------- */
-                              title: Text(
-                                request.title,
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                    color: Color(0xFF005792)),
-                              ),
-                              subtitle: Column(
-                                children: [
-                                  /* ----------------- Date Time ---------------- */
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 3),
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        "start time 22 Oct 2022, 10:22",
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.grey.shade400,
-                                        ),
+              child: SizedBox(
+                height: 60,
+                child: ListView.builder(
+                  itemCount: inprogress.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    ListRequest request = inprogress[index];
+                    return Card(
+                        child: ListTile(
+                            /* ----------------- Title ---------------- */
+                            title: Text(
+                              request.title,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF005792)),
+                            ),
+                            subtitle: Column(
+                              children: [
+                                /* ----------------- Date Time ---------------- */
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 3),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "start time 22 Oct 2022, 10:22",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.grey.shade400,
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
-                              dense: true,
-                              // enabled: Text(true),
-                              isThreeLine: true,
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          ShowAllRequestScreen(
-                                              listRequest: request),
-                                    ));
-                              }));
-                    },
-                  ),
+                                ),
+                              ],
+                            ),
+                            dense: true,
+                            // enabled: Text(true),
+                            isThreeLine: true,
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ShowAllRequestScreen(
+                                        listRequest: request),
+                                  ));
+                            }));
+                  },
                 ),
               ),
             ),
