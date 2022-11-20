@@ -22,7 +22,6 @@ class _TestHomeState extends State<TestHome> {
   late String name, email, displayName;
   @override
   void initState() {
-    // TODO: implement initState
     displayAllRequest();
     super.initState();
     // findNameAndEmail();
@@ -34,7 +33,7 @@ class _TestHomeState extends State<TestHome> {
         // displayName = event!.displayName!;
         // print("DisplayName : " + displayName);
         displayName = FirebaseAuth.instance.currentUser!.email!;
-        print("### DisplayName = " + displayName);
+        // print("### DisplayName = " + displayName);
       });
     });
   }
@@ -304,7 +303,6 @@ class _TestHomeState extends State<TestHome> {
     );
   }
 
-  void timeConvert() {}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -435,12 +433,14 @@ class _TestHomeState extends State<TestHome> {
               child: ListView.builder(
                 itemCount: searchResult.length,
                 itemBuilder: (BuildContext context, int index) {
-                  // var dt = DateTime.fromMillisecondsSinceEpoch(searchResult[index]['Create Time']);
-                  // DateTime dt =
-                  //     (searchResult[index]['Create Time'] as Timestamp)
-                  //         .toDate();
-                  // Timestamp t = searchResult[index]["Create Time"] as Timestamp;
-                  // DateTime dateTime = t.toDate();
+                  DateTime? dateTime;
+                  if (searchResult[index]['Create Time'] != null) {
+                    Timestamp t =
+                        searchResult[index]['Create Time'] as Timestamp;
+                    dateTime = t.toDate();
+                    print("${dateTime.month} ${dateTime.day} ${dateTime.year}");
+                  }
+
                   return Card(
                     child: ListTile(
                         /* ----------------- Title ---------------- */
@@ -506,9 +506,9 @@ class _TestHomeState extends State<TestHome> {
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  // "$dateTime",
-                                  "${searchResult[index]['Create Time']}",
-                                  // "22 Oct 2022, 10:22",
+                                  dateTime == null
+                                      ? "time is null"
+                                      : "Created Time : ${dateTime!.day}/${dateTime!.month}/${dateTime!.year}, ${dateTime.hour}:${dateTime.minute}",
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
@@ -526,11 +526,8 @@ class _TestHomeState extends State<TestHome> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    // ShowAllRequestScreen(listRequest: request),
-
-                                    ShowAllRequestScreen(
-                                        data: searchResult[index]),
+                                builder: (context) => ShowAllRequestScreen(
+                                    data: searchResult[index]),
                               ));
                         }),
                   );

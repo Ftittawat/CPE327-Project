@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/models/ListRequest.dart';
@@ -11,6 +12,9 @@ class ShowAllRequestScreen extends StatelessWidget {
   const ShowAllRequestScreen({super.key, required this.data});
 
   Widget imageBox() {
+    print(data);
+    String imageURL = data["Picture"] ?? " ";
+
     return Container(
       height: 230,
       decoration: BoxDecoration(
@@ -18,11 +22,13 @@ class ShowAllRequestScreen extends StatelessWidget {
         border: Border.all(width: 2.0, color: Colors.grey.shade400),
       ),
       child: Center(
-        child: Icon(
-          Icons.photo,
-          color: Colors.grey.shade400,
-          size: 40,
-        ),
+        child: imageURL == " "
+            ? Icon(
+                Icons.photo,
+                color: Colors.grey.shade400,
+                size: 40,
+              )
+            : Image.network(imageURL),
       ),
     );
   }
@@ -91,6 +97,11 @@ class ShowAllRequestScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime? dateTime;
+    if (data["Create Time"] != null) {
+      Timestamp t = data["Create Time"] as Timestamp;
+      dateTime = t.toDate();
+    }
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -116,7 +127,6 @@ class ShowAllRequestScreen extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text("Topic: ${data["Topic"]}",
-                    // listRequest.title,
                     style: GoogleFonts.montserrat(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
@@ -153,7 +163,10 @@ class ShowAllRequestScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text("${data["Create Time"]}",
+                child: Text(
+                    dateTime == null
+                        ? "time is null"
+                        : "Created Time : ${dateTime!.day}/${dateTime!.month}/${dateTime!.year}, ${dateTime.hour}:${dateTime.minute}",
                     style: GoogleFonts.montserrat(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
