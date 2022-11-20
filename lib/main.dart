@@ -7,6 +7,7 @@ import 'package:helpee/screens/getstart.dart';
 import 'package:helpee/screens/home.dart';
 import 'package:helpee/screens/login.dart';
 import 'package:helpee/screens/loginwithgoogle.dart';
+import 'package:helpee/screens/pleaselogin.dart';
 import 'package:helpee/screens/profile.dart';
 import 'package:helpee/screens/register.dart';
 import 'package:helpee/screens/notification.dart';
@@ -15,6 +16,7 @@ import 'package:helpee/screens/myRequest.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 var loginKey = 0;
+var checkKey;
 
 Future<Null> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -76,21 +78,21 @@ class _MyAppState extends State<MyApp> {
   int currentIndex = 0;
   int currentTab = 0;
 
-  final screens = [
-    TestHome(),
-    MyRequest(),
-    CreateRequest(),
-    Notificationscreen(),
-    Profile(),
-  ];
+  // final screens = [
+  //   TestHome(),
+  //   MyRequest(),
+  //   CreateRequest(),
+  //   Notificationscreen(),
+  //   Profile(),
+  // ];
 
-  final List<Widget> screens2 = [
-    TestHome(),
-    MyRequest(),
-    Notificationscreen(),
-    Profile(),
-    LoginWithGoogle(),
-  ];
+  // final List<Widget> screens2 = [
+  //   TestHome(),
+  //   MyRequest(),
+  //   Notificationscreen(),
+  //   Profile(),
+  //   PleaseLogin(),
+  // ];
 
   Widget home1() {
     return MaterialApp(
@@ -254,6 +256,10 @@ class _MyAppState extends State<MyApp> {
 
   Widget home2() {
     return MaterialApp(
+      // initialRoute: '/',
+      // routes: {
+      //   '/': (context) => const TestHome(),
+      // },
       // home: Register(),
       home: Scaffold(
         /* ----------------- Body ---------------- */
@@ -262,11 +268,13 @@ class _MyAppState extends State<MyApp> {
           child: currentScreen,
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Color.fromARGB(255, 146, 0, 0),
+          backgroundColor: Color(0xFF005792),
           child: Icon(Icons.add),
           onPressed: () {
             setState(() {
-              currentScreen = CreateRequest();
+              currentScreen = PleaseLogin(
+                screenName: 'Create Request',
+              );
               currentTab = 5;
             });
           },
@@ -299,7 +307,7 @@ class _MyAppState extends State<MyApp> {
                             Icons.home,
                             size: 28,
                             color: currentTab == 0
-                                ? Color.fromARGB(255, 146, 0, 0)
+                                ? Color(0xFF005792)
                                 : Colors.grey.shade600,
                           ),
                           // Text(
@@ -316,7 +324,9 @@ class _MyAppState extends State<MyApp> {
                       minWidth: 80,
                       onPressed: () {
                         setState(() {
-                          currentScreen = LoginWithGoogle();
+                          currentScreen = PleaseLogin(
+                            screenName: 'Your Request',
+                          );
                           currentTab = 1;
                         });
                       },
@@ -327,7 +337,7 @@ class _MyAppState extends State<MyApp> {
                             Icons.wysiwyg,
                             size: 28,
                             color: currentTab == 1
-                                ? Color.fromARGB(255, 146, 0, 0)
+                                ? Color(0xFF005792)
                                 : Colors.grey.shade600,
                           ),
                           // Text(
@@ -350,7 +360,9 @@ class _MyAppState extends State<MyApp> {
                       minWidth: 80,
                       onPressed: () {
                         setState(() {
-                          currentScreen = Notificationscreen();
+                          currentScreen = PleaseLogin(
+                            screenName: 'Notification',
+                          );
                           currentTab = 2;
                         });
                       },
@@ -361,7 +373,7 @@ class _MyAppState extends State<MyApp> {
                             Icons.notifications,
                             size: 28,
                             color: currentTab == 2
-                                ? Color.fromARGB(255, 146, 0, 0)
+                                ? Color(0xFF005792)
                                 : Colors.grey.shade600,
                           ),
                           // Text(
@@ -378,7 +390,9 @@ class _MyAppState extends State<MyApp> {
                       minWidth: 80,
                       onPressed: () {
                         setState(() {
-                          currentScreen = Profile();
+                          currentScreen = PleaseLogin(
+                            screenName: 'Profile',
+                          );
                           currentTab = 3;
                         });
                       },
@@ -389,7 +403,7 @@ class _MyAppState extends State<MyApp> {
                             Icons.person,
                             size: 28,
                             color: currentTab == 3
-                                ? Color.fromARGB(255, 146, 0, 0)
+                                ? Color(0xFF005792)
                                 : Colors.grey.shade600,
                           ),
                           // Text(
