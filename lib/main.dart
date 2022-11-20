@@ -15,6 +15,7 @@ import 'package:helpee/screens/myRequest.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 String initialRoute = '/authen';
+var loginKey = 0;
 
 Future<Null> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,8 +23,10 @@ Future<Null> main() async {
     await FirebaseAuth.instance.authStateChanges().listen((event) {
       if (event != null) {
         print("Event = $event");
+        loginKey = 1;
       } else {
         print("Please Login first");
+        loginKey = 0;
       }
       runApp(MyApp());
     });
@@ -39,7 +42,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final user = FirebaseAuth.instance.currentUser;
-  var loginKey = 0;
+
   @override
   void initState() {
     // TODO: implement initState
