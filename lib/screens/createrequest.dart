@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -134,7 +135,6 @@ class _CreateRequestState extends State<CreateRequest> {
     );
   }
 
-
   Widget categoryBox() {
     return DropdownSearch<String>(
       popupProps: PopupProps.menu(
@@ -185,7 +185,6 @@ class _CreateRequestState extends State<CreateRequest> {
       onChanged: print,
     );
   }
-
 
   Widget addressBox() {
     return TextFormField(
@@ -343,13 +342,12 @@ class _CreateRequestState extends State<CreateRequest> {
   Widget createButton() {
     return ElevatedButton(
       onPressed: () async {
-        if (file == null) {
-         
-        }
+        if (file == null) {}
         await requestCollection.add({
           "Topic": TopicController.text,
           "Description": DescriptionController.text,
           "Create Time": DateTime.now(),
+          "Created By": FirebaseAuth.instance.currentUser?.uid,
           //"Category": CategoryController.text
         });
         TopicController.clear();

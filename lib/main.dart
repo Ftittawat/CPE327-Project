@@ -14,7 +14,6 @@ import 'package:helpee/screens/allRequest.dart';
 import 'package:helpee/screens/myRequest.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-String initialRoute = '/authen';
 var loginKey = 0;
 
 Future<Null> main() async {
