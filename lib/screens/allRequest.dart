@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/components/filterChoice.dart';
 import 'package:helpee/screens/ListRequest.dart';
+import 'package:helpee/screens/loginwithgoogle.dart';
 import 'package:helpee/screens/profile.dart';
 import 'package:helpee/screens/showallrequest.dart';
 
@@ -366,7 +367,7 @@ class _TestHomeState extends State<TestHome> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Login()),
+                  MaterialPageRoute(builder: (context) => LoginWithGoogle()),
                 ).then((value) {
                   setState(() {
                     print(" ## Set State Work");
@@ -420,56 +421,53 @@ class _TestHomeState extends State<TestHome> {
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-              child: Expanded(
-                child: SizedBox(
-                  height: 60,
-                  child: ListView.builder(
-                    itemCount: inprogress.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      ListRequest request = inprogress[index];
-                      return Card(
-                          child: ListTile(
-                              /* ----------------- Title ---------------- */
-                              title: Text(
-                                request.title,
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w700,
-                                    color: Color(0xFF005792)),
-                              ),
-                              subtitle: Column(
-                                children: [
-                                  /* ----------------- Date Time ---------------- */
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 3),
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        "start time 22 Oct 2022, 10:22",
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.grey.shade400,
-                                        ),
+              child: SizedBox(
+                height: 60,
+                child: ListView.builder(
+                  itemCount: inprogress.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    ListRequest request = inprogress[index];
+                    return Card(
+                        child: ListTile(
+                            /* ----------------- Title ---------------- */
+                            title: Text(
+                              request.title,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF005792)),
+                            ),
+                            subtitle: Column(
+                              children: [
+                                /* ----------------- Date Time ---------------- */
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 3),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "start time 22 Oct 2022, 10:22",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.grey.shade400,
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
-                              dense: true,
-                              // enabled: Text(true),
-                              isThreeLine: true,
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          ShowAllRequestScreen(
-                                              listRequest: request),
-                                    ));
-                              }));
-                    },
-                  ),
+                                ),
+                              ],
+                            ),
+                            dense: true,
+                            // enabled: Text(true),
+                            isThreeLine: true,
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ShowAllRequestScreen(
+                                        listRequest: request),
+                                  ));
+                            }));
+                  },
                 ),
               ),
             ),
