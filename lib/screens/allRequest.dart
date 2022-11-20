@@ -41,6 +41,7 @@ class _TestHomeState extends State<TestHome> {
 
     checkKey = check();
     print("Check = " + checkKey.toString());
+    // getDocId();
   }
 
   /* group data */
@@ -351,7 +352,7 @@ class _TestHomeState extends State<TestHome> {
         toolbarHeight: 60,
         title: Text(FirebaseAuth.instance.currentUser?.displayName ?? 'Hi',
             style: GoogleFonts.montserrat(
-                fontSize: 18,
+                fontSize: 22,
                 fontWeight: FontWeight.w700,
                 color: Colors.black)),
         actions: <Widget>[
@@ -373,10 +374,17 @@ class _TestHomeState extends State<TestHome> {
                       });
                     },
                   )
-                : IconButton(
-                    icon: const Icon(Icons.logout),
-                    splashRadius: 20,
-                    onPressed: () {},
+                : Padding(
+                    padding: EdgeInsets.fromLTRB(20, 10, 0, 10),
+                    child: CircleAvatar(
+                      backgroundColor: Colors.grey.shade400,
+                      radius: 20,
+                      backgroundImage: NetworkImage(FirebaseAuth
+                          .instance.currentUser!.photoURL
+                          .toString()),
+                      // backgroundImage: NetworkImage(
+                      //     user?.photoURL! ?? "assets/images/Memoji.png"),
+                    ),
                   ),
           ),
         ],

@@ -332,10 +332,10 @@ class _ProfileState extends State<Profile> {
                   child: CircleAvatar(
                     backgroundColor: Colors.grey.shade400,
                     radius: 80,
-                    backgroundImage: AssetImage("assets/images/Memoji.png"),
-                    // backgroundImage: NetworkImage(
-                    //     user?.photoURL! ?? "assets/images/Memoji.png"),
+                    backgroundImage: NetworkImage(
+                      FirebaseAuth.instance.currentUser?.photoURL ?? ""),
                   ),
+
                 ),
                 /* ----------------- Username ---------------- */
                 Padding(
