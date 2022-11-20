@@ -24,6 +24,7 @@ class _TestHomeState extends State<TestHome> {
   final user = FirebaseAuth.instance.currentUser;
   late String name, email, displayName;
   var loginKey;
+  bool loginKey2 = true;
   @override
   void initState() {
     // TODO: implement initState
@@ -38,9 +39,13 @@ class _TestHomeState extends State<TestHome> {
         if (user == null) {
           print('User is currently signed out!');
           loginKey = 0;
+          loginKey2 = true;
+          print(loginKey2);
         } else {
           print('User is signed in! ${user.displayName}');
           loginKey = 1;
+          loginKey2 = false;
+          print(loginKey2);
         }
         print(loginKey != null ? '==> LoginKey : $loginKey' : "Empty");
       });
@@ -361,20 +366,27 @@ class _TestHomeState extends State<TestHome> {
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 20),
-            child: IconButton(
-              icon: const Icon(Icons.person),
-              splashRadius: 20,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginWithGoogle()),
-                ).then((value) {
-                  setState(() {
-                    print(" ## Set State Work");
-                  });
-                });
-              },
-            ),
+            child: loginKey2
+                ? IconButton(
+                    icon: const Icon(Icons.person),
+                    splashRadius: 20,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LoginWithGoogle()),
+                      ).then((value) {
+                        setState(() {
+                          print(" ## Set State Work");
+                        });
+                      });
+                    },
+                  )
+                : IconButton(
+                    icon: const Icon(Icons.alarm),
+                    splashRadius: 20,
+                    onPressed: () {},
+                  ),
           ),
         ],
       ),
