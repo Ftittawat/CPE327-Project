@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/screens/setting.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
+import '../components/authen_service.dart';
 import '../components/category.dart';
 import 'ListRequest.dart';
 
@@ -14,6 +17,32 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final user = FirebaseAuth.instance.currentUser;
+  late String name, email, displayName;
+  var loginKey;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("--- ### Proflie ### ---");
+    loginCheck();
+  }
+
+  Future<Null> loginCheck() async {
+    await Firebase.initializeApp().then((value) async {
+      await FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+        if (user == null) {
+          print('User is currently signed out!');
+          loginKey = 0;
+        } else {
+          print('User is signed in! ${user.displayName}');
+          loginKey = 1;
+        }
+        print(loginKey != null ? '==> LoginKey : $loginKey' : "Empty");
+      });
+    });
+  }
+
   /* group data */
   List<ListRequest> list_request = [
     ListRequest(
@@ -249,6 +278,13 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+//   getProfileImage() {
+//     if (FirebaseAuth.instance.currentUser?.photoURL != null) {
+//       return Image.network(
+// ;
+//     } else {}
+//   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -276,7 +312,11 @@ class _ProfileState extends State<Profile> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Setting()),
-                );
+                ).then((value) {
+                  setState(() {
+                    print("Set State");
+                  });
+                });
               },
             ),
           ],
@@ -292,12 +332,16 @@ class _ProfileState extends State<Profile> {
                   backgroundColor: Colors.grey.shade400,
                   radius: 80,
                   backgroundImage: AssetImage("assets/images/Memoji.png"),
+                  // backgroundImage: NetworkImage(
+                  //     user?.photoURL! ?? "assets/images/Memoji.png"),
                 ),
               ),
               /* ----------------- Username ---------------- */
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: Text("Tittawat",
+                child: Text(
+                    FirebaseAuth.instance.currentUser?.displayName ??
+                        'DisplayName',
                     style: GoogleFonts.montserrat(
                         fontSize: 27,
                         fontWeight: FontWeight.w600,

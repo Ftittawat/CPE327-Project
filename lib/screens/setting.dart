@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:helpee/screens/allRequest%20copy.dart';
 import 'package:helpee/screens/settingscreens/address.dart';
 import 'package:helpee/screens/settingscreens/changepassword.dart';
 import 'package:helpee/screens/settingscreens/editprofile.dart';
@@ -202,12 +204,16 @@ class _SettingState extends State<Setting> {
                 TextButton(
                   onPressed: () async {
                     await Firebase.initializeApp().then((value) async {
-                      await FirebaseAuth.instance.signOut().then((value) {
-                        Fluttertoast.showToast(
+                      //await GoogleSignIn().disconnect().then((value) async {
+                      await FirebaseAuth.instance.signOut().then((value) async {
+                        await Fluttertoast.showToast(
                             msg: "Log-Out Success",
                             gravity: ToastGravity.CENTER);
+                        // Navigator.pop(context);
+                        Navigator.pop(context);
                         Navigator.pop(context);
                       });
+                      // });
                     });
                   },
                   child: Text(

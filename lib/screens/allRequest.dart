@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/components/filterChoice.dart';
 import 'package:helpee/screens/ListRequest.dart';
+import 'package:helpee/screens/profile.dart';
 import 'package:helpee/screens/showallrequest.dart';
 
+import '../components/authen_service.dart';
 import '../components/category.dart';
 import 'login.dart';
 
@@ -18,21 +20,28 @@ class TestHome extends StatefulWidget {
 }
 
 class _TestHomeState extends State<TestHome> {
+  final user = FirebaseAuth.instance.currentUser;
   late String name, email, displayName;
+  var loginKey;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    findNameAndEmail();
+    print("--- ### AllRequest ### ---");
+    loginCheck();
   }
 
-  Future<Null> findNameAndEmail() async {
+  Future<Null> loginCheck() async {
     await Firebase.initializeApp().then((value) async {
-      await FirebaseAuth.instance.authStateChanges().listen((event) {
-        // displayName = event!.displayName!;
-        // print("DisplayName : " + displayName);
-        displayName = FirebaseAuth.instance.currentUser!.email!;
-        print("### DisplayName = " + displayName);
+      await FirebaseAuth.instance.authStateChanges().listen((User? user) async {
+        if (user == null) {
+          print('User is currently signed out!');
+          loginKey = 0;
+        } else {
+          print('User is signed in! ${user.displayName}');
+          loginKey = 1;
+        }
+        print(loginKey != null ? '==> LoginKey : $loginKey' : "Empty");
       });
     });
   }
