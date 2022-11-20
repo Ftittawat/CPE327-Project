@@ -438,7 +438,6 @@ class _TestHomeState extends State<TestHome> {
                     Timestamp t =
                         searchResult[index]['Create Time'] as Timestamp;
                     dateTime = t.toDate();
-                    print("${dateTime.month} ${dateTime.day} ${dateTime.year}");
                   }
 
                   return Card(
