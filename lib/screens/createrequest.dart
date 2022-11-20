@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -7,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
+import 'package:getwidget/getwidget.dart';
 
 class CreateRequest extends StatefulWidget {
   const CreateRequest({super.key});
@@ -28,6 +31,16 @@ class _CreateRequestState extends State<CreateRequest> {
   TextEditingController CategoryController = TextEditingController();
   TextEditingController AddressController = TextEditingController();
   TextEditingController ZipCodeController = TextEditingController();
+  File? file;
+
+  Widget textLabel(String nametext) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+      child: Text(nametext,
+          style: GoogleFonts.montserrat(
+              fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black)),
+    );
+  }
 
   Widget topicBox() {
     return TextFormField(
@@ -35,17 +48,17 @@ class _CreateRequestState extends State<CreateRequest> {
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-          hintText: 'Topic',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
+          // hintText: 'Topic',
+          // hintStyle: GoogleFonts.montserrat(
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w600,
+          //     color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
       minLines: 1,
       cursorColor: Color(0xFF005792),
@@ -58,17 +71,17 @@ class _CreateRequestState extends State<CreateRequest> {
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-          hintText: 'Description',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
+          // hintText: 'Description',
+          // hintStyle: GoogleFonts.montserrat(
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w600,
+          //     color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
       minLines: 2,
       maxLines: 3,
@@ -91,17 +104,17 @@ class _CreateRequestState extends State<CreateRequest> {
       isExpanded: false,
       borderRadius: BorderRadius.circular(10),
       decoration: InputDecoration(
-          hintText: 'Category',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
+          // hintText: 'Category',
+          // hintStyle: GoogleFonts.montserrat(
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w600,
+          //     color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
       items: items.map((String items) {
         return DropdownMenuItem(
@@ -121,12 +134,16 @@ class _CreateRequestState extends State<CreateRequest> {
     );
   }
 
+
   Widget categoryBox() {
     return DropdownSearch<String>(
       popupProps: PopupProps.menu(
         showSearchBox: true,
         showSelectedItems: true,
         searchFieldProps: TextFieldProps(
+          cursorColor: Color(0xFF005792),
+          style: GoogleFonts.montserrat(
+              fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
           decoration: InputDecoration(
               hintText: 'Search',
               hintStyle: GoogleFonts.montserrat(
@@ -143,69 +160,49 @@ class _CreateRequestState extends State<CreateRequest> {
                   borderRadius: BorderRadius.circular(10)),
               focusedBorder: OutlineInputBorder(
                   borderSide:
-                      BorderSide(width: 2.0, color: Colors.grey.shade100),
+                      BorderSide(width: 21.0, color: Colors.grey.shade100),
                   borderRadius: BorderRadius.circular(10))),
         ),
       ),
+      dropdownButtonProps:
+          DropdownButtonProps(splashRadius: 15, color: Colors.grey.shade400),
       items: items,
       dropdownDecoratorProps: DropDownDecoratorProps(
         dropdownSearchDecoration: InputDecoration(
-            hintText: 'Category',
-            hintStyle: GoogleFonts.montserrat(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.grey.shade400),
+            // hintText: 'Category',
+            // hintStyle: GoogleFonts.montserrat(
+            //     fontSize: 16,
+            //     fontWeight: FontWeight.w600,
+            //     color: Colors.grey.shade400),
             contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
             enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+                borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
                 borderRadius: BorderRadius.circular(10)),
             focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+                borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
                 borderRadius: BorderRadius.circular(10))),
       ),
       onChanged: print,
     );
   }
 
-  /*Widget categoryBox() {
-    return TextFormField(
-      controller: CategoryController,
-      style: GoogleFonts.montserrat(
-          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
-      decoration: InputDecoration(
-          hintText: 'Category',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
-          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
-              borderRadius: BorderRadius.circular(10)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
-              borderRadius: BorderRadius.circular(10))),
-      minLines: 1,
-      cursorColor: Color(0xFF005792),
-    );
-  }*/
 
   Widget addressBox() {
     return TextFormField(
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-          hintText: 'Address',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
+          // hintText: 'Address',
+          // hintStyle: GoogleFonts.montserrat(
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w600,
+          //     color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
       minLines: 1,
       cursorColor: Color(0xFF005792),
@@ -217,43 +214,82 @@ class _CreateRequestState extends State<CreateRequest> {
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-          hintText: 'Zip Code',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
+          // hintText: 'Zip Code',
+          // hintStyle: GoogleFonts.montserrat(
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w600,
+          //     color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
       minLines: 1,
       cursorColor: Color(0xFF005792),
     );
   }
 
+  Future<Null> chooseImage(ImageSource imageSource) async {
+    try {
+      var object = await ImagePicker()
+          .pickImage(source: imageSource, maxHeight: 800.0, maxWidth: 800.0);
+      setState(() {
+        file = File(object!.path);
+      });
+    } catch (e) {}
+  }
+
   Widget imageBox() {
-    return Container(
-      height: 180,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(width: 2.0, color: Colors.grey.shade400),
-      ),
-      child: Center(
-        child: IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.add_a_photo_outlined,
-            color: Colors.grey.shade400,
-            size: 40,
-          ),
-          padding: EdgeInsets.all(0.0),
-          splashRadius: 30,
-        ),
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+            child: Row(
+          // mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            ElevatedButton.icon(
+              onPressed: () {
+                chooseImage(ImageSource.camera);
+              },
+              icon: Icon(Icons.add_a_photo), //icon data for elevated button
+              label: Text("Upload Image"), //label text
+            ),
+            Text("      "),
+            ElevatedButton.icon(
+              onPressed: () {
+                chooseImage(ImageSource.gallery);
+              },
+              icon: Icon(
+                  Icons.add_photo_alternate), //icon data for elevated button
+              label: Text("Choose Image"), //label text
+            )
+          ],
+        )),
+      ],
     );
+    // return Container(
+    //   height: 180,
+    //   decoration: BoxDecoration(
+    //     borderRadius: BorderRadius.circular(10),
+    //     border: Border.all(width: 2.0, color: Colors.grey.shade400),
+    //   ),
+    //   child: Center(
+    //     child: IconButton(
+    //       onPressed: () {
+    //         chooseImage(ImageSource.gallery);
+    //       },
+    //       icon: Icon(
+    //         Icons.add_a_photo_outlined,
+    //         color: Colors.grey.shade400,
+    //         size: 40,
+    //       ),
+    //       padding: EdgeInsets.all(0.0),
+    //       splashRadius: 30,
+    //     ),
+    //   ),
+    // );
   }
 
   //Map field
@@ -292,7 +328,7 @@ class _CreateRequestState extends State<CreateRequest> {
       height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(width: 2.0, color: Colors.grey.shade400),
+        border: Border.all(width: 1.0, color: Colors.grey.shade400),
       ),
       child: GoogleMap(
         initialCameraPosition: cameraPosition,
@@ -307,13 +343,45 @@ class _CreateRequestState extends State<CreateRequest> {
   Widget createButton() {
     return ElevatedButton(
       onPressed: () async {
+        if (file == null) {
+         
+        }
         await requestCollection.add({
           "Topic": TopicController.text,
-          "Descrition": DescriptionController.text,
+          "Description": DescriptionController.text,
+          "Create Time": DateTime.now(),
           //"Category": CategoryController.text
         });
         TopicController.clear();
         DescriptionController.clear();
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+              title: Text("Success",
+                  style: GoogleFonts.montserrat(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black)),
+              contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "OK",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600, color: Color(0xFF005792)),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
       },
       style: ElevatedButton.styleFrom(
           backgroundColor: Color(0xFF005792),
@@ -328,6 +396,31 @@ class _CreateRequestState extends State<CreateRequest> {
                   fontWeight: FontWeight.w600,
                   color: Colors.white)),
         ],
+      ),
+    );
+  }
+
+  Widget defaultPicture() {
+    return SizedBox(
+      width: 450.0,
+      //height: 100.0,
+      child: Card(
+        color: Colors.white,
+        child: Center(
+          child: Column(
+            children: [
+              Image.asset(
+                "assets/images/upload.png",
+                width: 250.0,
+                height: 250.0,
+              ),
+              Text(
+                'please upload image\n',
+                style: TextStyle(color: Colors.black),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -370,42 +463,121 @@ class _CreateRequestState extends State<CreateRequest> {
                     children: [
                       /* ----------------- Topic ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                        child: topicBox(),
+                        padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: textLabel('Topic')),
+                            topicBox(),
+                          ],
+                        ),
                       ),
                       /* ----------------- Description ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                        child: descriptionbox(),
+                        padding: EdgeInsets.fromLTRB(20, 12, 20, 0),
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: textLabel('Description')),
+                            descriptionbox(),
+                          ],
+                        ),
                       ),
                       /* ----------------- Category ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                        child: categoryBox(),
+                        padding: EdgeInsets.fromLTRB(20, 12, 20, 0),
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: textLabel('Category')),
+                            categoryBox(),
+                          ],
+                        ),
                       ),
                       /* ----------------- Address ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                        child: addressBox(),
+                        padding: EdgeInsets.fromLTRB(20, 12, 20, 0),
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: textLabel('Address')),
+                            addressBox(),
+                          ],
+                        ),
                       ),
                       /* ----------------- Zip Code ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                        child: zipcodeBox(),
+                        padding: EdgeInsets.fromLTRB(20, 12, 20, 0),
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: textLabel('Zip Code')),
+                            zipcodeBox(),
+                          ],
+                        ),
                       ),
                       /* ----------------- Image ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
-                        child: imageBox(),
+                        padding: EdgeInsets.fromLTRB(20, 12, 20, 0),
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: textLabel('Image')),
+                            imageBox(),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
+                        child: SizedBox(
+                          //width: 0.0,
+                          child: file == null
+                              ? defaultPicture()
+                              //Image.asset("assets/images/upload.png")
+                              : Image.file(file!),
+                        ),
+                      ),
+                      const Divider(
+                        height: 10,
+                        thickness: 0,
+                        indent: 20,
+                        endIndent: 20,
+                        color: Colors.black,
                       ),
                       /* ----------------- Map ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 15, 20, 0),
+                        padding: EdgeInsets.fromLTRB(25, 10, 25, 0),
+                        child: GFButton(
+                          onPressed: () {},
+                          text: "select location",
+                          icon: Icon(
+                            Icons.location_pin,
+                            color: Colors.white,
+                          ),
+                          shape: GFButtonShape.pills,
+                          fullWidthButton: true,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(20, 5, 20, 10),
                         child: mapBox(),
+                      ),
+                      const Divider(
+                        height: 10,
+                        thickness: 0,
+                        indent: 20,
+                        endIndent: 20,
+                        color: Colors.black,
                       ),
                       /* ----------------- Create Button ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 30, 20, 30),
+                        padding: EdgeInsets.fromLTRB(20, 15, 20, 30),
                         child: SizedBox(
                           height: 55.0,
                           child: createButton(),

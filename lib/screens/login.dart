@@ -1,6 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:helpee/screens/register.dart';
+
+import '../models/user_models.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -12,28 +20,47 @@ class Login extends StatefulWidget {
 const darkblue = Color(0xFF005792);
 
 class _LoginState extends State<Login> {
+
+  Widget textLabel(String nametext) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+      child: Text(nametext,
+          style: GoogleFonts.montserrat(
+              fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black)),
+    );
+  }
+
+  final formKey = GlobalKey<FormState>();
+  late String email, password, name, uid;
+
+
   Widget emailBox() {
-    return TextField(
+    return TextFormField(
+      validator: MultiValidator([
+        EmailValidator(errorText: "Please fill the e-mail fommat"),
+        RequiredValidator(errorText: "Please enter your email"),
+      ]),
+      onChanged: (value) => email = value.trim(),
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       cursorColor: Color(0xFF005792),
       decoration: InputDecoration(
-          hintText: 'E-mail',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
+          // hintText: 'E-mail',
+          // hintStyle: GoogleFonts.montserrat(
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w600,
+          //     color: Colors.grey.shade400),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10))),
     );
   }
@@ -47,27 +74,29 @@ class _LoginState extends State<Login> {
 
   Widget passwordBox() {
     return TextFormField(
+      validator: RequiredValidator(errorText: "Please enter password"),
+      onChanged: (value) => password = value.trim(),
       obscureText: _isObscured,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       cursorColor: Color(0xFF005792),
       decoration: InputDecoration(
-          hintText: 'Password',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
+          // hintText: 'Password',
+          // hintStyle: GoogleFonts.montserrat(
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w600,
+          //     color: Colors.grey.shade400),
           enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
               borderRadius: BorderRadius.circular(10)),
           errorBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedErrorBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.red.shade400),
+              borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
               borderRadius: BorderRadius.circular(10)),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
+              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
               borderRadius: BorderRadius.circular(10)),
           suffixIcon: IconButton(
               onPressed: () {
@@ -87,7 +116,7 @@ class _LoginState extends State<Login> {
 
   Widget signinButton() {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: signIn,
       style: ElevatedButton.styleFrom(
           backgroundColor: Color(0xFF005792),
           shape:
@@ -103,6 +132,26 @@ class _LoginState extends State<Login> {
         ],
       ),
     );
+  }
+
+  Future signIn() async {
+    final isValid = formKey.currentState!.validate();
+    if (!isValid) return;
+
+    try {
+      await Firebase.initializeApp().then((value) async {
+        await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password)
+            .then((value) {
+          Fluttertoast.showToast(
+              msg: "Login Success", gravity: ToastGravity.CENTER);
+          Navigator.pop(context);
+        }).catchError((value) => Fluttertoast.showToast(
+                msg: value.message, gravity: ToastGravity.CENTER));
+      });
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
   }
 
   Widget forgetpasswordbutton() {
@@ -173,7 +222,7 @@ class _LoginState extends State<Login> {
           Padding(
             padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: processSignInGoogle,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 shape: CircleBorder(),
@@ -199,6 +248,67 @@ class _LoginState extends State<Login> {
         ],
       ),
     );
+  }
+
+  Future<Null> processSignInGoogle() async {
+    print(" # Logging in ... #");
+    GoogleSignIn _googleSignIn = GoogleSignIn(
+      scopes: [
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
+    );
+
+    await Firebase.initializeApp().then((value) async {
+      await _googleSignIn.signIn().then((value) async {
+        name = value!.displayName!;
+        email = value.email;
+
+        await value.authentication.then((value2) async {
+          AuthCredential authCredential = GoogleAuthProvider.credential(
+            idToken: value2.idToken,
+            accessToken: value2.accessToken,
+          );
+          await FirebaseAuth.instance
+              .signInWithCredential(authCredential)
+              .then((value3) async {
+            uid = value3.user!.uid;
+            print(
+                " # Login With Gmail Success With name = $name, email = $email, uid =$uid #");
+            insertValueToCloudFirestore();
+
+            // await FirebaseFirestore.instance
+            //     .collection('user')
+            //     .doc(uid)
+            //     .snapshots()
+            //     .listen((event) {
+            //   print('event ==> ${event.data()}');
+            //   if (event.data() == null) {
+            //     // Call TypeUser
+            //   } else {
+            //     // Route to Service by TypeUser
+            //   }
+            // });
+            Navigator.pop(context);
+          });
+        });
+      });
+    });
+  }
+
+  Future<Null> insertValueToCloudFirestore() async {
+    UserModel user = UserModel(email: email, name: name);
+    Map<String, dynamic> data = user.toMap();
+    await Firebase.initializeApp().then((value) async {
+      await FirebaseFirestore.instance
+          .collection('user')
+          .doc(uid)
+          .set(data)
+          .then((value) {
+        print(' # Insert Value To Firestore Success Email= $email #');
+        // Navigator
+      });
+    });
   }
 
   @override
@@ -234,9 +344,9 @@ class _LoginState extends State<Login> {
           body: SafeArea(
             child: Center(
               child: Form(
+                key: formKey,
                 child: SingleChildScrollView(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
                         height: 50,
@@ -247,12 +357,26 @@ class _LoginState extends State<Login> {
                                 color: Colors.black)),
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 50, 20, 0),
-                        child: emailBox(),
+                        padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: textLabel('E-mail')),
+                            emailBox(),
+                          ],
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
-                        child: passwordBox(),
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: textLabel('Password')),
+                            passwordBox(),
+                          ],
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
