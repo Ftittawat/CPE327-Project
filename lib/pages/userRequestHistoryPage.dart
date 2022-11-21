@@ -182,7 +182,7 @@ class _UserRequestHistoryState extends State<UserRequestHistory> {
                                   child: Text(
                                     dateTime == null
                                         ? "time is null"
-                                        : "Created Time : ${dateTime!.day}/${dateTime!.month}/${dateTime!.year}, ${dateTime.hour}:${dateTime.minute}",
+                                        : "Created Time : ${dateTime.day}/${dateTime.month}/${dateTime.year}, ${dateTime.hour}:${dateTime.minute}",
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w400,

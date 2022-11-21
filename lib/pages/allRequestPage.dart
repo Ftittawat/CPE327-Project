@@ -7,12 +7,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/components/filterChoice.dart';
 
 import 'package:helpee/screens/loginwithgoogle.dart';
-import 'package:helpee/pages/profilePage.dart';
 import 'package:helpee/screens/showallrequest.dart';
 
 import '../components/authen_service.dart';
 import '../components/category.dart';
-import '../models/user_models.dart';
 import '../screens/login.dart';
 
 class TestHome extends StatefulWidget {
@@ -472,7 +470,7 @@ class _TestHomeState extends State<TestHome> {
                                             child: Text(
                                               dateTime == null
                                                   ? "Created at : Unknown"
-                                                  : "Created at : ${dateTime!.day}/${dateTime!.month}/${dateTime!.year}, ${dateTime.hour}:${dateTime.minute}",
+                                                  : "Created at : ${dateTime.day}/${dateTime.month}/${dateTime.year}, ${dateTime.hour}:${dateTime.minute}",
                                               style: TextStyle(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.w400,
@@ -595,7 +593,7 @@ class _TestHomeState extends State<TestHome> {
                                           child: Text(
                                             dateTime == null
                                                 ? "time is null"
-                                                : "Created Time : ${dateTime!.day}/${dateTime!.month}/${dateTime!.year}, ${dateTime.hour}:${dateTime.minute}",
+                                                : "Created Time : ${dateTime.day}/${dateTime.month}/${dateTime.year}, ${dateTime.hour}:${dateTime.minute}",
                                             style: TextStyle(
                                               fontSize: 13,
                                               fontWeight: FontWeight.w400,
