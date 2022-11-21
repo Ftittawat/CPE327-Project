@@ -1,15 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../components/category.dart';
 
-class ShowAllRequestScreen extends StatelessWidget {
+class ShowRequestDetailsScreen extends StatelessWidget {
   final data;
   final String docID;
-  const ShowAllRequestScreen(
+  const ShowRequestDetailsScreen(
       {super.key, required this.data, required this.docID});
 
   Widget imageBox() {
@@ -33,10 +32,27 @@ class ShowAllRequestScreen extends StatelessWidget {
     );
   }
 
-  Widget acceptRequest(BuildContext context) {
-    DocumentReference<Map<String, dynamic>> requestCollection =
-        FirebaseFirestore.instance.collection("Request").doc(docID);
+  Widget editRequest() {
+    return ElevatedButton(
+      onPressed: () {},
+      style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.grey,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Edit Request",
+              style: GoogleFonts.montserrat(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white)),
+        ],
+      ),
+    );
+  }
 
+  Widget cancelRequest(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
         showDialog(
@@ -46,7 +62,7 @@ class ShowAllRequestScreen extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-              title: Text("Confirm",
+              title: Text("Cancel Request",
                   style: GoogleFonts.montserrat(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -69,44 +85,9 @@ class ShowAllRequestScreen extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {
-                    requestCollection.update({
-                      "Accepted By": FirebaseAuth.instance.currentUser?.uid,
-                      "Status": "In Progress",
-                      // "Accepted by": "dev Ton",
-                    });
-                    print("Accept Success!!");
-                    Navigator.pop(context);
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                              title: Text("Confirmation",
-                                  style: GoogleFonts.montserrat(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black)),
-                              contentPadding:
-                                  EdgeInsets.fromLTRB(20, 20, 20, 0),
-                              content: Icon(
-                                Icons.done_rounded,
-                                color: Colors.blue,
-                                size: 64.0,
-                              ),
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text("OK"))
-                              ]);
-                        });
-                  },
+                  onPressed: () {},
                   child: Text(
-                    "Accept Request",
+                    "Confirm",
                     style: TextStyle(
                         fontWeight: FontWeight.w600, color: Color(0xFF005792)),
                   ),
@@ -117,18 +98,35 @@ class ShowAllRequestScreen extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFF005792),
+          backgroundColor: Colors.red,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Accept Request",
+          Text("Cancel Request",
               style: GoogleFonts.montserrat(
-                  fontSize: 18,
+                  fontSize: 12,
                   fontWeight: FontWeight.w600,
                   color: Colors.white)),
         ],
+      ),
+    );
+  }
+
+  Widget confirmModal() {
+    return Container(
+      height: 230,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(width: 2.0, color: Colors.grey.shade400),
+      ),
+      child: Center(
+        child: Icon(
+          Icons.photo,
+          color: Colors.grey.shade400,
+          size: 40,
+        ),
       ),
     );
   }
@@ -149,7 +147,7 @@ class ShowAllRequestScreen extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        title: Text("Request",
+        title: Text("Request Details",
             style: GoogleFonts.montserrat(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -184,14 +182,31 @@ class ShowAllRequestScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Align(
                 alignment: Alignment.topLeft,
-                child: Text(
-                    data['Created By'] == null
-                        ? "Created By : Anonymous"
-                        : "Created By : ${data['Created By']}",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black)),
+                child: FutureBuilder(
+                  future: FirebaseFirestore.instance
+                      .collection("user")
+                      .doc(data["Created By"])
+                      .get()
+                      .then(
+                    (value) {
+                      String name = value.data() == null
+                          ? data["Created By"]
+                          : value.data()!["name"];
+                      return name;
+                    },
+                  ),
+                  builder: (context, snapshot) {
+                    return Text(
+                      data['Created By'] == null
+                          ? "Created By : Anonymous"
+                          : "Created By : ${snapshot.data}",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                    );
+                  },
+                ),
               ),
             ),
             /* ----------------- Sub Title ---------------- */
@@ -226,12 +241,36 @@ class ShowAllRequestScreen extends StatelessWidget {
                         color: Colors.grey.shade400)),
               ),
             ),
-            /* ----------------- Accept Request ---------------- */
+            /* ----------------- Accepted By ---------------- */
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-              child: SizedBox(
-                height: 55.0,
-                child: acceptRequest(context),
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: FutureBuilder(
+                  future: FirebaseFirestore.instance
+                      .collection("user")
+                      .doc(data["Accepted By"])
+                      .get()
+                      .then(
+                    (value) {
+                      String name = value.data() == null
+                          ? data["Accepted By"]
+                          : value.data()!["name"];
+                      return name;
+                    },
+                  ),
+                  builder: (context, snapshot) {
+                    return Text(
+                      data["Accepted By"] == null
+                          ? "Accepted By : Anonymous"
+                          : "Accepted By : ${snapshot.data}",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                    );
+                  },
+                ),
               ),
             ),
           ],

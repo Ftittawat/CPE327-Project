@@ -4,12 +4,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/screens/setting.dart';
-import 'package:helpee/screens/showallrequest.dart';
+import 'package:helpee/screens/acceptRequest.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 import '../components/authen_service.dart';
 import '../components/category.dart';
-import '../models/ListRequest.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});

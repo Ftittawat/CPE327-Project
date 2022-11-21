@@ -1,10 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:helpee/components/category.dart';
-import 'package:helpee/models/ListRequest.dart';
-import 'package:helpee/screens/showallrequest.dart';
+import 'package:helpee/widgets/userRequestWidget.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 class UserRequestHistory extends StatefulWidget {
@@ -90,129 +86,6 @@ class _UserRequestHistoryState extends State<UserRequestHistory> {
         ));
   }
 
-  Widget userRequestHistory(String status) {
-    return Expanded(
-      child: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection("Request")
-            .where("Created By",
-                isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-            .where("Status", isEqualTo: status)
-            .snapshots(),
-        builder: (context, snapshot) {
-          return (snapshot.connectionState == ConnectionState.waiting)
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : ListView.builder(
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (context, index) {
-                    var data = snapshot.data!.docs[index].data()
-                        as Map<String, dynamic>;
-
-                    // Convert Timestamp to DateTime
-                    DateTime? dateTime;
-                    if (data['Create Time'] != null) {
-                      Timestamp t = data['Create Time'] as Timestamp;
-                      dateTime = t.toDate();
-                    }
-                    return Card(
-                      child: ListTile(
-                          /* ----------------- Title ---------------- */
-                          title: Text(
-                            "Topic: ${data["Topic"]}",
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xFF005792)),
-                          ),
-                          subtitle: Column(
-                            children: [
-                              /* ----------------- Category ---------------- */
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Category.tag("${data['category']}"),
-                                ),
-                              ),
-                              /* ----------------- Subtitle ---------------- */
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                child: Text(
-                                  "Subtitle: ${data['Descrition']}",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                              /* ----------------- Distance ---------------- */
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Row(
-                                    children: [
-                                      /* ----------------- Distance Icon ---------------- */
-                                      Icon(
-                                        Icons.location_on_outlined,
-                                        size: 18,
-                                        color: Colors.black,
-                                      ),
-                                      /* ----------------- Distance Text ---------------- */
-                                      Text(
-                                        "Distance ${data['distance']} kilometers.",
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              /* ----------------- Date Time ---------------- */
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 5),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    dateTime == null
-                                        ? "time is null"
-                                        : "Created Time : ${dateTime.day}/${dateTime.month}/${dateTime.year}, ${dateTime.hour}:${dateTime.minute}",
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.grey.shade400,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          trailing: Icon(Icons.person),
-                          isThreeLine: true,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ShowAllRequestScreen(
-                                    data: data,
-                                    docID: snapshot.data!.docs[index].id,
-                                  ),
-                                ));
-                            print("docID : ${snapshot.data!.docs[index].id}");
-                          }),
-                    );
-                  });
-        },
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -256,13 +129,13 @@ class _UserRequestHistoryState extends State<UserRequestHistory> {
               child: TabBarView(
                 children: [
                   Column(
-                    children: [userRequestHistory("Available")],
+                    children: [userRequest("Created By", "Available")],
                   ),
                   Column(
-                    children: [userRequestHistory("In Progress")],
+                    children: [userRequest("Created By", "In Progress")],
                   ),
                   Column(
-                    children: [userRequestHistory("Completed")],
+                    children: [userRequest("Created By", "Completed")],
                   ),
                 ],
               ),
