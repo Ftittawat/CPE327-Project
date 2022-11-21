@@ -11,7 +11,7 @@ import 'package:helpee/components/utils.dart';
 
 import 'package:helpee/models/user_models.dart';
 import 'package:helpee/providers/google_sign_in.dart';
-import 'package:helpee/screens/home.dart';
+import 'package:helpee/pages/home.dart';
 import 'package:helpee/screens/login.dart';
 import 'package:helpee/screens/profile.dart';
 import 'package:provider/provider.dart';

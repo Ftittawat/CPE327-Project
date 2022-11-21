@@ -225,7 +225,7 @@ class _MyRequestState extends State<MyRequest> {
         toolbarHeight: 60,
         elevation: 0,
         backgroundColor: Colors.white,
-        title: Text("Your Accept Request",
+        title: Text("Your Recieve Request",
             style: GoogleFonts.montserrat(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
