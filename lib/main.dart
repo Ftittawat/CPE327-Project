@@ -2,17 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/components/utils.dart';
-import 'package:helpee/screens/createrequest.dart';
-import 'package:helpee/screens/getstart.dart';
-import 'package:helpee/screens/home.dart';
-import 'package:helpee/screens/login.dart';
+import 'package:helpee/screens/createrequestscreen/createrequest.dart';
 import 'package:helpee/screens/loginwithgoogle.dart';
 import 'package:helpee/screens/pleaselogin.dart';
-import 'package:helpee/screens/profile.dart';
-import 'package:helpee/screens/register.dart';
-import 'package:helpee/screens/notification.dart';
-import 'package:helpee/screens/allRequest.dart';
-import 'package:helpee/screens/myRequest.dart';
+import 'package:helpee/screens/profilescreen/profile.dart';
+import 'package:helpee/screens/notificationscreen/notification.dart';
+import 'package:helpee/screens/allrequestscreen/allRequest.dart';
+import 'package:helpee/screens/myrequestscreen/myRequest.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 var loginKey = 0;
@@ -130,7 +126,7 @@ class _MyAppState extends State<MyApp> {
                       minWidth: 80,
                       onPressed: () {
                         setState(() {
-                          currentScreen = TestHome();
+                          currentScreen = ALLRequest();
                           currentTab = 0;
                         });
                       },
@@ -296,7 +292,7 @@ class _MyAppState extends State<MyApp> {
                       minWidth: 80,
                       onPressed: () {
                         setState(() {
-                          currentScreen = TestHome();
+                          currentScreen = ALLRequest();
                           currentTab = 0;
                         });
                       },
@@ -427,7 +423,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = TestHome();
+  Widget currentScreen = ALLRequest();
 
   final navigatorKey = GlobalKey<NavigatorState>();
   @override

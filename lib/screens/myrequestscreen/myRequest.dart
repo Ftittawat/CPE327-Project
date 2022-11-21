@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:helpee/screens/ListRequest.dart';
-import 'package:helpee/screens/allRequest.dart';
-import 'package:helpee/screens/showmyrequest.dart';
+import 'package:helpee/testlist/ListRequest.dart';
+import 'package:helpee/screens/allrequestscreen/allRequest.dart';
+import 'package:helpee/screens/myrequestscreen/showmyrequest.dart';
 
 class MyRequest extends StatefulWidget {
   const MyRequest({super.key});
