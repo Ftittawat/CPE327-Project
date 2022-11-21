@@ -181,7 +181,7 @@ class _ProfileState extends State<Profile> {
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                                 child: Text(
-                                  "Subtitle: ${data['Descrition']}",
+                                  "Subtitle: ${data['Description']}",
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,

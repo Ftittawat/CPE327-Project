@@ -57,12 +57,15 @@ Widget displayAllRequest() {
                               /* ----------------- Subtitle ---------------- */
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                child: Text(
-                                  "Subtitle: ${data['Descrition']}",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "Subtitle: ${data['Description']}",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -188,7 +191,7 @@ Widget displayAllRequest() {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                               child: Text(
-                                "Subtitle: ${data['Descrition']}",
+                                "Subtitle: ${data['Description']}",
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,

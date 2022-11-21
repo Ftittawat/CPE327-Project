@@ -216,7 +216,7 @@ class ShowAllRequestScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Align(
                 alignment: Alignment.topLeft,
-                child: Text("Subtitle: ${data['Descrition']}",
+                child: Text("Subtitle: ${data['Description']}",
                     style: GoogleFonts.montserrat(
                         fontSize: 15,
                         fontWeight: FontWeight.w400,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:helpee/components/category.dart';
 import 'package:helpee/screens/showRequestDetails.dart';
 
+late String name;
 Widget userRequest(String query, String status) {
   return Expanded(
     child: StreamBuilder<QuerySnapshot>(
@@ -52,12 +53,15 @@ Widget userRequest(String query, String status) {
                           /* ----------------- Subtitle ---------------- */
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                            child: Text(
-                              "Subtitle: ${data['Descrition']}",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Subtitle: ${data['Description']}",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
                           ),
@@ -108,16 +112,32 @@ Widget userRequest(String query, String status) {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                data['Created By'] == null
-                                    ? "Created By : Anonymous"
-                                    : "Created By : ${data['Created By']}",
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.grey.shade400,
+                              alignment: Alignment.topLeft,
+                              child: FutureBuilder(
+                                future: FirebaseFirestore.instance
+                                    .collection("user")
+                                    .doc(data["Created By"])
+                                    .get()
+                                    .then(
+                                  (value) {
+                                    name = value.data() == null
+                                        ? data["Created By"]
+                                        : value.data()!["name"];
+                                    return name;
+                                  },
                                 ),
+                                builder: (context, snapshot) {
+                                  return Text(
+                                    data['Created By'] == null
+                                        ? "Created By : Anonymous"
+                                        : "Created By : ${snapshot.data}",
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.grey.shade400,
+                                    ),
+                                  );
+                                },
                               ),
                             ),
                           ),

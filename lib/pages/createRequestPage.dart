@@ -379,7 +379,7 @@ class _CreateRequestState extends State<CreateRequest> {
           "Description": DescriptionController.text,
           "Create Time": DateTime.now(),
           "Created By": FirebaseAuth.instance.currentUser?.uid,
-          "Accept By": "",
+          "Accepted By": "",
           "Picture": picURL,
           "Status": "Available",
           //"Category": CategoryController.text
