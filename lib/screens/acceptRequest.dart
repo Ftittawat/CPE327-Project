@@ -1,14 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:helpee/testlist/ListRequest.dart';
 
-import '../../components/category.dart';
+import '../components/category.dart';
 
 class ShowAllRequestScreen extends StatelessWidget {
-  final ListRequest listRequest;
-  const ShowAllRequestScreen({super.key, required this.listRequest});
+  final data;
+  final String docID;
+  const ShowAllRequestScreen(
+      {super.key, required this.data, required this.docID});
 
   Widget imageBox() {
+    String imageURL = data["Picture"] ?? " ";
+
     return Container(
       height: 230,
       decoration: BoxDecoration(
@@ -16,16 +23,21 @@ class ShowAllRequestScreen extends StatelessWidget {
         border: Border.all(width: 2.0, color: Colors.grey.shade400),
       ),
       child: Center(
-        child: Icon(
-          Icons.photo,
-          color: Colors.grey.shade400,
-          size: 40,
-        ),
+        child: imageURL == " "
+            ? Icon(
+                Icons.photo,
+                color: Colors.grey.shade400,
+                size: 40,
+              )
+            : Image.network(imageURL),
       ),
     );
   }
 
   Widget acceptRequest(BuildContext context) {
+    DocumentReference<Map<String, dynamic>> requestCollection =
+        FirebaseFirestore.instance.collection("Request").doc(docID);
+
     return ElevatedButton(
       onPressed: () {
         showDialog(
@@ -58,7 +70,41 @@ class ShowAllRequestScreen extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    requestCollection.update({
+                      "Accepted By": FirebaseAuth.instance.currentUser?.uid,
+                      "Status": "In Progress",
+                    });
+                    print("Accept Success!!");
+                    Navigator.pop(context);
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                              title: Text("Confirmation",
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black)),
+                              contentPadding:
+                                  EdgeInsets.fromLTRB(20, 20, 20, 0),
+                              content: Icon(
+                                Icons.done_rounded,
+                                color: Colors.blue,
+                                size: 64.0,
+                              ),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("OK"))
+                              ]);
+                        });
+                  },
                   child: Text(
                     "Accept Request",
                     style: TextStyle(
@@ -89,6 +135,11 @@ class ShowAllRequestScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime? dateTime;
+    if (data["Create Time"] != null) {
+      Timestamp t = data["Create Time"] as Timestamp;
+      dateTime = t.toDate();
+    }
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -113,7 +164,7 @@ class ShowAllRequestScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(listRequest.title,
+                child: Text("Topic: ${data["Topic"]}",
                     style: GoogleFonts.montserrat(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
@@ -125,7 +176,39 @@ class ShowAllRequestScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Category.tag(listRequest.category),
+                child: Category.tag("${data["category"]}"),
+              ),
+            ),
+            /* ----------------- Created By ---------------- */
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: FutureBuilder(
+                  future: FirebaseFirestore.instance
+                      .collection("user")
+                      .doc(data["Created By"])
+                      .get()
+                      .then(
+                    (value) {
+                      String name = value.data() == null
+                          ? data["Created By"]
+                          : value.data()!["name"];
+                      return name;
+                    },
+                  ),
+                  builder: (context, snapshot) {
+                    return Text(
+                      data['Created By'] == null
+                          ? "Created By : Anonymous"
+                          : "Created By : ${snapshot.data}",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                    );
+                  },
+                ),
               ),
             ),
             /* ----------------- Sub Title ---------------- */
@@ -133,10 +216,10 @@ class ShowAllRequestScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Align(
                 alignment: Alignment.topLeft,
-                child: Text(listRequest.subtitle,
+                child: Text("Subtitle: ${data['Description']}",
                     style: GoogleFonts.montserrat(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
                         color: Colors.black)),
               ),
             ),
@@ -150,7 +233,10 @@ class ShowAllRequestScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text('15 Oct 2022, 22:00 ',
+                child: Text(
+                    dateTime == null
+                        ? "time is null"
+                        : "Created Time : ${dateTime.day}/${dateTime.month}/${dateTime.year}, ${dateTime.hour}:${dateTime.minute}",
                     style: GoogleFonts.montserrat(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,

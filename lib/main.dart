@@ -2,13 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/components/utils.dart';
-import 'package:helpee/screens/createrequestscreen/createrequest.dart';
+import 'package:helpee/pages/allRequestPage.dart';
+import 'package:helpee/pages/createRequestPage.dart';
+import 'package:helpee/pages/profilePage.dart';
+import 'package:helpee/pages/userRequestHistoryPage.dart';
+import 'package:helpee/pages/userRequestPage.dart';
 import 'package:helpee/screens/loginwithgoogle.dart';
 import 'package:helpee/screens/pleaselogin.dart';
-import 'package:helpee/screens/profilescreen/profile.dart';
-import 'package:helpee/screens/notificationscreen/notification.dart';
-import 'package:helpee/screens/allrequestscreen/allRequest.dart';
-import 'package:helpee/screens/myrequestscreen/myRequest.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 var loginKey = 0;
@@ -126,7 +126,7 @@ class _MyAppState extends State<MyApp> {
                       minWidth: 80,
                       onPressed: () {
                         setState(() {
-                          currentScreen = ALLRequest();
+                          currentScreen = AllRequest();
                           currentTab = 0;
                         });
                       },
@@ -154,7 +154,7 @@ class _MyAppState extends State<MyApp> {
                       minWidth: 80,
                       onPressed: () {
                         setState(() {
-                          currentScreen = MyRequest();
+                          currentScreen = UserRequest();
                           currentTab = 1;
                         });
                       },
@@ -188,7 +188,7 @@ class _MyAppState extends State<MyApp> {
                       minWidth: 80,
                       onPressed: () {
                         setState(() {
-                          currentScreen = Notificationscreen();
+                          currentScreen = UserRequestHistory();
                           currentTab = 2;
                         });
                       },
@@ -196,7 +196,7 @@ class _MyAppState extends State<MyApp> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.notifications,
+                            Icons.history,
                             size: 28,
                             color: currentTab == 2
                                 ? Color(0xFF005792)
@@ -292,7 +292,7 @@ class _MyAppState extends State<MyApp> {
                       minWidth: 80,
                       onPressed: () {
                         setState(() {
-                          currentScreen = ALLRequest();
+                          currentScreen = AllRequest();
                           currentTab = 0;
                         });
                       },
@@ -366,7 +366,7 @@ class _MyAppState extends State<MyApp> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.notifications,
+                            Icons.history,
                             size: 28,
                             color: currentTab == 2
                                 ? Color(0xFF005792)
@@ -423,7 +423,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = ALLRequest();
+  Widget currentScreen = AllRequest();
 
   final navigatorKey = GlobalKey<NavigatorState>();
   @override
@@ -434,174 +434,5 @@ class _MyAppState extends State<MyApp> {
     } else {
       return home1();
     }
-    // return MaterialApp(
-    //   // home: Register(),
-    //   home: Scaffold(
-    //     /* ----------------- Body ---------------- */
-    //     body: PageStorage(
-    //       bucket: bucket,
-    //       child: currentScreen,
-    //     ),
-    //     floatingActionButton: FloatingActionButton(
-    //       backgroundColor: Color(0xFF005792),
-    //       child: Icon(Icons.add),
-    //       onPressed: () {
-    //         setState(() {
-    //           currentScreen = CreateRequest();
-    //           currentTab = 5;
-    //         });
-    //       },
-    //     ),
-    //     floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    //     bottomNavigationBar: BottomAppBar(
-    //       color: Colors.grey.shade200,
-    //       shape: CircularNotchedRectangle(),
-    //       notchMargin: 10,
-    //       child: Container(
-    //         height: 60,
-    //         child: Row(
-    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //           children: <Widget>[
-    //             Row(
-    //               crossAxisAlignment: CrossAxisAlignment.start,
-    //               children: [
-    //                 MaterialButton(
-    //                   minWidth: 80,
-    //                   onPressed: () {
-    //                     setState(() {
-    //                       currentScreen = TestHome();
-    //                       currentTab = 0;
-    //                     });
-    //                   },
-    //                   child: Column(
-    //                     mainAxisAlignment: MainAxisAlignment.center,
-    //                     children: [
-    //                       Icon(
-    //                         Icons.home,
-    //                         size: 28,
-    //                         color: currentTab == 0
-    //                             ? Color(0xFF005792)
-    //                             : Colors.grey.shade600,
-    //                       ),
-    //                       // Text(
-    //                       //   'Home',
-    //                       //   style: TextStyle(
-    //                       //       color: currentTab == 0
-    //                       //           ? Color(0xFF005792)
-    //                       //           : Colors.grey.shade600),
-    //                       // )
-    //                     ],
-    //                   ),
-    //                 ),
-    //                 MaterialButton(
-    //                   minWidth: 80,
-    //                   onPressed: () {
-    //                     setState(() {
-    //                       currentScreen = MyRequest();
-    //                       currentTab = 1;
-    //                     });
-    //                   },
-    //                   child: Column(
-    //                     mainAxisAlignment: MainAxisAlignment.center,
-    //                     children: [
-    //                       Icon(
-    //                         Icons.wysiwyg,
-    //                         size: 28,
-    //                         color: currentTab == 1
-    //                             ? Color(0xFF005792)
-    //                             : Colors.grey.shade600,
-    //                       ),
-    //                       // Text(
-    //                       //   'My Request',
-    //                       //   style: TextStyle(
-    //                       //       color: currentTab == 1
-    //                       //           ? Color(0xFF005792)
-    //                       //           : Colors.grey.shade600),
-    //                       // )
-    //                     ],
-    //                   ),
-    //                 ),
-    //               ],
-    //             ),
-    //             // Right Tab Bar Icons
-    //             Row(
-    //               crossAxisAlignment: CrossAxisAlignment.start,
-    //               children: [
-    //                 MaterialButton(
-    //                   minWidth: 80,
-    //                   onPressed: () {
-    //                     setState(() {
-    //                       currentScreen = Notificationscreen();
-    //                       currentTab = 2;
-    //                     });
-    //                   },
-    //                   child: Column(
-    //                     mainAxisAlignment: MainAxisAlignment.center,
-    //                     children: [
-    //                       Icon(
-    //                         Icons.notifications,
-    //                         size: 28,
-    //                         color: currentTab == 2
-    //                             ? Color(0xFF005792)
-    //                             : Colors.grey.shade600,
-    //                       ),
-    //                       // Text(
-    //                       //   'Notification',
-    //                       //   style: TextStyle(
-    //                       //       color: currentTab == 2
-    //                       //           ? Color(0xFF005792)
-    //                       //           : Colors.grey.shade600),
-    //                       // )
-    //                     ],
-    //                   ),
-    //                 ),
-    //                 MaterialButton(
-    //                   minWidth: 80,
-    //                   onPressed: () {
-    //                     setState(() {
-    //                       currentScreen = Profile();
-    //                       currentTab = 3;
-    //                     });
-    //                   },
-    //                   child: Column(
-    //                     mainAxisAlignment: MainAxisAlignment.center,
-    //                     children: [
-    //                       Icon(
-    //                         Icons.person,
-    //                         size: 28,
-    //                         color: currentTab == 3
-    //                             ? Color(0xFF005792)
-    //                             : Colors.grey.shade600,
-    //                       ),
-    //                       // Text(
-    //                       //   'Profile',
-    //                       //   style: TextStyle(
-    //                       //       color: currentTab == 3
-    //                       //           ? Color(0xFF005792)
-    //                       //           : Colors.grey.shade600),
-    //                       // )
-    //                     ],
-    //                   ),
-    //                 ),
-    //               ],
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 }
-
-
-// Image.asset("assets/images/helpee1.png"),
-// Text("Welcome to helpee", style: GoogleFonts.montserrat(fontSize: 30, fontWeight: FontWeight.w700, color: Color(0xFFFFFFFF))),
-// Text("Application for help in various fields", style: GoogleFonts.montserrat(fontSize: 16, fontWeight: FontWeight.w500, color: Color(0xFFFFFFFF)))
-
-// @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: TestHome(),
-//     );
-//   }

@@ -243,40 +243,27 @@ class _CreateRequestState extends State<CreateRequest> {
   }
 
   Widget imageBox() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-            child: Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            ElevatedButton.icon(
-              onPressed: () {
-                chooseImage(ImageSource.camera);
-              },
-              icon: Icon(Icons.add_a_photo), //icon data for elevated button
-              label: Text("Upload Image"), //label text
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF005792),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5))),
-            ),
-            Text("      "),
-            ElevatedButton.icon(
-              onPressed: () {
-                chooseImage(ImageSource.gallery);
-              },
-              icon: Icon(
-                  Icons.add_photo_alternate), //icon data for elevated button
-              label: Text("Choose Image"), //label text
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF005792),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5))),
-            )
-          ],
-        )),
-      ],
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ElevatedButton.icon(
+            onPressed: () {
+              chooseImage(ImageSource.camera);
+            },
+            icon: Icon(Icons.add_a_photo), //icon data for elevated button
+            label: Text("Upload Image"), //label text
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              chooseImage(ImageSource.gallery);
+            },
+            icon:
+                Icon(Icons.add_photo_alternate), //icon data for elevated button
+            label: Text("Choose Image"), //label text
+          )
+        ],
+      ),
     );
     // return Container(
     //   height: 180,
@@ -334,7 +321,7 @@ class _CreateRequestState extends State<CreateRequest> {
     );
 
     return Container(
-      height: 200,
+      height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(width: 1.0, color: Colors.grey.shade400),
@@ -392,7 +379,9 @@ class _CreateRequestState extends State<CreateRequest> {
           "Description": DescriptionController.text,
           "Create Time": DateTime.now(),
           "Created By": FirebaseAuth.instance.currentUser?.uid,
+          // "Accepted By": "",
           "Picture": picURL,
+          "Status": "Available",
           //"Category": CategoryController.text
         });
         TopicController.clear();
@@ -445,11 +434,10 @@ class _CreateRequestState extends State<CreateRequest> {
 
   Widget defaultPicture() {
     return SizedBox(
-      width: 450,
+      width: 450.0,
       //height: 100.0,
       child: Card(
-        // color: Colors.white,
-        elevation: 0.0,
+        color: Colors.white,
         child: Center(
           child: Column(
             children: [
@@ -458,13 +446,9 @@ class _CreateRequestState extends State<CreateRequest> {
                 width: 250.0,
                 height: 250.0,
               ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                child: Text("please upload image",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black)),
+              Text(
+                'please upload image\n',
+                style: TextStyle(color: Colors.black),
               ),
             ],
           ),
@@ -569,7 +553,7 @@ class _CreateRequestState extends State<CreateRequest> {
                           ],
                         ),
                       ),
-                      /* ----------------- Add Image ---------------- */
+                      /* ----------------- Image ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 12, 20, 0),
                         child: Column(
@@ -581,14 +565,9 @@ class _CreateRequestState extends State<CreateRequest> {
                           ],
                         ),
                       ),
-                      /* ----------------- Show Image ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 1.0, color: Colors.grey.shade400),
-                              borderRadius: BorderRadius.circular(10)),
+                        padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
+                        child: SizedBox(
                           //width: 0.0,
                           child: file == null
                               ? defaultPicture()
@@ -596,16 +575,16 @@ class _CreateRequestState extends State<CreateRequest> {
                               : Image.file(file!),
                         ),
                       ),
-                      // const Divider(
-                      //   height: 10,
-                      //   thickness: 0,
-                      //   indent: 20,
-                      //   endIndent: 20,
-                      //   color: Colors.black,
-                      // ),
-                      /* ----------------- Add Location ---------------- */
+                      const Divider(
+                        height: 10,
+                        thickness: 0,
+                        indent: 20,
+                        endIndent: 20,
+                        color: Colors.black,
+                      ),
+                      /* ----------------- Map ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+                        padding: EdgeInsets.fromLTRB(25, 10, 25, 0),
                         child: GFButton(
                           onPressed: () {},
                           text: "select location",
@@ -613,23 +592,21 @@ class _CreateRequestState extends State<CreateRequest> {
                             Icons.location_pin,
                             color: Colors.white,
                           ),
-                          color: Color(0xFF005792),
-                          shape: GFButtonShape.standard,
+                          shape: GFButtonShape.pills,
                           fullWidthButton: true,
                         ),
                       ),
-                      /* ----------------- Show Image ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        padding: EdgeInsets.fromLTRB(20, 5, 20, 10),
                         child: mapBox(),
                       ),
-                      // const Divider(
-                      //   height: 10,
-                      //   thickness: 0,
-                      //   indent: 20,
-                      //   endIndent: 20,
-                      //   color: Colors.black,
-                      // ),
+                      const Divider(
+                        height: 10,
+                        thickness: 0,
+                        indent: 20,
+                        endIndent: 20,
+                        color: Colors.black,
+                      ),
                       /* ----------------- Create Button ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 15, 20, 30),
