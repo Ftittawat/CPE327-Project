@@ -1,18 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/models/ListRequest.dart';
 
 import '../components/category.dart';
 
 class ShowAllRequestScreen extends StatelessWidget {
-  // final ListRequest listRequest;
   final data;
-  // const ShowAllRequestScreen({super.key, required this.listRequest});
-  const ShowAllRequestScreen({super.key, required this.data});
+  final String docID;
+  const ShowAllRequestScreen(
+      {super.key, required this.data, required this.docID});
 
   Widget imageBox() {
-    print(data);
     String imageURL = data["Picture"] ?? " ";
 
     return Container(
@@ -34,6 +36,9 @@ class ShowAllRequestScreen extends StatelessWidget {
   }
 
   Widget acceptRequest(BuildContext context) {
+    DocumentReference<Map<String, dynamic>> requestCollection =
+        FirebaseFirestore.instance.collection("Request").doc(docID);
+
     return ElevatedButton(
       onPressed: () {
         showDialog(
@@ -66,7 +71,42 @@ class ShowAllRequestScreen extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    requestCollection.update({
+                      "Accepted by": FirebaseAuth.instance.currentUser?.uid,
+                      "Status": "In Progress",
+                      // "Accepted by": "dev Ton",
+                    });
+                    print("Accept Success!!");
+                    Navigator.pop(context);
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                              title: Text("Confirmation",
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black)),
+                              contentPadding:
+                                  EdgeInsets.fromLTRB(20, 20, 20, 0),
+                              content: Icon(
+                                Icons.done_rounded,
+                                color: Colors.blue,
+                                size: 64.0,
+                              ),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("OK"))
+                              ]);
+                        });
+                  },
                   child: Text(
                     "Accept Request",
                     style: TextStyle(
@@ -141,6 +181,21 @@ class ShowAllRequestScreen extends StatelessWidget {
                 child: Category.tag("${data["category"]}"),
               ),
             ),
+            /* ----------------- Created By ---------------- */
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                    data['Created By'] == null
+                        ? "Created By : Anonymous"
+                        : "Created By : ${data['Created By']}",
+                    style: GoogleFonts.montserrat(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black)),
+              ),
+            ),
             /* ----------------- Sub Title ---------------- */
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -148,8 +203,8 @@ class ShowAllRequestScreen extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: Text("Subtitle: ${data['Descrition']}",
                     style: GoogleFonts.montserrat(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
                         color: Colors.black)),
               ),
             ),

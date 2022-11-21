@@ -8,10 +8,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:helpee/components/dialog.dart';
 import 'package:helpee/components/utils.dart';
-import 'package:helpee/models/profile.dart';
+
 import 'package:helpee/models/user_models.dart';
 import 'package:helpee/providers/google_sign_in.dart';
-import 'package:helpee/screens/home.dart';
+import 'package:helpee/pages/home.dart';
 import 'package:helpee/screens/login.dart';
 import 'package:helpee/screens/profile.dart';
 import 'package:provider/provider.dart';
@@ -105,7 +105,6 @@ class _RegisterState extends State<Register> {
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Colors.grey.shade400),
-
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),

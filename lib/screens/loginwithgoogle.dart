@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:helpee/models/user_models.dart';
 
 class LoginWithGoogle extends StatefulWidget {
   const LoginWithGoogle({super.key});
@@ -9,6 +14,69 @@ class LoginWithGoogle extends StatefulWidget {
 }
 
 class _LoginWithGoogleState extends State<LoginWithGoogle> {
+  late String email, password, name, uid;
+
+  Future<Null> processSignInGoogle() async {
+    print(" # Logging in ... #");
+    GoogleSignIn _googleSignIn = GoogleSignIn(
+      scopes: [
+        'email',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ],
+    );
+
+    await Firebase.initializeApp().then((value) async {
+      await _googleSignIn.signIn().then((value) async {
+        name = value!.displayName!;
+        email = value.email;
+
+        await value.authentication.then((value2) async {
+          AuthCredential authCredential = GoogleAuthProvider.credential(
+            idToken: value2.idToken,
+            accessToken: value2.accessToken,
+          );
+          await FirebaseAuth.instance
+              .signInWithCredential(authCredential)
+              .then((value3) async {
+            uid = value3.user!.uid;
+            print(
+                " # Login With Gmail Success With name = $name, email = $email, uid =$uid #");
+            insertValueToCloudFirestore();
+
+            // await FirebaseFirestore.instance
+            //     .collection('user')
+            //     .doc(uid)
+            //     .snapshots()
+            //     .listen((event) {
+            //   print('event ==> ${event.data()}');
+            //   if (event.data() == null) {
+            //     // Call TypeUser
+            //   } else {
+            //     // Route to Service by TypeUser
+            //   }
+            // });
+            Navigator.pop(context);
+          });
+        });
+      });
+    });
+  }
+
+  Future<Null> insertValueToCloudFirestore() async {
+    UserModel user = UserModel(email: email, name: name);
+    Map<String, dynamic> data = user.toMap();
+    await Firebase.initializeApp().then((value) async {
+      await FirebaseFirestore.instance
+          .collection('user')
+          .doc(uid)
+          .set(data)
+          .then((value) {
+        print(' # Insert Value To Firestore Success Email= $email #');
+        // Navigator
+      });
+    });
+  }
+
   Widget textLabel(String nametext) {
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
@@ -20,7 +88,7 @@ class _LoginWithGoogleState extends State<LoginWithGoogle> {
 
   Widget googleButton() {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: processSignInGoogle,
       style: ElevatedButton.styleFrom(
           elevation: 0,
           backgroundColor: Colors.white,

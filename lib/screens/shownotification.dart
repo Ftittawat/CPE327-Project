@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:helpee/screens/notification.dart';
+import 'package:helpee/pages/notification.dart';
 
 import '../models/ListNotification.dart';
 
