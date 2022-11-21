@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:helpee/screens/ListRequest.dart';
+import 'package:helpee/testlist/ListRequest.dart';
 
-import '../components/category.dart';
+import '../../components/category.dart';
 
 class ShowAllRequestScreen extends StatelessWidget {
   final ListRequest listRequest;

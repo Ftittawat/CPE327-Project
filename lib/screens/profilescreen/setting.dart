@@ -5,11 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:helpee/screens/allRequest%20copy.dart';
-import 'package:helpee/screens/settingscreens/address.dart';
-import 'package:helpee/screens/settingscreens/changepassword.dart';
-import 'package:helpee/screens/settingscreens/editprofile.dart';
-import 'package:helpee/screens/settingscreens/yourskill.dart';
+import 'package:helpee/screens/profilescreen/settingscreen/editprofile.dart';
+import 'package:helpee/screens/profilescreen/settingscreen/yourskill.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
@@ -49,36 +46,6 @@ class _SettingState extends State<Setting> {
     );
   }
 
-  Widget changepasswordbutton() {
-    return ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ChangePassword()),
-        );
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text("Change Password",
-              style: GoogleFonts.montserrat(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black)),
-          Icon(
-            Icons.chevron_right,
-            size: 25,
-            color: Colors.black,
-          )
-        ],
-      ),
-    );
-  }
-
   Widget yourskillbutton() {
     return ElevatedButton(
       onPressed: () {
@@ -95,36 +62,6 @@ class _SettingState extends State<Setting> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text("Your Skill",
-              style: GoogleFonts.montserrat(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black)),
-          Icon(
-            Icons.chevron_right,
-            size: 25,
-            color: Colors.black,
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget addressbutton() {
-    return ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Address()),
-        );
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text("Address",
               style: GoogleFonts.montserrat(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -279,18 +216,6 @@ class _SettingState extends State<Setting> {
                   child: editprofilebutton(),
                 ),
               ),
-              /* ----------------- Chande Password ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: Container(
-                  height: 50,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(width: 1.0, color: Colors.grey))),
-                  child: changepasswordbutton(),
-                ),
-              ),
               /* ----------------- Your Skill ---------------- */
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -301,18 +226,6 @@ class _SettingState extends State<Setting> {
                       border: Border(
                           bottom: BorderSide(width: 1.0, color: Colors.grey))),
                   child: yourskillbutton(),
-                ),
-              ),
-              /* ----------------- Address ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: Container(
-                  height: 50,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(width: 1.0, color: Colors.grey))),
-                  child: addressbutton(),
                 ),
               ),
               /* ----------------- Help ---------------- */
