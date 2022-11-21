@@ -44,25 +44,6 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  /* group data */
-  List<ListRequest> list_request = [
-    ListRequest(
-        "Repair pipe",
-        "The water pipe has a crack, Please fix the water pipes for me.",
-        "Mechanic",
-        2.0),
-    ListRequest(
-        "My computer won't turn on",
-        "My computer was working fine before, But today my computer won't turn on. ",
-        "Technology",
-        3),
-    ListRequest(
-        "Repair pipe",
-        "The water pipe has a crack, Please fix the water pipes for me.",
-        "Electric",
-        2.0),
-  ];
-
   Widget skillbox(String skillname, Color boxcolor) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -156,7 +137,7 @@ class _ProfileState extends State<Profile> {
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection("Request")
-            .where("Accepted by",
+            .where("Created By",
                 isEqualTo: FirebaseAuth.instance.currentUser!.uid)
             .where("Status", isEqualTo: status)
             .snapshots(),
@@ -276,55 +257,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget requesthistory() {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height - 600,
-        child: ListView.builder(
-          itemCount: list_request.length, //fix bound of request
-          itemBuilder: (BuildContext context, int index) {
-            ListRequest request = list_request[index];
-            return Card(
-                child: ListTile(
-                    title: Text(
-                      request.title,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF005792)),
-                    ),
-                    subtitle: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Category.tag(request.category),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "22 Oct 2022, 10:22",
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    trailing: deleteButton(),
-                    isThreeLine: true,
-                    onTap: () {}));
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget historyall() {
+  Widget historyAll() {
     return Container(
       height: 220,
       width: MediaQuery.of(context).size.width,
@@ -393,13 +326,6 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
-
-//   getProfileImage() {
-//     if (FirebaseAuth.instance.currentUser?.photoURL != null) {
-//       return Image.network(
-// ;
-//     } else {}
-//   }
 
   @override
   Widget build(BuildContext context) {
@@ -530,12 +456,8 @@ class _ProfileState extends State<Profile> {
                 padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
                 child: Align(
                   alignment: Alignment.center,
-                  child: historyall(),
+                  child: historyAll(),
                 ),
-              ),
-              /* ----------------- History ----------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
               ),
             ],
           ),

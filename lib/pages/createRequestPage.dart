@@ -143,7 +143,6 @@ class _CreateRequestState extends State<CreateRequest> {
         showSearchBox: true,
         showSelectedItems: true,
         searchFieldProps: TextFieldProps(
-
           cursorColor: Color(0xFF005792),
           style: GoogleFonts.montserrat(
               fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
@@ -380,7 +379,9 @@ class _CreateRequestState extends State<CreateRequest> {
           "Description": DescriptionController.text,
           "Create Time": DateTime.now(),
           "Created By": FirebaseAuth.instance.currentUser?.uid,
+          "Accept By": "",
           "Picture": picURL,
+          "Status": "Available",
           //"Category": CategoryController.text
         });
         TopicController.clear();

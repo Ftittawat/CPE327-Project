@@ -97,7 +97,7 @@ class _MyRequestState extends State<MyRequest> {
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection("Request")
-            .where("Accepted by",
+            .where("Accepted By",
                 isEqualTo: FirebaseAuth.instance.currentUser!.uid)
             .where("Status", isEqualTo: status)
             .snapshots(),
@@ -225,7 +225,7 @@ class _MyRequestState extends State<MyRequest> {
         toolbarHeight: 60,
         elevation: 0,
         backgroundColor: Colors.white,
-        title: Text("Your Recieve Request",
+        title: Text("Accepted Request",
             style: GoogleFonts.montserrat(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,

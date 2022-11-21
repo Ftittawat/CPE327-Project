@@ -4,17 +4,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:helpee/components/utils.dart';
+import 'package:helpee/pages/userRequestHistoryPage.dart';
 import 'package:helpee/screens/getstart.dart';
 import 'package:helpee/screens/login.dart';
 import 'package:helpee/screens/loginwithgoogle.dart';
-import 'package:helpee/screens/profile.dart';
+import 'package:helpee/pages/profilePage.dart';
 import 'package:helpee/screens/register.dart';
 
-import 'package:helpee/pages/createrequest.dart';
+import 'package:helpee/pages/createRequestPage.dart';
 import 'package:helpee/pages/notification.dart';
-import 'package:helpee/pages/allRequest.dart';
-import 'package:helpee/pages/myRequest.dart';
-import 'package:helpee/pages/home.dart';
+import 'package:helpee/pages/allRequestPage.dart';
+import 'package:helpee/pages/myRequestPage.dart';
 
 var loginKey = 0;
 
@@ -83,7 +83,8 @@ class _MyAppState extends State<MyApp> {
     TestHome(),
     MyRequest(),
     CreateRequest(),
-    Notificationscreen(),
+    // Notificationscreen(),
+    UserRequestHistory(),
     Profile(),
   ];
 
@@ -193,7 +194,8 @@ class _MyAppState extends State<MyApp> {
                       minWidth: 80,
                       onPressed: () {
                         setState(() {
-                          currentScreen = Notificationscreen();
+                          // currentScreen = Notificationscreen();
+                          currentScreen = UserRequestHistory();
                           currentTab = 2;
                         });
                       },
@@ -201,7 +203,8 @@ class _MyAppState extends State<MyApp> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.notifications,
+                            // Icons.notifications,
+                            Icons.history,
                             size: 28,
                             color: currentTab == 2
                                 ? Color(0xFF005792)

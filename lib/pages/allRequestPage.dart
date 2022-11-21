@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/components/filterChoice.dart';
 
 import 'package:helpee/screens/loginwithgoogle.dart';
-import 'package:helpee/screens/profile.dart';
+import 'package:helpee/pages/profilePage.dart';
 import 'package:helpee/screens/showallrequest.dart';
 
 import '../components/authen_service.dart';
@@ -26,9 +26,10 @@ class _TestHomeState extends State<TestHome> {
   final user = FirebaseAuth.instance.currentUser;
 
   final uid = FirebaseAuth.instance.currentUser?.uid;
+  final String? displayName = FirebaseAuth.instance.currentUser?.displayName;
   String keywords = "";
 
-  late String name, email, displayName;
+  late String name, email;
   var loginKey;
   bool loginKey2 = true;
   var checkKey;
@@ -43,14 +44,6 @@ class _TestHomeState extends State<TestHome> {
     checkKey = check();
     print("Check = " + checkKey.toString());
   }
-
-  // void displayAllRequest() async {
-  //   final result = await FirebaseFirestore.instance.collection('Request').get();
-
-  //   setState(() {
-  //     searchResult = result.docs.map((e) => e.data()).toList();
-  //   });
-  // }
 
   /*---------------------- Search Box ---------------------- */
   Widget searchBox() {
@@ -308,12 +301,23 @@ class _TestHomeState extends State<TestHome> {
         backgroundColor: Colors.white,
         foregroundColor: Color(0xFF005792),
         toolbarHeight: 60,
-        title: Text(FirebaseAuth.instance.currentUser?.displayName ?? 'Hi',
-            style: GoogleFonts.montserrat(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF000000))),
+        title: Text(
+          displayName == null ? 'Hi' : "Hi, $displayName",
+          style: GoogleFonts.montserrat(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF000000),
+          ),
+        ),
         actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 0),
+            child: IconButton(
+              icon: const Icon(Icons.notifications),
+              color: Colors.blueGrey.shade300,
+              onPressed: () {},
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: checkKey == 0
@@ -522,100 +526,102 @@ class _TestHomeState extends State<TestHome> {
                                 .contains(keywords.toLowerCase())) {
                               return Card(
                                 child: ListTile(
-                                    /* ----------------- Title ---------------- */
-                                    title: Text(
-                                      "Topic: ${data["Topic"]}",
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700,
-                                          color: Color(0xFF005792)),
-                                    ),
-                                    subtitle: Column(
-                                      children: [
-                                        /* ----------------- Category ---------------- */
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Category.tag(
-                                                "${data['category']}"),
+                                  /* ----------------- Title ---------------- */
+                                  title: Text(
+                                    "Topic: ${data["Topic"]}",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xFF005792)),
+                                  ),
+                                  subtitle: Column(
+                                    children: [
+                                      /* ----------------- Category ---------------- */
+                                      Padding(
+                                        padding:
+                                            EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Category.tag(
+                                              "${data['category']}"),
+                                        ),
+                                      ),
+                                      /* ----------------- Subtitle ---------------- */
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 5, 0, 5),
+                                        child: Text(
+                                          "Subtitle: ${data['Descrition']}",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.black,
                                           ),
                                         ),
-                                        /* ----------------- Subtitle ---------------- */
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              0, 5, 0, 5),
-                                          child: Text(
-                                            "Subtitle: ${data['Descrition']}",
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w400,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-                                        /* ----------------- Distance ---------------- */
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              0, 0, 0, 5),
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Row(
-                                              children: [
-                                                /* ----------------- Distance Icon ---------------- */
-                                                Icon(
-                                                  Icons.location_on_outlined,
-                                                  size: 18,
+                                      ),
+                                      /* ----------------- Distance ---------------- */
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 0, 0, 5),
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Row(
+                                            children: [
+                                              /* ----------------- Distance Icon ---------------- */
+                                              Icon(
+                                                Icons.location_on_outlined,
+                                                size: 18,
+                                                color: Colors.black,
+                                              ),
+                                              /* ----------------- Distance Text ---------------- */
+                                              Text(
+                                                "Distance ${data['distance']} kilometers.",
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w400,
                                                   color: Colors.black,
                                                 ),
-                                                /* ----------------- Distance Text ---------------- */
-                                                Text(
-                                                  "Distance ${data['distance']} kilometers.",
-                                                  style: TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        /* ----------------- Date Time ---------------- */
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 5),
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              dateTime == null
-                                                  ? "time is null"
-                                                  : "Created Time : ${dateTime!.day}/${dateTime!.month}/${dateTime!.year}, ${dateTime.hour}:${dateTime.minute}",
-                                              style: TextStyle(
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w400,
-                                                color: Colors.grey.shade400,
                                               ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      /* ----------------- Date Time ---------------- */
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 5),
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            dateTime == null
+                                                ? "time is null"
+                                                : "Created Time : ${dateTime!.day}/${dateTime!.month}/${dateTime!.year}, ${dateTime.hour}:${dateTime.minute}",
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.grey.shade400,
                                             ),
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                    trailing: Icon(Icons.person),
-                                    isThreeLine: true,
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                ShowAllRequestScreen(
-                                              data: data,
-                                              docID:
-                                                  snapshot.data!.docs[index].id,
-                                            ),
-                                          ));
-                                    }),
+                                      ),
+                                    ],
+                                  ),
+                                  trailing: Icon(Icons.person),
+                                  isThreeLine: true,
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ShowAllRequestScreen(
+                                          data: data,
+                                          docID: snapshot.data!.docs[index].id,
+                                        ),
+                                      ),
+                                    );
+                                    print(snapshot.data!.docs[index].id);
+                                  },
+                                ),
                               );
                             }
                             return Container();
