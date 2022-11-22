@@ -1,13 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:helpee/screens/setting.dart';
+import 'package:helpee/screens/profilescreen/setting.dart';
+import 'package:helpee/widgets/userRequestWidget.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
-
-import '../components/authen_service.dart';
 import '../components/category.dart';
-import 'ListRequest.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -22,7 +21,6 @@ class _ProfileState extends State<Profile> {
   var loginKey;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print("--- ### Proflie ### ---");
     loginCheck();
@@ -43,26 +41,7 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  /* group data */
-  List<ListRequest> list_request = [
-    ListRequest(
-        "Repair pipe",
-        "The water pipe has a crack, Please fix the water pipes for me.",
-        "Mechanic",
-        2.0),
-    ListRequest(
-        "My computer won't turn on",
-        "My computer was working fine before, But today my computer won't turn on. ",
-        "Technology",
-        3),
-    ListRequest(
-        "Repair pipe",
-        "The water pipe has a crack, Please fix the water pipes for me.",
-        "Electric",
-        2.0),
-  ];
-
-  Widget skillbox(String skillname, Color boxcolor) {
+  Widget skillBox(String skillname, Color boxcolor) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: Container(
@@ -112,11 +91,11 @@ class _ProfileState extends State<Profile> {
                           fontWeight: FontWeight.w600,
                           color: Colors.black)),
                   contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  // content: Text("Are You Sure?",
-                  //     style: GoogleFonts.montserrat(
-                  //         fontSize: 14,
-                  //         fontWeight: FontWeight.w500,
-                  //         color: Colors.black)),
+                  content: Text("ยังลบไม่ได้นะจ้ะ",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black)),
                   actions: [
                     TextButton(
                       onPressed: () {
@@ -150,65 +129,16 @@ class _ProfileState extends State<Profile> {
         ));
   }
 
-  Widget requesthistory() {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height - 600,
-        child: ListView.builder(
-          itemCount: list_request.length, //fix bound of request
-          itemBuilder: (BuildContext context, int index) {
-            ListRequest request = list_request[index];
-            return Card(
-                child: ListTile(
-                    title: Text(
-                      request.title,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF005792)),
-                    ),
-                    subtitle: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Category.tag(request.category),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "22 Oct 2022, 10:22",
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    trailing: deleteButton(),
-                    isThreeLine: true,
-                    onTap: () {}));
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget historyall() {
+  Widget historyAll() {
     return Container(
       height: 220,
       width: MediaQuery.of(context).size.width,
       color: Colors.white,
       child: SizedBox(
         child: DefaultTabController(
-          length: 2,
+          length: 3,
           initialIndex: 0,
           child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(
                 height: 30,
@@ -225,14 +155,21 @@ class _ProfileState extends State<Profile> {
                     ),
                     tabs: [
                       Tab(
-                        child: Text("Your request",
+                        child: Text("Available",
                             style: GoogleFonts.montserrat(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                             )),
                       ),
                       Tab(
-                        child: Text("Provide assistance",
+                        child: Text("In progress",
+                            style: GoogleFonts.montserrat(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            )),
+                      ),
+                      Tab(
+                        child: Text("Completed",
                             style: GoogleFonts.montserrat(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -240,50 +177,27 @@ class _ProfileState extends State<Profile> {
                       ),
                     ]),
               ),
-              SizedBox(
-                height: 190,
-                child: TabBarView(children: [
-                  Center(
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                            child: requesthistory(),
-                          )
-                        ],
-                      ),
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    Column(
+                      children: [userRequest("Created By", "Available")],
                     ),
-                  ),
-                  Center(
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                            child: requesthistory(),
-                          )
-                        ],
-                      ),
+                    Column(
+                      children: [userRequest("Created By", "In Progress")],
                     ),
-                  ),
-                ]),
-              )
+                    Column(
+                      children: [userRequest("Created By", "Completed")],
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
   }
-
-//   getProfileImage() {
-//     if (FirebaseAuth.instance.currentUser?.photoURL != null) {
-//       return Image.network(
-// ;
-//     } else {}
-//   }
 
   @override
   Widget build(BuildContext context) {
@@ -397,29 +311,24 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-              /* ----------------- History Name ---------------- */
+              /* ----------------- History TabBar ---------------- */
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("History",
+                  child: Text("History Request",
                       style: GoogleFonts.montserrat(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                           color: Colors.black)),
                 ),
               ),
-              /* ----------------- History TabBar ---------------- */
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
                 child: Align(
                   alignment: Alignment.center,
-                  child: historyall(),
+                  child: historyAll(),
                 ),
-              ),
-              /* ----------------- History ----------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
               ),
             ],
           ),

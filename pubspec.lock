@@ -215,21 +215,24 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_storage
-      url: "https://pub.dartlang.org"
+      sha256: ba654c8b4bbf21e253324769742cfffa66cef9fdce40fc482a677dbe6578c61a
+      url: "https://pub.dev"
     source: hosted
     version: "11.0.6"
   firebase_storage_platform_interface:
     dependency: transitive
     description:
       name: firebase_storage_platform_interface
-      url: "https://pub.dartlang.org"
+      sha256: "9dfe3cee7faf9253e1bc2d610644de5c4bc4aa092a7d7ec7e6764f4d453d8149"
+      url: "https://pub.dev"
     source: hosted
     version: "4.1.24"
   firebase_storage_web:
     dependency: transitive
     description:
       name: firebase_storage_web
-      url: "https://pub.dartlang.org"
+      sha256: dc095feb0d8cfc5154cf2710ad60ead8a7cafb5ec4f2b20f84c66442e87490f2
+      url: "https://pub.dev"
     source: hosted
     version: "3.3.16"
   flutter:

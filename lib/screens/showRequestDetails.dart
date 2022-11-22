@@ -1,15 +1,18 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:helpee/screens/ListRequest.dart';
 
 import '../components/category.dart';
 
-class ShowMyRequestScreen extends StatelessWidget {
-  final ListRequest listRequest;
-  const ShowMyRequestScreen({super.key, required this.listRequest});
+class ShowRequestDetailsScreen extends StatelessWidget {
+  final data;
+  final String docID;
+  const ShowRequestDetailsScreen(
+      {super.key, required this.data, required this.docID});
 
   Widget imageBox() {
+    String imageURL = data["Picture"] ?? " ";
+
     return Container(
       height: 230,
       decoration: BoxDecoration(
@@ -17,11 +20,13 @@ class ShowMyRequestScreen extends StatelessWidget {
         border: Border.all(width: 2.0, color: Colors.grey.shade400),
       ),
       child: Center(
-        child: Icon(
-          Icons.photo,
-          color: Colors.grey.shade400,
-          size: 40,
-        ),
+        child: imageURL == " "
+            ? Icon(
+                Icons.photo,
+                color: Colors.grey.shade400,
+                size: 40,
+              )
+            : Image.network(imageURL),
       ),
     );
   }
@@ -127,6 +132,11 @@ class ShowMyRequestScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateTime? dateTime;
+    if (data["Create Time"] != null) {
+      Timestamp t = data["Create Time"] as Timestamp;
+      dateTime = t.toDate();
+    }
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -136,7 +146,7 @@ class ShowMyRequestScreen extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        title: Text("Ask for help",
+        title: Text("Request Details",
             style: GoogleFonts.montserrat(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -151,7 +161,7 @@ class ShowMyRequestScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(listRequest.title,
+                child: Text("Topic: ${data["Topic"]}",
                     style: GoogleFonts.montserrat(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
@@ -163,7 +173,39 @@ class ShowMyRequestScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Category.tag(listRequest.category),
+                child: Category.tag("${data["category"]}"),
+              ),
+            ),
+            /* ----------------- Created By ---------------- */
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: FutureBuilder(
+                  future: FirebaseFirestore.instance
+                      .collection("user")
+                      .doc(data["Created By"])
+                      .get()
+                      .then(
+                    (value) {
+                      String name = value.data() == null
+                          ? data["Created By"]
+                          : value.data()!["name"];
+                      return name;
+                    },
+                  ),
+                  builder: (context, snapshot) {
+                    return Text(
+                      data['Created By'] == null
+                          ? "Created By : Anonymous"
+                          : "Created By : ${snapshot.data}",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                    );
+                  },
+                ),
               ),
             ),
             /* ----------------- Sub Title ---------------- */
@@ -171,10 +213,10 @@ class ShowMyRequestScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Align(
                 alignment: Alignment.topLeft,
-                child: Text(listRequest.subtitle,
+                child: Text("Description: ${data['Description']}",
                     style: GoogleFonts.montserrat(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
                         color: Colors.black)),
               ),
             ),
@@ -188,30 +230,46 @@ class ShowMyRequestScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text('15 Oct 2022, 22:00 ',
+                child: Text(
+                    dateTime == null
+                        ? "time is null"
+                        : "Created Time : ${dateTime.day}/${dateTime.month}/${dateTime.year}, ${dateTime.hour}:${dateTime.minute}",
                     style: GoogleFonts.montserrat(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: Colors.grey.shade400)),
               ),
             ),
-            /* ----------------- Accept Request ---------------- */
+            /* ----------------- Accepted By ---------------- */
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  // SizedBox(
-                  //   height: 35.0,
-                  //   width: 150.0,
-                  //   child: editRequest(),
-                  // ),
-                  SizedBox(
-                    height: 35.0,
-                    width: 150.0,
-                    child: cancelRequest(context),
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: FutureBuilder(
+                  future: FirebaseFirestore.instance
+                      .collection("user")
+                      .doc(data["Accepted By"])
+                      .get()
+                      .then(
+                    (value) {
+                      String name = value.data() == null
+                          ? data["Accepted By"]
+                          : value.data()!["name"];
+                      return name;
+                    },
                   ),
-                ],
+                  builder: (context, snapshot) {
+                    return Text(
+                      data["Accepted By"] == null
+                          ? "Accepted By : Anonymous"
+                          : "Accepted By : ${snapshot.data}",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                    );
+                  },
+                ),
               ),
             ),
           ],

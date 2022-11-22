@@ -1,40 +1,38 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/components/filterChoice.dart';
-import 'package:helpee/screens/ListRequest.dart';
+
 import 'package:helpee/screens/loginwithgoogle.dart';
-import 'package:helpee/screens/profile.dart';
-import 'package:helpee/screens/showallrequest.dart';
+import 'package:helpee/widgets/displayAllRequest.dart';
 
 import '../components/authen_service.dart';
-import '../components/category.dart';
-import '../models/user_models.dart';
-import 'login.dart';
+import '../widgets/userRequestWidget.dart';
 
-class TestHome extends StatefulWidget {
-  const TestHome({super.key});
+class AllRequest extends StatefulWidget {
+  const AllRequest({super.key});
 
   @override
-  State<TestHome> createState() => _TestHomeState();
+  State<AllRequest> createState() => _AllRequestState();
 }
 
-class _TestHomeState extends State<TestHome> {
+class _AllRequestState extends State<AllRequest> {
   final user = FirebaseAuth.instance.currentUser;
-
   final uid = FirebaseAuth.instance.currentUser?.uid;
+  final String? displayName = FirebaseAuth.instance.currentUser?.displayName;
 
-  late String name, email, displayName;
+  String keywords = "";
+
+  late String name;
   var loginKey;
   bool loginKey2 = true;
   var checkKey;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
     print("--- ### AllRequest ### ---");
 
     print(uid);
@@ -43,63 +41,7 @@ class _TestHomeState extends State<TestHome> {
     print("Check = " + checkKey.toString());
   }
 
-  /* group data */
-  List<ListRequest> listrequest = [
-    ListRequest(
-        "Repair pipe",
-        "The water pipe has a crack, Please fix the water pipes for me",
-        "Mechanic",
-        2.0),
-    ListRequest("Repair sink",
-        "My sink is leaking. Please fix the sink for me. :) ", "Technology", 3),
-    ListRequest(
-        "Repair pipe",
-        "The water pipe has a crack, Please fix the water pipes for me sssssssssssssssssssssssssssssssssssssssssssssss",
-        "Electric",
-        2.0),
-    ListRequest("Repair sink",
-        "My sink is leaking. Please fix the sink for me. :(", "Electric", 3),
-    ListRequest(
-        "Repair pipe",
-        "The water pipe has a crack, Please fix the water pipes for me",
-        "Plumbing",
-        2.0),
-    ListRequest("Repair sink",
-        "My sink is leaking. Please fix the sink for me. :|", "Plumbing", 3),
-    ListRequest(
-        "Repair pipe",
-        "The water pipe has a crack, Please fix the water pipes for me",
-        "Garden",
-        2.0),
-    ListRequest("Repair sink",
-        "My sink is leaking. Please fix the sink for me. :) ", "Other", 3),
-    ListRequest(
-        "Repair pipe",
-        "The water pipe has a crack, Please fix the water pipes for me sssssssssssssssssssssssssssssssssssssssssssssss",
-        "Mechanic",
-        2.0),
-    ListRequest("Repair sink",
-        "My sink is leaking. Please fix the sink for me. :(", "Mechanic", 3),
-    ListRequest(
-        "Repair pipe",
-        "The water pipe has a crack, Please fix the water pipes for me",
-        "Mechanic",
-        2.0),
-    ListRequest("Repair sink",
-        "My sink is leaking. Please fix the sink for me. :|", "Mechanic", 3),
-  ];
-
-  List<ListRequest> inprogress = [
-    ListRequest(
-        "Repair pipe",
-        "The water pipe has a crack, Please fix the water pipes for me",
-        "Mechanic",
-        2.0),
-    ListRequest("Repair sink",
-        "My sink is leaking. Please fix the sink for me. :) ", "Technology", 3)
-  ];
-
-  /*---------------------- Search Box ---------------------- */
+  // /*---------------------- Search Box ---------------------- */
   Widget searchBox() {
     return TextField(
       keyboardType: TextInputType.text,
@@ -107,24 +49,30 @@ class _TestHomeState extends State<TestHome> {
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-          suffixIcon: Icon(
-            Icons.search_outlined,
-            color: Colors.grey.shade400,
-          ),
-          hintText: 'Search',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
-          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-          filled: true,
-          fillColor: Colors.grey.shade100,
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade100),
-              borderRadius: BorderRadius.circular(10)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Colors.grey.shade100),
-              borderRadius: BorderRadius.circular(10))),
+        suffixIcon: Icon(
+          Icons.search_outlined,
+          color: Colors.grey.shade400,
+        ),
+        hintText: 'Search',
+        hintStyle: GoogleFonts.montserrat(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey.shade400),
+        contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+        filled: true,
+        fillColor: Colors.grey.shade100,
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(width: 1.0, color: Colors.grey.shade100),
+            borderRadius: BorderRadius.circular(10)),
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(width: 2.0, color: Colors.grey.shade100),
+            borderRadius: BorderRadius.circular(10)),
+      ),
+      onChanged: (query) {
+        setState(() {
+          keywords = query;
+        });
+      },
     );
   }
 
@@ -339,6 +287,8 @@ class _TestHomeState extends State<TestHome> {
     );
   }
 
+  var isVisible = checkVisible("In Progress");
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -349,12 +299,23 @@ class _TestHomeState extends State<TestHome> {
         backgroundColor: Colors.white,
         foregroundColor: Color(0xFF005792),
         toolbarHeight: 60,
-        title: Text(FirebaseAuth.instance.currentUser?.displayName ?? 'Hi',
-            style: GoogleFonts.montserrat(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF000000))),
+        title: Text(
+          displayName == null ? 'Hi' : "Hi, $displayName",
+          style: GoogleFonts.montserrat(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF000000),
+          ),
+        ),
         actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 0),
+            child: IconButton(
+              icon: const Icon(Icons.notifications),
+              color: Colors.blueGrey.shade300,
+              onPressed: () {},
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: checkKey == 0
@@ -386,19 +347,46 @@ class _TestHomeState extends State<TestHome> {
         padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: Column(
           children: [
-            // Padding(
-            //   padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
-            //   child: Align(
-            //     alignment: Alignment.centerLeft,
-            //     child: Text("Hi Username",
-            //         style: GoogleFonts.montserrat(
-            //             fontSize: 27,
-            //             fontWeight: FontWeight.w700,
-            //             color: Color(0xFF000000))),
-            //   ),
-            // ),
             Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 10), child: searchBox()),
+            Padding(
+                padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                child: Align(
+                    alignment: Alignment.centerLeft, child: filterButton())),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(5, 0, 0, 3),
+              child: FutureBuilder(
+                future: checkVisible("In Progress"),
+                builder: (context, snapshot) {
+                  return Visibility(
+                    visible: false,
+                    // visible: checkVisible("In Progress"),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: const [
+                            Icon(
+                              Icons.warning_rounded,
+                              size: 25,
+                              color: Color.fromARGB(255, 255, 164, 19),
+                            ),
+                            Text(
+                              " In Progress",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Divider(),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(5, 0, 0, 3),
               child: Align(
@@ -406,12 +394,12 @@ class _TestHomeState extends State<TestHome> {
                 child: Row(
                   children: const [
                     Icon(
-                      Icons.warning,
+                      Icons.warning_rounded,
                       size: 25,
-                      color: Color.fromARGB(255, 255, 164, 19),
+                      color: Color.fromARGB(255, 4, 163, 17),
                     ),
                     Text(
-                      " In Progress",
+                      " Available Request",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
@@ -422,158 +410,7 @@ class _TestHomeState extends State<TestHome> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-              child: SizedBox(
-                height: 60,
-                child: ListView.builder(
-                  itemCount: inprogress.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    ListRequest request = inprogress[index];
-                    return Card(
-                        child: ListTile(
-                            /* ----------------- Title ---------------- */
-                            title: Text(
-                              request.title,
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color(0xFF005792)),
-                            ),
-                            subtitle: Column(
-                              children: [
-                                /* ----------------- Date Time ---------------- */
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 3),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "start time 22 Oct 2022, 10:22",
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.grey.shade400,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            dense: true,
-                            // enabled: Text(true),
-                            isThreeLine: true,
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ShowAllRequestScreen(
-                                        listRequest: request),
-                                  ));
-                            }));
-                  },
-                ),
-              ),
-            ),
-            Divider(),
-            Padding(
-                padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                child: Align(
-                    alignment: Alignment.centerLeft, child: filterButton())),
-
-            Expanded(
-              child: ListView.builder(
-                itemCount: listrequest.length,
-                itemBuilder: (BuildContext context, int index) {
-                  ListRequest request = listrequest[index];
-                  return Card(
-                      child: ListTile(
-                          /* ----------------- Title ---------------- */
-                          title: Text(
-                            request.title,
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xFF005792)),
-                          ),
-                          subtitle: Column(
-                            children: [
-                              /* ----------------- Category ---------------- */
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Category.tag(request.category),
-                                ),
-                              ),
-                              /* ----------------- Subtitle ---------------- */
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                                child: Text(
-                                  request.subtitle,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                              /* ----------------- Distance ---------------- */
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Row(
-                                    children: [
-                                      /* ----------------- Distance Icon ---------------- */
-                                      Icon(
-                                        Icons.location_on_outlined,
-                                        size: 18,
-                                        color: Colors.black,
-                                      ),
-                                      /* ----------------- Distance Text ---------------- */
-                                      Text(
-                                        "Distance ${request.distance} kilometers.",
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              /* ----------------- Date Time ---------------- */
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 5),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "22 Oct 2022, 10:22",
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.grey.shade400,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          // enabled: Text(true),
-                          trailing: Icon(Icons.person),
-                          isThreeLine: true,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ShowAllRequestScreen(
-                                      listRequest: request),
-                                ));
-                          }));
-                },
-              ),
-            ),
+            displayAllRequest(),
           ],
         ),
       ),
