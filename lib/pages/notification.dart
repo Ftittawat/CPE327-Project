@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:helpee/screens/notificationscreen/shownotification.dart';
+import 'package:helpee/models/ListNotification.dart';
+import 'package:helpee/screens/shownotification.dart';
 
-import '../../components/authen_service.dart';
-import '../../testlist/ListNotification.dart';
+import '../components/authen_service.dart';
 
 class Notificationscreen extends StatefulWidget {
   const Notificationscreen({super.key});
@@ -186,8 +186,9 @@ class _NotificationscreenState extends State<Notificationscreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ShowNotificationScreen(
-                                listNotification: notification)),
+                          builder: (context) => ShowNotificationScreen(
+                              listNotification: notification),
+                        ),
                       );
                     }),
               );
