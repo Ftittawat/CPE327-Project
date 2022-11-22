@@ -8,6 +8,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:form_validator/form_validator.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -33,6 +35,7 @@ class _CreateRequestState extends State<CreateRequest> {
   TextEditingController CategoryController = TextEditingController();
   TextEditingController AddressController = TextEditingController();
   TextEditingController ZipCodeController = TextEditingController();
+
   File? file;
   String? picURL;
 
@@ -48,6 +51,7 @@ class _CreateRequestState extends State<CreateRequest> {
   Widget topicBox() {
     return TextFormField(
       controller: TopicController,
+      // validator: ValidationBuilder().maxLength(20).minLength(1),
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -102,91 +106,99 @@ class _CreateRequestState extends State<CreateRequest> {
     'Other',
   ];
 
-  Widget selectCategory() {
-    return DropdownButtonFormField(
-      isExpanded: false,
-      borderRadius: BorderRadius.circular(10),
-      decoration: InputDecoration(
-          // hintText: 'Category',
-          // hintStyle: GoogleFonts.montserrat(
-          //     fontSize: 16,
-          //     fontWeight: FontWeight.w600,
-          //     color: Colors.grey.shade400),
-          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
-              borderRadius: BorderRadius.circular(10)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
-              borderRadius: BorderRadius.circular(10))),
-      items: items.map((String items) {
-        return DropdownMenuItem(
-          value: items,
-          child: Text(
-            items,
-            style: GoogleFonts.montserrat(
-                fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
-          ),
-        );
-      }).toList(),
-      onChanged: (String? value) {
-        setState(() {
-          dropdownvalue = value!;
-        });
-      },
-    );
-  }
+  // Widget selectCategory() {
+  //   return DropdownButtonFormField(
+  //     isExpanded: false,
+  //     borderRadius: BorderRadius.circular(10),
+  //     decoration: InputDecoration(
+  //         // hintText: 'Category',
+  //         // hintStyle: GoogleFonts.montserrat(
+  //         //     fontSize: 16,
+  //         //     fontWeight: FontWeight.w600,
+  //         //     color: Colors.grey.shade400),
+  //         contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+  //         enabledBorder: OutlineInputBorder(
+  //             borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
+  //             borderRadius: BorderRadius.circular(10)),
+  //         focusedBorder: OutlineInputBorder(
+  //             borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
+  //             borderRadius: BorderRadius.circular(10))),
+  //     items: items.map((String items) {
+  //       return DropdownMenuItem(
+  //         value: items,
+  //         child: Text(
+  //           items,
+  //           style: GoogleFonts.montserrat(
+  //               fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+  //         ),
+  //       );
+  //     }).toList(),
+  //     onChanged: (String? value) {
+  //       setState(() {
+  //         dropdownvalue = value!;
+  //       });
+  //     },
+  //   );
+  // }
 
   Widget categoryBox() {
     return DropdownSearch<String>(
-      popupProps: PopupProps.menu(
-        showSearchBox: true,
-        showSelectedItems: true,
-        searchFieldProps: TextFieldProps(
-
-          cursorColor: Color(0xFF005792),
-          style: GoogleFonts.montserrat(
-              fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
-          decoration: InputDecoration(
-              hintText: 'Search',
-              hintStyle: GoogleFonts.montserrat(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey.shade400),
+        popupProps: PopupProps.menu(
+          showSearchBox: true,
+          showSelectedItems: true,
+          searchFieldProps: TextFieldProps(
+            cursorColor: Color(0xFF005792),
+            style: GoogleFonts.montserrat(
+                fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+            decoration: InputDecoration(
+                hintText: 'Search',
+                hintStyle: GoogleFonts.montserrat(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey.shade400),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                filled: true,
+                fillColor: Colors.grey.shade100,
+                enabledBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(width: 1.0, color: Colors.grey.shade100),
+                    borderRadius: BorderRadius.circular(10)),
+                focusedBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(width: 21.0, color: Colors.grey.shade100),
+                    borderRadius: BorderRadius.circular(10))),
+          ),
+        ),
+        dropdownButtonProps:
+            DropdownButtonProps(splashRadius: 15, color: Colors.grey.shade400),
+        items: items,
+        dropdownDecoratorProps: DropDownDecoratorProps(
+          dropdownSearchDecoration: InputDecoration(
+              // hintText: 'Category',
+              // hintStyle: GoogleFonts.montserrat(
+              //     fontSize: 16,
+              //     fontWeight: FontWeight.w600,
+              //     color: Colors.grey.shade400),
               contentPadding:
                   EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-              filled: true,
-              fillColor: Colors.grey.shade100,
               enabledBorder: OutlineInputBorder(
                   borderSide:
-                      BorderSide(width: 1.0, color: Colors.grey.shade100),
+                      BorderSide(width: 1.0, color: Colors.grey.shade400),
                   borderRadius: BorderRadius.circular(10)),
               focusedBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(width: 21.0, color: Colors.grey.shade100),
+                  borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
                   borderRadius: BorderRadius.circular(10))),
         ),
-      ),
-      dropdownButtonProps:
-          DropdownButtonProps(splashRadius: 15, color: Colors.grey.shade400),
-      items: items,
-      dropdownDecoratorProps: DropDownDecoratorProps(
-        dropdownSearchDecoration: InputDecoration(
-            // hintText: 'Category',
-            // hintStyle: GoogleFonts.montserrat(
-            //     fontSize: 16,
-            //     fontWeight: FontWeight.w600,
-            //     color: Colors.grey.shade400),
-            contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
-                borderRadius: BorderRadius.circular(10)),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
-                borderRadius: BorderRadius.circular(10))),
-      ),
-      onChanged: print,
-    );
+        validator: (Value) {
+          if (Value == null)
+            return "Required field";
+          else
+            return null;
+        },
+        onChanged: ((value) {
+          dropdownvalue = value!;
+        }));
   }
 
   Widget addressBox() {
@@ -208,6 +220,7 @@ class _CreateRequestState extends State<CreateRequest> {
               borderRadius: BorderRadius.circular(10))),
       minLines: 1,
       cursorColor: Color(0xFF005792),
+      controller: AddressController,
     );
   }
 
@@ -230,6 +243,7 @@ class _CreateRequestState extends State<CreateRequest> {
               borderRadius: BorderRadius.circular(10))),
       minLines: 1,
       cursorColor: Color(0xFF005792),
+      controller: ZipCodeController,
     );
   }
 
@@ -271,27 +285,6 @@ class _CreateRequestState extends State<CreateRequest> {
         )),
       ],
     );
-    // return Container(
-    //   height: 180,
-    //   decoration: BoxDecoration(
-    //     borderRadius: BorderRadius.circular(10),
-    //     border: Border.all(width: 2.0, color: Colors.grey.shade400),
-    //   ),
-    //   child: Center(
-    //     child: IconButton(
-    //       onPressed: () {
-    //         chooseImage(ImageSource.gallery);
-    //       },
-    //       icon: Icon(
-    //         Icons.add_a_photo_outlined,
-    //         color: Colors.grey.shade400,
-    //         size: 40,
-    //       ),
-    //       padding: EdgeInsets.all(0.0),
-    //       splashRadius: 30,
-    //     ),
-    //   ),
-    // );
   }
 
   //Map field
@@ -379,17 +372,26 @@ class _CreateRequestState extends State<CreateRequest> {
           print('file = null');
         } else {
           await uploadPicture();
+          setState(() {
+            file = null;
+          });
         }
         await requestCollection.add({
           "Topic": TopicController.text,
           "Description": DescriptionController.text,
+          "Category": dropdownvalue,
+          "Address": AddressController.text,
+          "Zip Code": ZipCodeController.text,
           "Create Time": DateTime.now(),
           "Created By": FirebaseAuth.instance.currentUser?.uid,
           "Picture": picURL,
-          //"Category": CategoryController.text
+          "Lat": currentLocation.latitude,
+          "Lng": currentLocation.longitude
         });
         TopicController.clear();
         DescriptionController.clear();
+        AddressController.clear();
+        ZipCodeController.clear();
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -590,7 +592,9 @@ class _CreateRequestState extends State<CreateRequest> {
                       Padding(
                         padding: EdgeInsets.fromLTRB(25, 10, 25, 0),
                         child: GFButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _goToMe();
+                          },
                           text: "select location",
                           icon: Icon(
                             Icons.location_pin,
