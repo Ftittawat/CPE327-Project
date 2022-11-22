@@ -11,25 +11,6 @@ class UserRequestHistory extends StatefulWidget {
 }
 
 class _UserRequestHistoryState extends State<UserRequestHistory> {
-  /*---------------------- widgets ---------------------- */
-  Widget searchBox() {
-    return TextField(
-      keyboardType: TextInputType.text,
-      style: GoogleFonts.montserrat(
-          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
-      decoration: InputDecoration(
-          hintText: 'Search',
-          hintStyle: GoogleFonts.montserrat(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.grey.shade400),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2.0, color: Color(0xFF005792)),
-              borderRadius: BorderRadius.circular(10))),
-    );
-  }
-
   Widget cancelButton() {
     return Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -101,8 +82,17 @@ class _UserRequestHistoryState extends State<UserRequestHistory> {
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: Colors.black)),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 15),
+            child: IconButton(
+              icon: const Icon(Icons.notifications),
+              color: Colors.blueGrey.shade300,
+              onPressed: () {},
+            ),
+          ),
+        ],
       ),
-
       /* ----------------- Body ---------------- */
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),

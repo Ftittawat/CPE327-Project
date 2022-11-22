@@ -41,7 +41,7 @@ class _AllRequestState extends State<AllRequest> {
     print("Check = " + checkKey.toString());
   }
 
-  /*---------------------- Search Box ---------------------- */
+  // /*---------------------- Search Box ---------------------- */
   Widget searchBox() {
     return TextField(
       keyboardType: TextInputType.text,
@@ -288,7 +288,6 @@ class _AllRequestState extends State<AllRequest> {
   }
 
   var isVisible = checkVisible("In Progress");
-  // var getBool = await checkVisible("In Progress");
 
   @override
   Widget build(BuildContext context) {

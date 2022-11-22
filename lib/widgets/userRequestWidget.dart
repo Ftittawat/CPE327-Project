@@ -56,7 +56,7 @@ Widget userRequest(String query, String status) {
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                "Subtitle: ${data['Description']}",
+                                "Description: ${data['Description']}",
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,

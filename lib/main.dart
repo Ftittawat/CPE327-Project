@@ -42,7 +42,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print("--- ### Main ### ---");
     loginCheck();
@@ -140,13 +139,6 @@ class _MyAppState extends State<MyApp> {
                                 ? Color(0xFF005792)
                                 : Colors.grey.shade600,
                           ),
-                          // Text(
-                          //   'Home',
-                          //   style: TextStyle(
-                          //       color: currentTab == 0
-                          //           ? Color(0xFF005792)
-                          //           : Colors.grey.shade600),
-                          // )
                         ],
                       ),
                     ),
@@ -168,13 +160,6 @@ class _MyAppState extends State<MyApp> {
                                 ? Color(0xFF005792)
                                 : Colors.grey.shade600,
                           ),
-                          // Text(
-                          //   'My Request',
-                          //   style: TextStyle(
-                          //       color: currentTab == 1
-                          //           ? Color(0xFF005792)
-                          //           : Colors.grey.shade600),
-                          // )
                         ],
                       ),
                     ),
@@ -202,13 +187,6 @@ class _MyAppState extends State<MyApp> {
                                 ? Color(0xFF005792)
                                 : Colors.grey.shade600,
                           ),
-                          // Text(
-                          //   'Notification',
-                          //   style: TextStyle(
-                          //       color: currentTab == 2
-                          //           ? Color(0xFF005792)
-                          //           : Colors.grey.shade600),
-                          // )
                         ],
                       ),
                     ),
@@ -230,13 +208,6 @@ class _MyAppState extends State<MyApp> {
                                 ? Color(0xFF005792)
                                 : Colors.grey.shade600,
                           ),
-                          // Text(
-                          //   'Profile',
-                          //   style: TextStyle(
-                          //       color: currentTab == 3
-                          //           ? Color(0xFF005792)
-                          //           : Colors.grey.shade600),
-                          // )
                         ],
                       ),
                     ),
@@ -306,13 +277,6 @@ class _MyAppState extends State<MyApp> {
                                 ? Color(0xFF005792)
                                 : Colors.grey.shade600,
                           ),
-                          // Text(
-                          //   'Home',
-                          //   style: TextStyle(
-                          //       color: currentTab == 0
-                          //           ? Color(0xFF005792)
-                          //           : Colors.grey.shade600),
-                          // )
                         ],
                       ),
                     ),
@@ -336,13 +300,6 @@ class _MyAppState extends State<MyApp> {
                                 ? Color(0xFF005792)
                                 : Colors.grey.shade600,
                           ),
-                          // Text(
-                          //   'My Request',
-                          //   style: TextStyle(
-                          //       color: currentTab == 1
-                          //           ? Color(0xFF005792)
-                          //           : Colors.grey.shade600),
-                          // )
                         ],
                       ),
                     ),
@@ -372,13 +329,6 @@ class _MyAppState extends State<MyApp> {
                                 ? Color(0xFF005792)
                                 : Colors.grey.shade600,
                           ),
-                          // Text(
-                          //   'Notification',
-                          //   style: TextStyle(
-                          //       color: currentTab == 2
-                          //           ? Color(0xFF005792)
-                          //           : Colors.grey.shade600),
-                          // )
                         ],
                       ),
                     ),
@@ -402,13 +352,6 @@ class _MyAppState extends State<MyApp> {
                                 ? Color(0xFF005792)
                                 : Colors.grey.shade600,
                           ),
-                          // Text(
-                          //   'Profile',
-                          //   style: TextStyle(
-                          //       color: currentTab == 3
-                          //           ? Color(0xFF005792)
-                          //           : Colors.grey.shade600),
-                          // )
                         ],
                       ),
                     ),
@@ -430,9 +373,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     // return home1();
     if (loginKey == 0) {
-      return home2();
+      return home2(); // not logged in
     } else {
-      return home1();
+      return home1(); // logged in
     }
   }
 }

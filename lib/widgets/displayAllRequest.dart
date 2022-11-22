@@ -7,6 +7,10 @@ String keywords = "";
 
 late String name;
 
+/// This widget will show all requests
+/// where status is "Available". When user tap on card
+/// it will show accept request page to ask user who want to
+/// accept this request.
 Widget displayAllRequest() {
   return Expanded(
     child: StreamBuilder<QuerySnapshot>(
@@ -60,7 +64,7 @@ Widget displayAllRequest() {
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    "Subtitle: ${data['Description']}",
+                                    "Description: ${data['Description']}",
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
@@ -191,7 +195,7 @@ Widget displayAllRequest() {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                               child: Text(
-                                "Subtitle: ${data['Description']}",
+                                "Description: ${data['Description']}",
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
