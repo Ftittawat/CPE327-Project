@@ -2,7 +2,7 @@
 <h1 align="center"> 
     Helpee
     <br>    
-  <a href="https://github.com/Ftittawat/CPE327-Project/tree/ton-2"><img src="image/Logo.png" alt="Helpee Logo"></a>
+  <a href="https://github.com/Ftittawat/CPE327-Project/tree/ton-2"><img src="image/Logo.png" alt="Helpee Logo" width="350"></a>
 </h1>
 
 
