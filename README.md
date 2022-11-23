@@ -1,5 +1,8 @@
 # Helpee
-<img src="/assets/images/sos.png">
+
+<h1 align="center">
+  <a href="https://github.com/Ftittawat/CPE327-Project/tree/ton-2"><img src="/assets/images/sos.png" alt="Helpee Logo"></a>
+</h1>
 
 
 ## Getting Started
