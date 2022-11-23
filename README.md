@@ -1,9 +1,8 @@
 <!-- # Helpee -->
 <h1 align="center"> 
     Helpee
-    <br>
-    <br>      
-  <a href="https://github.com/Ftittawat/CPE327-Project/tree/ton-2"><img src="/assets/images/sos.png" alt="Helpee Logo"></a>
+    <br>    
+  <a href="https://github.com/Ftittawat/CPE327-Project/tree/ton-2"><img src="/images/Logo.png" alt="Helpee Logo"></a>
 </h1>
 
 
