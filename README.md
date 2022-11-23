@@ -1,5 +1,5 @@
 # Helpee
-<a><img src="/assets/images/sos.png"></a>
+<img src="/assets/images/sos.png">
 
 
 ## Getting Started
