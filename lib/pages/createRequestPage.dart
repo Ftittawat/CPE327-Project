@@ -33,6 +33,7 @@ class _CreateRequestState extends State<CreateRequest> {
   TextEditingController CategoryController = TextEditingController();
   TextEditingController AddressController = TextEditingController();
   TextEditingController ZipCodeController = TextEditingController();
+
   File? file;
   String? picURL;
 
@@ -48,6 +49,7 @@ class _CreateRequestState extends State<CreateRequest> {
   Widget topicBox() {
     return TextFormField(
       controller: TopicController,
+      // validator: ValidationBuilder().maxLength(20).minLength(1),
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -102,90 +104,64 @@ class _CreateRequestState extends State<CreateRequest> {
     'Other',
   ];
 
-  Widget selectCategory() {
-    return DropdownButtonFormField(
-      isExpanded: false,
-      borderRadius: BorderRadius.circular(10),
-      decoration: InputDecoration(
-          // hintText: 'Category',
-          // hintStyle: GoogleFonts.montserrat(
-          //     fontSize: 16,
-          //     fontWeight: FontWeight.w600,
-          //     color: Colors.grey.shade400),
-          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
-              borderRadius: BorderRadius.circular(10)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
-              borderRadius: BorderRadius.circular(10))),
-      items: items.map((String items) {
-        return DropdownMenuItem(
-          value: items,
-          child: Text(
-            items,
-            style: GoogleFonts.montserrat(
-                fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
-          ),
-        );
-      }).toList(),
-      onChanged: (String? value) {
-        setState(() {
-          dropdownvalue = value!;
-        });
-      },
-    );
-  }
-
   Widget categoryBox() {
     return DropdownSearch<String>(
-      popupProps: PopupProps.menu(
-        showSearchBox: true,
-        showSelectedItems: true,
-        searchFieldProps: TextFieldProps(
-          cursorColor: Color(0xFF005792),
-          style: GoogleFonts.montserrat(
-              fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
-          decoration: InputDecoration(
-              hintText: 'Search',
-              hintStyle: GoogleFonts.montserrat(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.grey.shade400),
+        popupProps: PopupProps.menu(
+          showSearchBox: true,
+          showSelectedItems: true,
+          searchFieldProps: TextFieldProps(
+            cursorColor: Color(0xFF005792),
+            style: GoogleFonts.montserrat(
+                fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+            decoration: InputDecoration(
+                hintText: 'Search',
+                hintStyle: GoogleFonts.montserrat(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey.shade400),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                filled: true,
+                fillColor: Colors.grey.shade100,
+                enabledBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(width: 1.0, color: Colors.grey.shade100),
+                    borderRadius: BorderRadius.circular(10)),
+                focusedBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(width: 21.0, color: Colors.grey.shade100),
+                    borderRadius: BorderRadius.circular(10))),
+          ),
+        ),
+        dropdownButtonProps:
+            DropdownButtonProps(splashRadius: 15, color: Colors.grey.shade400),
+        items: items,
+        dropdownDecoratorProps: DropDownDecoratorProps(
+          dropdownSearchDecoration: InputDecoration(
+              // hintText: 'Category',
+              // hintStyle: GoogleFonts.montserrat(
+              //     fontSize: 16,
+              //     fontWeight: FontWeight.w600,
+              //     color: Colors.grey.shade400),
               contentPadding:
                   EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-              filled: true,
-              fillColor: Colors.grey.shade100,
               enabledBorder: OutlineInputBorder(
                   borderSide:
-                      BorderSide(width: 1.0, color: Colors.grey.shade100),
+                      BorderSide(width: 1.0, color: Colors.grey.shade400),
                   borderRadius: BorderRadius.circular(10)),
               focusedBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(width: 21.0, color: Colors.grey.shade100),
+                  borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
                   borderRadius: BorderRadius.circular(10))),
         ),
-      ),
-      dropdownButtonProps:
-          DropdownButtonProps(splashRadius: 15, color: Colors.grey.shade400),
-      items: items,
-      dropdownDecoratorProps: DropDownDecoratorProps(
-        dropdownSearchDecoration: InputDecoration(
-            // hintText: 'Category',
-            // hintStyle: GoogleFonts.montserrat(
-            //     fontSize: 16,
-            //     fontWeight: FontWeight.w600,
-            //     color: Colors.grey.shade400),
-            contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
-                borderRadius: BorderRadius.circular(10)),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
-                borderRadius: BorderRadius.circular(10))),
-      ),
-      onChanged: print,
-    );
+        validator: (Value) {
+          if (Value == null)
+            return "Required field";
+          else
+            return null;
+        },
+        onChanged: ((value) {
+          dropdownvalue = value!;
+        }));
   }
 
   Widget addressBox() {
@@ -207,6 +183,7 @@ class _CreateRequestState extends State<CreateRequest> {
               borderRadius: BorderRadius.circular(10))),
       minLines: 1,
       cursorColor: Color(0xFF005792),
+      controller: AddressController,
     );
   }
 
@@ -229,6 +206,7 @@ class _CreateRequestState extends State<CreateRequest> {
               borderRadius: BorderRadius.circular(10))),
       minLines: 1,
       cursorColor: Color(0xFF005792),
+      controller: ZipCodeController,
     );
   }
 
@@ -243,62 +221,28 @@ class _CreateRequestState extends State<CreateRequest> {
   }
 
   Widget imageBox() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-            child: Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            ElevatedButton.icon(
-              onPressed: () {
-                chooseImage(ImageSource.camera);
-              },
-              icon: Icon(Icons.add_a_photo), //icon data for elevated button
-              label: Text("Upload Image"), //label text
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF005792),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5))),
-            ),
-            Text("      "),
-            ElevatedButton.icon(
-              onPressed: () {
-                chooseImage(ImageSource.gallery);
-              },
-              icon: Icon(
-                  Icons.add_photo_alternate), //icon data for elevated button
-              label: Text("Choose Image"), //label text
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF005792),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5))),
-            )
-          ],
-        )),
-      ],
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ElevatedButton.icon(
+            onPressed: () {
+              chooseImage(ImageSource.camera);
+            },
+            icon: Icon(Icons.add_a_photo), //icon data for elevated button
+            label: Text("Upload Image"), //label text
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              chooseImage(ImageSource.gallery);
+            },
+            icon:
+                Icon(Icons.add_photo_alternate), //icon data for elevated button
+            label: Text("Choose Image"), //label text
+          )
+        ],
+      ),
     );
-    // return Container(
-    //   height: 180,
-    //   decoration: BoxDecoration(
-    //     borderRadius: BorderRadius.circular(10),
-    //     border: Border.all(width: 2.0, color: Colors.grey.shade400),
-    //   ),
-    //   child: Center(
-    //     child: IconButton(
-    //       onPressed: () {
-    //         chooseImage(ImageSource.gallery);
-    //       },
-    //       icon: Icon(
-    //         Icons.add_a_photo_outlined,
-    //         color: Colors.grey.shade400,
-    //         size: 40,
-    //       ),
-    //       padding: EdgeInsets.all(0.0),
-    //       splashRadius: 30,
-    //     ),
-    //   ),
-    // );
   }
 
   //Map field
@@ -334,7 +278,7 @@ class _CreateRequestState extends State<CreateRequest> {
     );
 
     return Container(
-      height: 200,
+      height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(width: 1.0, color: Colors.grey.shade400),
@@ -386,17 +330,28 @@ class _CreateRequestState extends State<CreateRequest> {
           print('file = null');
         } else {
           await uploadPicture();
+          setState(() {
+            file = null;
+          });
         }
         await requestCollection.add({
           "Topic": TopicController.text,
           "Description": DescriptionController.text,
+          "Category": dropdownvalue,
+          "Address": AddressController.text,
+          "Zip Code": ZipCodeController.text,
           "Create Time": DateTime.now(),
           "Created By": FirebaseAuth.instance.currentUser?.uid,
+          // "Accepted By": "",
           "Picture": picURL,
-          //"Category": CategoryController.text
+          "Status": "Available",
+          "Lat": currentLocation.latitude,
+          "Lng": currentLocation.longitude
         });
         TopicController.clear();
         DescriptionController.clear();
+        AddressController.clear();
+        ZipCodeController.clear();
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -445,11 +400,10 @@ class _CreateRequestState extends State<CreateRequest> {
 
   Widget defaultPicture() {
     return SizedBox(
-      width: 450,
+      width: 450.0,
       //height: 100.0,
       child: Card(
-        // color: Colors.white,
-        elevation: 0.0,
+        color: Colors.white,
         child: Center(
           child: Column(
             children: [
@@ -458,13 +412,9 @@ class _CreateRequestState extends State<CreateRequest> {
                 width: 250.0,
                 height: 250.0,
               ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                child: Text("please upload image",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black)),
+              Text(
+                'please upload image\n',
+                style: TextStyle(color: Colors.black),
               ),
             ],
           ),
@@ -569,7 +519,7 @@ class _CreateRequestState extends State<CreateRequest> {
                           ],
                         ),
                       ),
-                      /* ----------------- Add Image ---------------- */
+                      /* ----------------- Image ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 12, 20, 0),
                         child: Column(
@@ -581,14 +531,9 @@ class _CreateRequestState extends State<CreateRequest> {
                           ],
                         ),
                       ),
-                      /* ----------------- Show Image ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 1.0, color: Colors.grey.shade400),
-                              borderRadius: BorderRadius.circular(10)),
+                        padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
+                        child: SizedBox(
                           //width: 0.0,
                           child: file == null
                               ? defaultPicture()
@@ -596,40 +541,40 @@ class _CreateRequestState extends State<CreateRequest> {
                               : Image.file(file!),
                         ),
                       ),
-                      // const Divider(
-                      //   height: 10,
-                      //   thickness: 0,
-                      //   indent: 20,
-                      //   endIndent: 20,
-                      //   color: Colors.black,
-                      // ),
-                      /* ----------------- Add Location ---------------- */
+                      const Divider(
+                        height: 10,
+                        thickness: 0,
+                        indent: 20,
+                        endIndent: 20,
+                        color: Colors.black,
+                      ),
+                      /* ----------------- Map ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+                        padding: EdgeInsets.fromLTRB(25, 10, 25, 0),
                         child: GFButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _goToMe();
+                          },
                           text: "select location",
                           icon: Icon(
                             Icons.location_pin,
                             color: Colors.white,
                           ),
-                          color: Color(0xFF005792),
-                          shape: GFButtonShape.standard,
+                          shape: GFButtonShape.pills,
                           fullWidthButton: true,
                         ),
                       ),
-                      /* ----------------- Show Image ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                        padding: EdgeInsets.fromLTRB(20, 5, 20, 10),
                         child: mapBox(),
                       ),
-                      // const Divider(
-                      //   height: 10,
-                      //   thickness: 0,
-                      //   indent: 20,
-                      //   endIndent: 20,
-                      //   color: Colors.black,
-                      // ),
+                      const Divider(
+                        height: 10,
+                        thickness: 0,
+                        indent: 20,
+                        endIndent: 20,
+                        color: Colors.black,
+                      ),
                       /* ----------------- Create Button ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 15, 20, 30),
