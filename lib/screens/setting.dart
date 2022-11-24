@@ -204,17 +204,19 @@ class _SettingState extends State<Setting> {
                 TextButton(
                   onPressed: () async {
                     await Firebase.initializeApp().then((value) async {
-                      // await GoogleSignIn().disconnect().then((value) async {
-                      await FirebaseAuth.instance.signOut().then((value) async {
-                        await Fluttertoast.showToast(
-                            msg: "Log-Out Success",
-                            gravity: ToastGravity.CENTER);
-                        // Navigator.pop(context);
-                        Navigator.pop(context);
-                        Navigator.pop(context);
+                      await GoogleSignIn().disconnect().then((value) async {
+                        await FirebaseAuth.instance
+                            .signOut()
+                            .then((value) async {
+                          await Fluttertoast.showToast(
+                              msg: "Log-Out Success",
+                              gravity: ToastGravity.CENTER);
+                          // Navigator.pop(context);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        });
                       });
                     });
-                    // });
                   },
                   child: Text(
                     "Log Out",

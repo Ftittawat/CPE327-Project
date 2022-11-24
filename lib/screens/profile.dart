@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -332,8 +333,10 @@ class _ProfileState extends State<Profile> {
                   child: CircleAvatar(
                     backgroundColor: Colors.grey.shade400,
                     radius: 80,
-                    backgroundImage: NetworkImage(
-                        FirebaseAuth.instance.currentUser!.photoURL.toString()),
+                    backgroundImage: NetworkImage(FirebaseAuth
+                            .instance.currentUser?.photoURL
+                            .toString() ??
+                        ''),
                   ),
                 ),
                 /* ----------------- Username ---------------- */
@@ -347,6 +350,7 @@ class _ProfileState extends State<Profile> {
                           fontWeight: FontWeight.w600,
                           color: Colors.black)),
                 ),
+
                 /* ----------------- Address ---------------- */
                 Padding(
                   padding: EdgeInsets.fromLTRB(20, 5, 20, 0),

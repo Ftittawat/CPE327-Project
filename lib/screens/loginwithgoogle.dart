@@ -154,7 +154,10 @@ class _LoginWithGoogleState extends State<LoginWithGoogle> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(30.0),
-                        child: Image.asset("assets/images/helpee1.png"),
+                        child: Image.asset(
+                          "assets/images/helpee1.png",
+                          width: 200,
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),

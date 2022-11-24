@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/screens/shownotification.dart';
@@ -117,84 +118,111 @@ class _NotificationscreenState extends State<Notificationscreen> {
         ));
   }
 
+  Widget showUser() {
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance.collection("user").snapshots(),
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return ListView(
+          children: snapshot.data!.docs.map((document) {
+            return ListTile(
+              title: Text(document["name"]),
+              subtitle: Text(document["email"]),
+            );
+          }).toList(),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
+    return Scaffold(
         appBar: AppBar(
-          centerTitle: true,
-          toolbarHeight: 60,
-          elevation: 0,
-          backgroundColor: Colors.white,
-          title: Text("Notification",
-              style: GoogleFonts.montserrat(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black)),
+          title: Text("Student Score"),
+          backgroundColor: Colors.green,
         ),
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-          child: ListView.builder(
-            itemCount: listnotification.length,
-            itemBuilder: (BuildContext context, int index) {
-              ListNotification notification = listnotification[index];
-              return Card(
-                // elevation: 0,
-                child: ListTile(
-                    dense: true,
-                    horizontalTitleGap: 0,
-                    leading: SizedBox(
-                        height: 17,
-                        width: 17,
-                        child: Image(
-                            image: AssetImage(notiurl(notification.type)))),
-                    title: Text(
-                      notification.title,
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF005792)),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          notification.subtitle,
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 3.0),
-                          child: Text(
-                            "15 minutes ago",
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey.shade500,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    trailing: cancelButton(),
-                    isThreeLine: true,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ShowNotificationScreen(
-                                listNotification: notification)),
-                      );
-                    }),
-              );
-            },
-          ),
-        ),
-      ),
-    );
+        body: showUser());
+    // return Padding(
+    //   padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+    //   child: Scaffold(
+    //     resizeToAvoidBottomInset: false,
+    //     backgroundColor: Colors.white,
+    //     appBar: AppBar(
+    //       centerTitle: true,
+    //       toolbarHeight: 60,
+    //       elevation: 0,
+    //       backgroundColor: Colors.white,
+    //       title: Text("Notification",
+    //           style: GoogleFonts.montserrat(
+    //               fontSize: 18,
+    //               fontWeight: FontWeight.w600,
+    //               color: Colors.black)),
+    //     ),
+    //     body: Padding(
+    //       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+    //       child: ListView.builder(
+    //         itemCount: listnotification.length,
+    //         itemBuilder: (BuildContext context, int index) {
+    //           ListNotification notification = listnotification[index];
+    //           return Card(
+    //             // elevation: 0,
+    //             child: ListTile(
+    //                 dense: true,
+    //                 horizontalTitleGap: 0,
+    //                 leading: SizedBox(
+    //                     height: 17,
+    //                     width: 17,
+    //                     child: Image(
+    //                         image: AssetImage(notiurl(notification.type)))),
+    //                 title: Text(
+    //                   notification.title,
+    //                   style: TextStyle(
+    //                       fontSize: 18,
+    //                       fontWeight: FontWeight.w500,
+    //                       color: Color(0xFF005792)),
+    //                 ),
+    //                 subtitle: Column(
+    //                   crossAxisAlignment: CrossAxisAlignment.start,
+    //                   children: [
+    //                     Text(
+    //                       notification.subtitle,
+    //                       style: TextStyle(
+    //                         fontSize: 13,
+    //                         color: Colors.black,
+    //                       ),
+    //                     ),
+    //                     Padding(
+    //                       padding: const EdgeInsets.only(top: 3.0),
+    //                       child: Text(
+    //                         "15 minutes ago",
+    //                         style: TextStyle(
+    //                           fontSize: 12,
+    //                           color: Colors.grey.shade500,
+    //                         ),
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 ),
+    //                 trailing: cancelButton(),
+    //                 isThreeLine: true,
+    //                 onTap: () {
+    //                   Navigator.push(
+    //                     context,
+    //                     MaterialPageRoute(
+    //                         builder: (context) => ShowNotificationScreen(
+    //                             listNotification: notification)),
+    //                   );
+    //                 }),
+    //           );
+    //         },
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }
