@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:helpee/models/user_models.dart';
+import 'package:helpee/screens/allrequestscreen/showallrequest.dart';
+import 'package:helpee/screens/allrequestscreen/allrequest.dart';
+import 'package:helpee/main.dart';
 
 class LoginWithGoogle extends StatefulWidget {
   const LoginWithGoogle({super.key});
@@ -12,6 +15,48 @@ class LoginWithGoogle extends StatefulWidget {
   @override
   State<LoginWithGoogle> createState() => _LoginWithGoogleState();
 }
+
+// class FirstRoute extends StatelessWidget {
+//   const FirstRoute({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('First Route'),
+//       ),
+//       body: Center(
+//         child: ElevatedButton(
+//           child: const Text('Open route'),
+//           onPressed: () {
+//             // Navigate to second route when tapped.
+//           },
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class SecondRoute extends StatelessWidget {
+//   const SecondRoute({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Second Route'),
+//       ),
+//       body: Center(
+//         child: ElevatedButton(
+//           onPressed: () {
+//             // Navigate back to first route when tapped.
+//           },
+//           child: const Text('Go back!'),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class _LoginWithGoogleState extends State<LoginWithGoogle> {
   late String email, password, name, uid;
@@ -43,6 +88,8 @@ class _LoginWithGoogleState extends State<LoginWithGoogle> {
                 " # Login With Gmail Success With name = $name, email = $email, uid =$uid #");
             insertValueToCloudFirestore();
 
+            // redirect
+
             // await FirebaseFirestore.instance
             //     .collection('user')
             //     .doc(uid)
@@ -55,7 +102,8 @@ class _LoginWithGoogleState extends State<LoginWithGoogle> {
             //     // Route to Service by TypeUser
             //   }
             // });
-            Navigator.pop(context);
+
+            //Navigator.pop(context);
           });
         });
       });
@@ -72,7 +120,15 @@ class _LoginWithGoogleState extends State<LoginWithGoogle> {
           .set(data)
           .then((value) {
         print(' # Insert Value To Firestore Success Email= $email #');
+
+        /*----------- redirect ---------*/
         // Navigator
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const MyApp()),
+        );
+        // Navigator.of(context).pushReplacement(
+        //     MaterialPageRoute(builder: (context) => NavScreen()));
       });
     });
   }
@@ -201,4 +257,32 @@ class _LoginWithGoogleState extends State<LoginWithGoogle> {
           )),
     );
   }
+}
+
+Widget NavScreen() {
+  return TextField(
+    keyboardType: TextInputType.text,
+    cursorColor: Colors.grey,
+    style: GoogleFonts.montserrat(
+        fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+    decoration: InputDecoration(
+        suffixIcon: Icon(
+          Icons.search_outlined,
+          color: Colors.grey.shade400,
+        ),
+        hintText: 'Search',
+        hintStyle: GoogleFonts.montserrat(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey.shade400),
+        contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+        filled: true,
+        fillColor: Colors.grey.shade100,
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(width: 1.0, color: Colors.grey.shade100),
+            borderRadius: BorderRadius.circular(10)),
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(width: 2.0, color: Colors.grey.shade100),
+            borderRadius: BorderRadius.circular(10))),
+  );
 }
