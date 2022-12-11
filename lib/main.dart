@@ -11,6 +11,7 @@ import 'package:helpee/screens/loginwithgoogle.dart';
 import 'package:helpee/screens/pleaselogin.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:helpee/widgets/displayAllRequest.dart';
+import 'package:helpee/widgets/userRequestWidget.dart';
 
 var loginKey = 0;
 var checkKey;
@@ -96,6 +97,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       // home: Register(),
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         /* ----------------- Body ---------------- */
         body: PageStorage(
           bucket: bucket,
@@ -149,6 +151,7 @@ class _MyAppState extends State<MyApp> {
                       minWidth: 80,
                       onPressed: () {
                         setState(() {
+                          findLatLng2();
                           currentScreen = UserRequest();
                           currentTab = 1;
                         });
@@ -232,6 +235,7 @@ class _MyAppState extends State<MyApp> {
       // },
       // home: Register(),
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         /* ----------------- Body ---------------- */
         body: PageStorage(
           bucket: bucket,

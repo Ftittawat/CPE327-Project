@@ -16,7 +16,7 @@ Future<Null> findLatLng() async {
   LocationData? locationData = await getCurrentLocation();
   lat = locationData?.latitude;
   lng = locationData?.longitude;
-  print('lat = $lat lng = $lng');
+  //print('lat = $lat lng = $lng');
 }
 
 LocationData? currentLocation;
@@ -59,9 +59,10 @@ Widget displayAllRequest() {
                   var data =
                       snapshot.data!.docs[index].data() as Map<String, dynamic>;
                   var dis = Geolocator.distanceBetween(
-                          data['Lat'], data['Lng'], lat!, lng!)
-                      .toStringAsFixed(0);
-                  print('dis = $dis');
+                          data['Lat'], data['Lng'], lat!, lng!) /
+                      1000;
+                  var disKm = dis.toStringAsFixed(2);
+                  //print('dis in Km = $disKm');
 
                   // Convert Timestamp to DateTime
                   DateTime? dateTime;
@@ -122,7 +123,7 @@ Widget displayAllRequest() {
                                       ),
                                       /* ----------------- Distance Text ---------------- */
                                       Text(
-                                        "Distance $dis kilometers.",
+                                        "Distance $disKm kilometers.",
                                         /* ***** */
                                         style: TextStyle(
                                           fontSize: 13,
@@ -254,7 +255,7 @@ Widget displayAllRequest() {
                                     /* ----------------- Distance Text ---------------- */
 
                                     Text(
-                                      "Distance $dis kilometers.",
+                                      "Distance $disKm kilometers.",
                                       style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w400,

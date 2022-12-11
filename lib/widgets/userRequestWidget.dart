@@ -1,11 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/components/category.dart';
 import 'package:helpee/screens/showRequestDetails.dart';
+import 'package:location/location.dart';
+
+@override
+void initState() {
+  findLatLng2();
+}
 
 late String name;
+var lat2, lng2;
+
+Future<Null> findLatLng2() async {
+  var location2 = new Location();
+  var currentLocation2 = await location2.getLocation();
+  lat2 = currentLocation2.latitude;
+  lng2 = currentLocation2.longitude;
+  //print('lat2 = $lat2 lng2 = $lng2');
+}
+
 
 Widget userRequest(String query, String status) {
   return Expanded(
@@ -25,6 +43,10 @@ Widget userRequest(String query, String status) {
                 itemBuilder: (context, index) {
                   var data =
                       snapshot.data!.docs[index].data() as Map<String, dynamic>;
+                  var dis = Geolocator.distanceBetween(
+                          data['Lat'], data['Lng'], lat2!, lng2!) /
+                      1000;
+                  var disKm = dis.toStringAsFixed(2);
 
                   // Convert Timestamp to DateTime
                   DateTime? dateTime;
@@ -82,7 +104,7 @@ Widget userRequest(String query, String status) {
                                   ),
                                   /* ----------------- Distance Text ---------------- */
                                   Text(
-                                    "Distance ${data['distance']} kilometers.",
+                                    "Distance $disKm kilometers.",
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w400,

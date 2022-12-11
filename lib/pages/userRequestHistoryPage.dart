@@ -82,16 +82,6 @@ class _UserRequestHistoryState extends State<UserRequestHistory> {
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: Colors.black)),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 15),
-            child: IconButton(
-              icon: const Icon(Icons.notifications),
-              color: Colors.blueGrey.shade300,
-              onPressed: () {},
-            ),
-          ),
-        ],
       ),
       /* ----------------- Body ---------------- */
       body: Padding(
@@ -107,7 +97,7 @@ class _UserRequestHistoryState extends State<UserRequestHistory> {
                   height: 3,
                   bottomLeftRadius: 5,
                   bottomRightRadius: 5,
-                  horizontalPadding: 50,
+                  horizontalPadding: 28,
                   tabPosition: TabPosition.bottom,
                 ),
                 tabs: const [
