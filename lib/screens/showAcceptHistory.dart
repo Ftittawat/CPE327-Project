@@ -4,10 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../components/category.dart';
 
-class ShowRequestDetailsScreen extends StatelessWidget {
+class ShowAcceptHistoryScreen extends StatelessWidget {
   final data;
   final String docID;
-  const ShowRequestDetailsScreen(
+  const ShowAcceptHistoryScreen(
       {super.key, required this.data, required this.docID});
 
   Widget imageBox() {
