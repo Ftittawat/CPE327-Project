@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:helpee/components/category.dart';
 import 'package:helpee/screens/acceptRequest.dart';
@@ -7,26 +6,17 @@ import 'package:helpee/screens/acceptRequest.dart';
 String keywords = "";
 
 late String name;
-// late String uid;
-var query;
 
 /// This widget will show all requests
-/// where status is "Available". When user tap on card
-/// it will show accept request page to ask user who want to
-/// accept this request.
-Widget displayAllRequest() {
-  var uid2 = FirebaseAuth.instance.currentUser!.uid;
-  var collection = FirebaseFirestore.instance.collection("Request");
-  print("uid from displayAll: " + uid2.toString());
-
-  query = collection
-      // .where("Created By", isNotEqualTo: uid2)
-      .where("Status", isEqualTo: "Available")
-      .snapshots();
-
+/// where status is "Available". As you are a guest
+/// you cannot tap the card to see its details.
+Widget displayAsGuest() {
   return Expanded(
     child: StreamBuilder<QuerySnapshot>(
-      stream: query,
+      stream: FirebaseFirestore.instance
+          .collection("Request")
+          .where("Status", isEqualTo: "Available")
+          .snapshots(),
       builder: (context, snapshot) {
         return (snapshot.connectionState == ConnectionState.waiting)
             ? Center(
