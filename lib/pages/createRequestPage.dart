@@ -539,7 +539,7 @@ class _CreateRequestState extends State<CreateRequest> {
                           onPressed: () {
                             _goToMe();
                           },
-                          text: "select location",
+                          text: "My location",
                           icon: Icon(
                             Icons.location_pin,
                             color: Colors.white,
