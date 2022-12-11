@@ -34,7 +34,7 @@ class ShowAllRequestScreen extends StatelessWidget {
     );
   }
 
-  Widget acceptRequest(BuildContext context) {
+  Widget acceptRequestButton(BuildContext context) {
     DocumentReference<Map<String, dynamic>> requestCollection =
         FirebaseFirestore.instance.collection("Request").doc(docID);
 
@@ -149,7 +149,7 @@ class ShowAllRequestScreen extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        title: Text("Request",
+        title: Text("Request Acception",
             style: GoogleFonts.montserrat(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -176,7 +176,7 @@ class ShowAllRequestScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Category.tag("${data["category"]}"),
+                child: Category.tag("${data["Category"]}"),
               ),
             ),
             /* ----------------- Created By ---------------- */
@@ -248,7 +248,7 @@ class ShowAllRequestScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
               child: SizedBox(
                 height: 55.0,
-                child: acceptRequest(context),
+                child: acceptRequestButton(context),
               ),
             ),
           ],
