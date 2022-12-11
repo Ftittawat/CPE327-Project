@@ -30,7 +30,7 @@ class _AllRequestState extends State<AllRequest> {
   var loginKey;
   bool loginKey2 = true;
   var checkKey;
-  
+
   late LocationData currentLocation;
 
   Future<LocationData?> getCurrentLocation() async {
