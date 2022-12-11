@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/screens/profilescreen/setting.dart';
@@ -17,7 +19,11 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final user = FirebaseAuth.instance.currentUser;
+
+  final uid = FirebaseAuth.instance.currentUser?.uid;
+
   late String name, displayName;
+
   var loginKey;
   var email;
 
@@ -42,6 +48,11 @@ class _ProfileState extends State<Profile> {
       });
     });
   }
+
+  CollectionReference ref = FirebaseFirestore.instance.collection('user');
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController othersController = TextEditingController();
+
 
   Widget textLabel(String nametext) {
     return Padding(
@@ -87,6 +98,7 @@ class _ProfileState extends State<Profile> {
 
   Widget phoneBox(String phoneNumber) {
     return TextField(
+      controller: phoneController,
       keyboardType: TextInputType.phone,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
@@ -112,6 +124,7 @@ class _ProfileState extends State<Profile> {
 
   Widget otherContactsBox(String? othersContact) {
     return TextField(
+      controller: othersController,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
@@ -137,7 +150,14 @@ class _ProfileState extends State<Profile> {
 
   Widget saveButton() {
     return ElevatedButton(
-      onPressed: () {
+      onPressed: () async {
+        await ref.doc(uid).update({
+          "Phone": phoneController.text,
+          "Others Contact": othersController.text,
+        });
+        phoneController.clear();
+        othersController.clear();
+
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -351,4 +371,6 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
+
+  
 }
