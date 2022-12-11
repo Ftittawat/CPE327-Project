@@ -11,6 +11,7 @@ import 'package:helpee/screens/loginwithgoogle.dart';
 import 'package:helpee/screens/pleaselogin.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:helpee/widgets/displayAllRequest.dart';
+import 'package:helpee/widgets/userHistoryWidget.dart';
 import 'package:helpee/widgets/userRequestWidget.dart';
 
 var loginKey = 0;
@@ -179,6 +180,7 @@ class _MyAppState extends State<MyApp> {
                       minWidth: 80,
                       onPressed: () {
                         setState(() {
+                          findLatLng3();
                           currentScreen = UserRequestHistory();
                           currentTab = 2;
                         });

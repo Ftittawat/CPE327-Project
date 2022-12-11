@@ -1,13 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../components/category.dart';
 
-class ShowRequestDetailsScreen extends StatelessWidget {
+class showAcceptRequestDetailsScreen extends StatelessWidget {
   final data;
   final String docID;
-  const ShowRequestDetailsScreen(
+  const showAcceptRequestDetailsScreen(
       {super.key, required this.data, required this.docID});
 
   Widget imageBox() {
@@ -31,27 +34,10 @@ class ShowRequestDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget editRequest() {
-    return ElevatedButton(
-      onPressed: () {},
-      style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.grey,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Edit Request",
-              style: GoogleFonts.montserrat(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white)),
-        ],
-      ),
-    );
-  }
+  Widget completeRequest(BuildContext context) {
+    DocumentReference<Map<String, dynamic>> requestCollection =
+        FirebaseFirestore.instance.collection("Request").doc(docID);
 
-  Widget cancelRequest(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
         showDialog(
@@ -61,7 +47,7 @@ class ShowRequestDetailsScreen extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-              title: Text("Cancel Request",
+              title: Text("Confirm",
                   style: GoogleFonts.montserrat(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -86,7 +72,7 @@ class ShowRequestDetailsScreen extends StatelessWidget {
                 TextButton(
                   onPressed: () {},
                   child: Text(
-                    "Confirm",
+                    "Complete",
                     style: TextStyle(
                         fontWeight: FontWeight.w600, color: Color(0xFF005792)),
                   ),
@@ -97,35 +83,18 @@ class ShowRequestDetailsScreen extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.red,
+          backgroundColor: Color(0xFF005792),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Cancel Request",
+          Text("Complete Request",
               style: GoogleFonts.montserrat(
-                  fontSize: 12,
+                  fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: Colors.white)),
         ],
-      ),
-    );
-  }
-
-  Widget confirmModal() {
-    return Container(
-      height: 230,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(width: 2.0, color: Colors.grey.shade400),
-      ),
-      child: Center(
-        child: Icon(
-          Icons.photo,
-          color: Colors.grey.shade400,
-          size: 40,
-        ),
       ),
     );
   }
@@ -173,9 +142,10 @@ class ShowRequestDetailsScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Category.tag("${data["Category"]}"),
+                child: Category.tag("${data["category"]}"),
               ),
             ),
+
             /* ----------------- Sub Title ---------------- */
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -184,7 +154,7 @@ class ShowRequestDetailsScreen extends StatelessWidget {
                 child: Text("${data['Description']}",
                     style: GoogleFonts.montserrat(
                         fontSize: 15,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                         color: Colors.black)),
               ),
             ),
@@ -220,51 +190,7 @@ class ShowRequestDetailsScreen extends StatelessWidget {
                         color: Colors.black)),
               ),
             ),
-            // /* ----------------- Created By ---------------- */
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-            //   child: Align(
-            //     alignment: Alignment.topLeft,
-            //     child: FutureBuilder(
-            //       future: FirebaseFirestore.instance
-            //           .collection("user")
-            //           .doc(data["Created By"])
-            //           .get()
-            //           .then(
-            //         (value) {
-            //           String name = value.data() == null
-            //               ? data["Created By"]
-            //               : value.data()!["name"];
-            //           return name;
-            //         },
-            //       ),
-            //       builder: (context, snapshot) {
-            //         return Text(
-            //           data['Created By'] == null
-            //               ? "Created By : Anonymous"
-            //               : "Created By : ${snapshot.data}",
-            //           style: GoogleFonts.montserrat(
-            //               fontSize: 14,
-            //               fontWeight: FontWeight.w500,
-            //               color: Colors.black),
-            //         );
-            //       },
-            //     ),
-            //   ),
-            // ),
-            // /* ----------------- Phone ---------------- */
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-            //   child: Align(
-            //     alignment: Alignment.bottomLeft,
-            //     child: Text("Phone : 098-7654321",
-            //         style: GoogleFonts.montserrat(
-            //             fontSize: 14,
-            //             fontWeight: FontWeight.w500,
-            //             color: Colors.black)),
-            //   ),
-            // ),
-            /* ----------------- Accepted By ---------------- */
+            /* ----------------- Created By ---------------- */
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Align(
@@ -272,21 +198,21 @@ class ShowRequestDetailsScreen extends StatelessWidget {
                 child: FutureBuilder(
                   future: FirebaseFirestore.instance
                       .collection("user")
-                      .doc(data["Accepted By"])
+                      .doc(data["Created By"])
                       .get()
                       .then(
                     (value) {
                       String name = value.data() == null
-                          ? data["Accepted By"]
+                          ? data["Created By"]
                           : value.data()!["name"];
                       return name;
                     },
                   ),
                   builder: (context, snapshot) {
                     return Text(
-                      data["Accepted By"] == null
-                          ? "Accepted By : Anonymous"
-                          : "Accepted By : ${snapshot.data}",
+                      data['Created By'] == null
+                          ? "Created By : Anonymous"
+                          : "Created By : ${snapshot.data}",
                       style: GoogleFonts.montserrat(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -306,6 +232,14 @@ class ShowRequestDetailsScreen extends StatelessWidget {
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: Colors.black)),
+              ),
+            ),
+            /* ----------------- Complete Request ---------------- */
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+              child: SizedBox(
+                height: 55.0,
+                child: completeRequest(context),
               ),
             ),
           ],

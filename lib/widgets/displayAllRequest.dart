@@ -77,7 +77,7 @@ Widget displayAllRequest() {
                       child: ListTile(
                           /* ----------------- Title ---------------- */
                           title: Text(
-                            "Topic: ${data["Topic"]}",
+                            "${data["Topic"]}",
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
@@ -99,7 +99,7 @@ Widget displayAllRequest() {
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    "Description: ${data['Description']}",
+                                    "${data['Description']}",
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w400,
@@ -123,7 +123,7 @@ Widget displayAllRequest() {
                                       ),
                                       /* ----------------- Distance Text ---------------- */
                                       Text(
-                                        "Distance $disKm kilometers.",
+                                        "Distance: $disKm kilometers.",
                                         /* ***** */
                                         style: TextStyle(
                                           fontSize: 13,
@@ -211,7 +211,7 @@ Widget displayAllRequest() {
                       child: ListTile(
                         /* ----------------- Title ---------------- */
                         title: Text(
-                          "Topic: ${data["Topic"]}",
+                          "${data["Topic"]}",
                           style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
@@ -231,7 +231,7 @@ Widget displayAllRequest() {
                             Padding(
                               padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                               child: Text(
-                                "Description: ${data['Description']}",
+                                "${data['Description']}",
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
