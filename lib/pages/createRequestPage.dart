@@ -94,7 +94,7 @@ class _CreateRequestState extends State<CreateRequest> {
     );
   }
 
-  String dropdownvalue = '';
+  String dropdownvalue = 'Other';
   var items = [
     'Mechanic',
     'Electronic',
@@ -152,13 +152,7 @@ class _CreateRequestState extends State<CreateRequest> {
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
                   borderRadius: BorderRadius.circular(10))),
-        ),
-        validator: (Value) {
-          if (Value == null)
-            return "Required field";
-          else
-            return null;
-        },
+        ),       
         onChanged: ((value) {
           dropdownvalue = value!;
         }));
