@@ -137,6 +137,7 @@ class ShowAcceptHistoryScreen extends StatelessWidget {
       Timestamp t = data["Create Time"] as Timestamp;
       dateTime = t.toDate();
     }
+    print(data['Accepted By']);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -220,92 +221,58 @@ class ShowAcceptHistoryScreen extends StatelessWidget {
                         color: Colors.black)),
               ),
             ),
-            // /* ----------------- Created By ---------------- */
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-            //   child: Align(
-            //     alignment: Alignment.topLeft,
-            //     child: FutureBuilder(
-            //       future: FirebaseFirestore.instance
-            //           .collection("user")
-            //           .doc(data["Created By"])
-            //           .get()
-            //           .then(
-            //         (value) {
-            //           String name = value.data() == null
-            //               ? data["Created By"]
-            //               : value.data()!["name"];
-            //           return name;
-            //         },
-            //       ),
-            //       builder: (context, snapshot) {
-            //         return Text(
-            //           data['Created By'] == null
-            //               ? "Created By : Anonymous"
-            //               : "Created By : ${snapshot.data}",
-            //           style: GoogleFonts.montserrat(
-            //               fontSize: 14,
-            //               fontWeight: FontWeight.w500,
-            //               color: Colors.black),
-            //         );
-            //       },
-            //     ),
-            //   ),
-            // ),
-            // /* ----------------- Phone ---------------- */
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-            //   child: Align(
-            //     alignment: Alignment.bottomLeft,
-            //     child: Text("Phone : 098-7654321",
-            //         style: GoogleFonts.montserrat(
-            //             fontSize: 14,
-            //             fontWeight: FontWeight.w500,
-            //             color: Colors.black)),
-            //   ),
-            // ),
-            /* ----------------- Accepted By ---------------- */
+            /* ----------------- Show Helper details ---------------- */
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Align(
                 alignment: Alignment.topLeft,
                 child: FutureBuilder(
                   future: FirebaseFirestore.instance
-                      .collection("user")
+                      .collection('user')
                       .doc(data["Accepted By"])
                       .get()
-                      .then(
-                    (value) {
-                      String name = value.data() == null
-                          ? data["Accepted By"]
-                          : value.data()!["name"];
-                      return name;
-                    },
-                  ),
-                  builder: (context, snapshot) {
-                    return Text(
-                      data["Accepted By"] == null
-                          ? "Accepted By : Anonymous"
-                          : "Accepted By : ${snapshot.data}",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black),
+                      .then((value) {
+                    Map<String, dynamic>? userData = value.data();
+                    // print(userData);
+
+                    return userData;
+                  }),
+                  builder: (_, snapshot) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        /* ----------------- Accepted By ---------------- */
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                                "Accepted By: ${snapshot.data!['name']}",
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black)),
+                          ),
+                        ),
+                        /* ----------------- Phone ---------------- */
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                                snapshot.data!['Phone'] == null
+                                    ? "Phone: NO PHONE."
+                                    : "Phone: ${snapshot.data!['Phone']}",
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black)),
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
-              ),
-            ),
-            /* ----------------- Phone ---------------- */
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Text("Phone : 098-7654321",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black)),
               ),
             ),
           ],
