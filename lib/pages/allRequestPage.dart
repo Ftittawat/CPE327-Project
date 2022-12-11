@@ -28,6 +28,23 @@ class _AllRequestState extends State<AllRequest> {
   var loginKey;
   bool loginKey2 = true;
   var checkKey;
+<<<<<<< Updated upstream
+=======
+
+  late LocationData currentLocation;
+
+  Future<LocationData?> getCurrentLocation() async {
+    Location location = Location();
+    try {
+      return await location.getLocation();
+    } on PlatformException catch (e) {
+      if (e.code == 'PERMISSION_DENIED') {
+        // Permission denied
+      }
+      return null;
+    }
+  }
+>>>>>>> Stashed changes
 
   @override
   void initState() {
@@ -308,14 +325,15 @@ class _AllRequestState extends State<AllRequest> {
           ),
         ),
         actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 0),
-            child: IconButton(
-              icon: const Icon(Icons.notifications),
-              color: Colors.blueGrey.shade300,
-              onPressed: () {},
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 0),
+          //   child: IconButton(
+          //     icon: const Icon(Icons.notifications),
+          //     splashRadius: 20,
+          //     color: Color(0xFF005792),
+          //     onPressed: () {},
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: checkKey == 0
@@ -335,7 +353,7 @@ class _AllRequestState extends State<AllRequest> {
                     },
                   )
                 : IconButton(
-                    icon: const Icon(Icons.logout),
+                    icon: const Icon(Icons.notifications),
                     splashRadius: 20,
                     onPressed: () {},
                   ),

@@ -93,6 +93,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       // home: Register(),
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         /* ----------------- Body ---------------- */
         body: PageStorage(
           bucket: bucket,
@@ -229,6 +230,7 @@ class _MyAppState extends State<MyApp> {
       // },
       // home: Register(),
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         /* ----------------- Body ---------------- */
         body: PageStorage(
           bucket: bucket,

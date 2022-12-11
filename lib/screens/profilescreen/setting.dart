@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:helpee/screens/profilescreen/settingscreen/editprofile.dart';
-import 'package:helpee/screens/profilescreen/settingscreen/yourskill.dart';
+import 'package:helpee/screens/profilescreen/settingscreen/about.dart';
+import 'package:helpee/screens/profilescreen/settingscreen/support.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
@@ -16,12 +16,12 @@ class Setting extends StatefulWidget {
 }
 
 class _SettingState extends State<Setting> {
-  Widget editprofilebutton() {
+  Widget supportButton() {
     return ElevatedButton(
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => EditProfile()),
+          MaterialPageRoute(builder: (context) => Support()),
         );
       },
       style: ElevatedButton.styleFrom(
@@ -31,7 +31,7 @@ class _SettingState extends State<Setting> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("Edit Profile",
+          Text("Support",
               style: GoogleFonts.montserrat(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -46,12 +46,12 @@ class _SettingState extends State<Setting> {
     );
   }
 
-  Widget yourskillbutton() {
+  Widget aboutbutton() {
     return ElevatedButton(
       onPressed: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => YourSkill()),
+          MaterialPageRoute(builder: (context) => About()),
         );
       },
       style: ElevatedButton.styleFrom(
@@ -61,37 +61,7 @@ class _SettingState extends State<Setting> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("Your Skill",
-              style: GoogleFonts.montserrat(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black)),
-          Icon(
-            Icons.chevron_right,
-            size: 25,
-            color: Colors.black,
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget helpButton() {
-    return ElevatedButton(
-      onPressed: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => Login()),
-        // );
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        elevation: 0.0,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text("Help",
+          Text("About",
               style: GoogleFonts.montserrat(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -204,7 +174,7 @@ class _SettingState extends State<Setting> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              /* ----------------- Edit Prifile ---------------- */
+              /* ----------------- Support ---------------- */
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: Container(
@@ -213,10 +183,10 @@ class _SettingState extends State<Setting> {
                   decoration: BoxDecoration(
                       border: Border(
                           bottom: BorderSide(width: 1.0, color: Colors.grey))),
-                  child: editprofilebutton(),
+                  child: supportButton(),
                 ),
               ),
-              /* ----------------- Your Skill ---------------- */
+              /* ----------------- About ---------------- */
               Padding(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: Container(
@@ -225,19 +195,7 @@ class _SettingState extends State<Setting> {
                   decoration: BoxDecoration(
                       border: Border(
                           bottom: BorderSide(width: 1.0, color: Colors.grey))),
-                  child: yourskillbutton(),
-                ),
-              ),
-              /* ----------------- Help ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: Container(
-                  height: 50,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(width: 1.0, color: Colors.grey))),
-                  child: helpButton(),
+                  child: aboutbutton(),
                 ),
               ),
               Padding(
