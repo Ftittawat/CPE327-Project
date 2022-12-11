@@ -7,6 +7,7 @@ import 'package:helpee/components/filterChoice.dart';
 import 'package:location/location.dart';
 import 'package:helpee/screens/loginwithgoogle.dart';
 import 'package:helpee/widgets/displayAllRequest.dart';
+import 'package:helpee/widgets/displayAsGuest.dart';
 
 import '../components/authen_service.dart';
 import '../widgets/userRequestWidget.dart';
@@ -56,7 +57,7 @@ class _AllRequestState extends State<AllRequest> {
     print("Check = " + checkKey.toString());
   }
 
-  // /*---------------------- Search Box ---------------------- */
+  /*---------------------- Search Box ---------------------- */
   Widget searchBox() {
     return TextField(
       keyboardType: TextInputType.text,
@@ -302,7 +303,7 @@ class _AllRequestState extends State<AllRequest> {
     );
   }
 
-  var isVisible = checkVisible("In Progress");
+  // var isVisible = checkVisible("In Progress");
 
   @override
   Widget build(BuildContext context) {
@@ -315,7 +316,7 @@ class _AllRequestState extends State<AllRequest> {
         foregroundColor: Color(0xFF005792),
         toolbarHeight: 60,
         title: Text(
-          displayName == null ? 'Hi' : "Hi, $displayName",
+          displayName == null ? 'Hi, Guest' : "Hi, $displayName",
           style: GoogleFonts.montserrat(
             fontSize: 18,
             fontWeight: FontWeight.w700,
@@ -323,14 +324,15 @@ class _AllRequestState extends State<AllRequest> {
           ),
         ),
         actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 0),
-            child: IconButton(
-              icon: const Icon(Icons.notifications),
-              color: Colors.blueGrey.shade300,
-              onPressed: () {},
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 0),
+          //   child: IconButton(
+          //     icon: const Icon(Icons.notifications),
+          //     splashRadius: 20,
+          //     color: Color(0xFF005792),
+          //     onPressed: () {},
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: checkKey == 0
@@ -350,7 +352,7 @@ class _AllRequestState extends State<AllRequest> {
                     },
                   )
                 : IconButton(
-                    icon: const Icon(Icons.logout),
+                    icon: const Icon(Icons.notifications),
                     splashRadius: 20,
                     onPressed: () {},
                   ),
@@ -425,7 +427,10 @@ class _AllRequestState extends State<AllRequest> {
                 ),
               ),
             ),
-            displayAllRequest(),
+            // displayAllRequest(checkKey),
+            Container(
+                child:
+                    (checkKey == 1) ? displayAllRequest() : displayAsGuest()),
           ],
         ),
       ),

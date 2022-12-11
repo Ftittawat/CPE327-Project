@@ -88,16 +88,6 @@ class _MyRequestState extends State<UserRequest> {
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: Colors.black)),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 15),
-            child: IconButton(
-              icon: const Icon(Icons.notifications),
-              color: Colors.blueGrey.shade300,
-              onPressed: () {},
-            ),
-          ),
-        ],
       ),
 
       /* ----------------- Body ---------------- */
