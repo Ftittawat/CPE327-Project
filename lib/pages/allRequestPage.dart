@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/components/filterChoice.dart';
-
+import 'package:location/location.dart';
 import 'package:helpee/screens/loginwithgoogle.dart';
 import 'package:helpee/widgets/displayAllRequest.dart';
 import 'package:helpee/widgets/displayAsGuest.dart';
@@ -29,6 +30,20 @@ class _AllRequestState extends State<AllRequest> {
   var loginKey;
   bool loginKey2 = true;
   var checkKey;
+  
+  late LocationData currentLocation;
+
+  Future<LocationData?> getCurrentLocation() async {
+    Location location = Location();
+    try {
+      return await location.getLocation();
+    } on PlatformException catch (e) {
+      if (e.code == 'PERMISSION_DENIED') {
+        // Permission denied
+      }
+      return null;
+    }
+  }
 
   @override
   void initState() {

@@ -1,19 +1,41 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:helpee/components/category.dart';
 import 'package:helpee/screens/acceptRequest.dart';
+import 'package:location/location.dart';
 
 String keywords = "";
+var lat, lng;
 
 late String name;
+
+Future<Null> findLatLng() async {
+  LocationData? locationData = await getCurrentLocation();
+  lat = locationData?.latitude;
+  lng = locationData?.longitude;
+  print('lat = $lat lng = $lng');
+}
+
+LocationData? currentLocation;
+Future<LocationData?> getCurrentLocation() async {
+  Location location = Location();
+  try {
+    return await location.getLocation();
+  } on PlatformException catch (e) {
+    if (e.code == 'PERMISSION_DENIED') {
+      // Permission denied
+    }
+    return null;
+  }
+}
+
 // late String uid;
 var query;
 
-/// This widget will show all requests
-/// where status is "Available". When user tap on card
-/// it will show accept request page to ask user who want to
-/// accept this request.
+
 Widget displayAllRequest() {
   var uid2 = FirebaseAuth.instance.currentUser!.uid;
   var collection = FirebaseFirestore.instance.collection("Request");
@@ -37,6 +59,10 @@ Widget displayAllRequest() {
                 itemBuilder: (context, index) {
                   var data =
                       snapshot.data!.docs[index].data() as Map<String, dynamic>;
+                  var dis = Geolocator.distanceBetween(
+                          data['Lat'], data['Lng'], lat!, lng!)
+                      .toStringAsFixed(0);
+                  print('dis = $dis');
 
                   // Convert Timestamp to DateTime
                   DateTime? dateTime;
@@ -64,7 +90,7 @@ Widget displayAllRequest() {
                                 padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                                 child: Align(
                                   alignment: Alignment.centerLeft,
-                                  child: Category.tag("${data['category']}"),
+                                  child: Category.tag("${data['Category']}"),
                                 ),
                               ),
                               /* ----------------- Subtitle ---------------- */
@@ -97,7 +123,8 @@ Widget displayAllRequest() {
                                       ),
                                       /* ----------------- Distance Text ---------------- */
                                       Text(
-                                        "Distance ${data['distance']} kilometers.",
+                                        "Distance $dis kilometers.",
+                                        /* ***** */
                                         style: TextStyle(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w400,
@@ -197,7 +224,7 @@ Widget displayAllRequest() {
                               padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                               child: Align(
                                 alignment: Alignment.centerLeft,
-                                child: Category.tag("${data['category']}"),
+                                child: Category.tag("${data['Category']}"),
                               ),
                             ),
                             /* ----------------- Subtitle ---------------- */
@@ -226,8 +253,9 @@ Widget displayAllRequest() {
                                       color: Colors.black,
                                     ),
                                     /* ----------------- Distance Text ---------------- */
+
                                     Text(
-                                      "Distance ${data['distance']} kilometers.",
+                                      "Distance $dis kilometers.",
                                       style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w400,
