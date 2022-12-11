@@ -35,7 +35,6 @@ Future<LocationData?> getCurrentLocation() async {
 // late String uid;
 var query;
 
-
 Widget displayAllRequest() {
   var uid2 = FirebaseAuth.instance.currentUser!.uid;
   var collection = FirebaseFirestore.instance.collection("Request");

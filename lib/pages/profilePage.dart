@@ -17,13 +17,31 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final user = FirebaseAuth.instance.currentUser;
-  late String name, email, displayName;
+  late String name, displayName;
   var loginKey;
+  var email;
+
   @override
   void initState() {
     super.initState();
     print("--- ### Proflie ### ---");
     loginCheck();
+    // getData();
+  }
+
+  Future<Null> getData() async {
+    // enter here the path , from where you want to fetch the doc
+    print(user!.uid);
+    DocumentSnapshot pathData = await FirebaseFirestore.instance
+        .collection('user')
+        .doc(user!.uid)
+        .get();
+
+    if (pathData.exists) {
+      Map<String, dynamic>? fetchDoc = pathData.data() as Map<String, dynamic>?;
+      var email = fetchDoc?['email'];
+      print(email);
+    }
   }
 
   Future<Null> loginCheck() async {
@@ -71,62 +89,6 @@ class _ProfileState extends State<Profile> {
         ),
       ),
     );
-  }
-
-  Widget deleteButton() {
-    return Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-        child: IconButton(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  title: Text("Delete",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black)),
-                  contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  content: Text("ยังลบไม่ได้นะจ้ะ",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black)),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        "Cancel",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF005792)),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Delete",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF005792)),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            );
-          },
-          icon: Icon(Icons.delete_outlined),
-          iconSize: 20,
-          splashRadius: 15,
-          color: Colors.grey.shade400,
-        ));
   }
 
   Widget historyAll() {
@@ -239,97 +201,114 @@ class _ProfileState extends State<Profile> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              /* ----------------- Prifile Image ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                child: CircleAvatar(
-                  backgroundColor: Colors.grey.shade400,
-                  radius: 80,
-                  backgroundImage: NetworkImage(
-                      FirebaseAuth.instance.currentUser?.photoURL ??
-                          "assets/images/Memoji.png"),
-                  // backgroundImage: NetworkImage(
-                  //     user?.photoURL! ?? "assets/images/Memoji.png"),
-                ),
-              ),
-              /* ----------------- Username ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: Text(
-                    FirebaseAuth.instance.currentUser?.displayName ??
-                        'DisplayName',
-                    style: GoogleFonts.montserrat(
-                        fontSize: 27,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-              ),
-              /* ----------------- Address ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                child: Text("Thung khru, Bangkok.",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black)),
-              ),
-              /* ----------------- Your Skills Name ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Your Skills",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black)),
-                ),
-              ),
-              /* ----------------- Your Skills ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                child: SizedBox(
-                  height: 40,
-                  width: MediaQuery.of(context).size.width,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
+              FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                future: FirebaseFirestore.instance
+                    .collection('user')
+                    .doc(user!.uid)
+                    .get(),
+                builder: (_, snapshot) {
+                  if (snapshot.hasData) {
+                    Map<String, dynamic>? data = snapshot.data!.data();
+
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        /* ----------------- Profile Image ---------------- */
                         Padding(
-                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: Category.taginprofile('Mechanic')),
+                          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.grey.shade400,
+                            radius: 80,
+                            backgroundImage: NetworkImage(
+                                FirebaseAuth.instance.currentUser?.photoURL ??
+                                    "assets/images/Memoji.png"),
+                          ),
+                        ),
+                        /* ----------------- Username ---------------- */
                         Padding(
-                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: Category.taginprofile('Electric')),
+                          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                          child: Text(
+                              FirebaseAuth.instance.currentUser?.displayName ??
+                                  'DisplayName',
+                              style: GoogleFonts.montserrat(
+                                  fontSize: 27,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black)),
+                        ),
+                        /* ----------------- Address ---------------- */
                         Padding(
-                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: Category.taginprofile('Technology')),
+                          padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                          child: Text(data!['email'],
+                              style: GoogleFonts.montserrat(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black)),
+                        ),
+                        /* ----------------- Your Skills Name ---------------- */
                         Padding(
-                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: Category.taginprofile('Wooden')),
+                          padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text("Your Skills",
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black)),
+                          ),
+                        ),
+                        /* ----------------- Your Skills ---------------- */
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                          child: SizedBox(
+                            height: 40,
+                            width: MediaQuery.of(context).size.width,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                      child: Category.taginprofile('Mechanic')),
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                      child: Category.taginprofile('Electric')),
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                      child:
+                                          Category.taginprofile('Technology')),
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                      child: Category.taginprofile('Wooden')),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        /* ----------------- History TabBar ---------------- */
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text("History Request",
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black)),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: historyAll(),
+                          ),
+                        ),
                       ],
-                    ),
-                  ),
-                ),
-              ),
-              /* ----------------- History TabBar ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("History Request",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black)),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: historyAll(),
-                ),
-              ),
+                    );
+                  }
+                  return Center(child: CircularProgressIndicator());
+                },
+              )
             ],
           ),
         ),
