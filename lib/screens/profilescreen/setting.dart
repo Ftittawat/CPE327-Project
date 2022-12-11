@@ -76,7 +76,7 @@ class _SettingState extends State<Setting> {
     );
   }
 
-  Widget helpbutton() {
+  Widget helpButton() {
     return ElevatedButton(
       onPressed: () {
         // Navigator.push(
@@ -237,7 +237,7 @@ class _SettingState extends State<Setting> {
                   decoration: BoxDecoration(
                       border: Border(
                           bottom: BorderSide(width: 1.0, color: Colors.grey))),
-                  child: helpbutton(),
+                  child: helpButton(),
                 ),
               ),
               Padding(
