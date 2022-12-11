@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:helpee/models/user_models.dart';
+import 'package:helpee/main.dart';
 
 class LoginWithGoogle extends StatefulWidget {
   const LoginWithGoogle({super.key});
@@ -55,7 +56,7 @@ class _LoginWithGoogleState extends State<LoginWithGoogle> {
             //     // Route to Service by TypeUser
             //   }
             // });
-            Navigator.pop(context);
+            //Navigator.pop(context);
           });
         });
       });
@@ -72,7 +73,12 @@ class _LoginWithGoogleState extends State<LoginWithGoogle> {
           .set(data)
           .then((value) {
         print(' # Insert Value To Firestore Success Email= $email #');
+
         // Navigator
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const MyApp()),
+        );
       });
     });
   }
