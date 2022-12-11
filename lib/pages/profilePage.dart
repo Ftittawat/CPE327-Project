@@ -19,14 +19,35 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final user = FirebaseAuth.instance.currentUser;
+
   final uid = FirebaseAuth.instance.currentUser?.uid;
-  late String name, email, displayName;
+
+  late String name, displayName;
+
   var loginKey;
+  var email;
+
   @override
   void initState() {
     super.initState();
     print("--- ### Proflie ### ---");
     loginCheck();
+    // getData();
+  }
+
+  Future<Null> getData() async {
+    // enter here the path , from where you want to fetch the doc
+    print(user!.uid);
+    DocumentSnapshot pathData = await FirebaseFirestore.instance
+        .collection('user')
+        .doc(user!.uid)
+        .get();
+
+    if (pathData.exists) {
+      Map<String, dynamic>? fetchDoc = pathData.data() as Map<String, dynamic>?;
+      var email = fetchDoc?['email'];
+      print(email);
+    }
   }
 
   Future<Null> loginCheck() async {
@@ -243,6 +264,7 @@ class _ProfileState extends State<Profile> {
       ),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {

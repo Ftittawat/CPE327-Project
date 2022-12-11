@@ -104,7 +104,7 @@ class _MyRequestState extends State<UserRequest> {
                   height: 3,
                   bottomLeftRadius: 5,
                   bottomRightRadius: 5,
-                  horizontalPadding: 50,
+                  horizontalPadding: 55,
                   tabPosition: TabPosition.bottom,
                 ),
                 tabs: const [
