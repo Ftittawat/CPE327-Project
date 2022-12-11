@@ -285,7 +285,7 @@ class ShowRequestDetailsScreen extends StatelessWidget {
                   builder: (context, snapshot) {
                     return Text(
                       data["Accepted By"] == null
-                          ? "Accepted By : Anonymous"
+                          ? "Accepted By : Available"
                           : "Accepted By : ${snapshot.data}",
                       style: GoogleFonts.montserrat(
                           fontSize: 14,
@@ -301,7 +301,7 @@ class ShowRequestDetailsScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text("Phone : 098-7654321",
+                child: Text("Phone : Available",
                     style: GoogleFonts.montserrat(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
