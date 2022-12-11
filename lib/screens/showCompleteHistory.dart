@@ -1,13 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../components/category.dart';
 
-class ShowRequestDetailsScreen extends StatelessWidget {
+class CompleteHistoryScreen extends StatelessWidget {
   final data;
   final String docID;
-  const ShowRequestDetailsScreen(
+  const CompleteHistoryScreen(
       {super.key, required this.data, required this.docID});
 
   Widget imageBox() {
@@ -31,27 +34,10 @@ class ShowRequestDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget editRequest() {
-    return ElevatedButton(
-      onPressed: () {},
-      style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.grey,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Edit Request",
-              style: GoogleFonts.montserrat(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white)),
-        ],
-      ),
-    );
-  }
+  Widget acceptRequest(BuildContext context) {
+    DocumentReference<Map<String, dynamic>> requestCollection =
+        FirebaseFirestore.instance.collection("Request").doc(docID);
 
-  Widget cancelRequest(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
         showDialog(
@@ -61,7 +47,7 @@ class ShowRequestDetailsScreen extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-              title: Text("Cancel Request",
+              title: Text("Confirm",
                   style: GoogleFonts.montserrat(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -84,9 +70,43 @@ class ShowRequestDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    requestCollection.update({
+                      "Accepted By": FirebaseAuth.instance.currentUser?.uid,
+                      "Status": "In Progress",
+                    });
+                    print("Accept Success!!");
+                    Navigator.pop(context);
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                              title: Text("Confirmation",
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black)),
+                              contentPadding:
+                                  EdgeInsets.fromLTRB(20, 20, 20, 0),
+                              content: Icon(
+                                Icons.done_rounded,
+                                color: Colors.blue,
+                                size: 64.0,
+                              ),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("OK"))
+                              ]);
+                        });
+                  },
                   child: Text(
-                    "Confirm",
+                    "Accept Request",
                     style: TextStyle(
                         fontWeight: FontWeight.w600, color: Color(0xFF005792)),
                   ),
@@ -97,35 +117,18 @@ class ShowRequestDetailsScreen extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.red,
+          backgroundColor: Color(0xFF005792),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Cancel Request",
+          Text("Accept Request",
               style: GoogleFonts.montserrat(
-                  fontSize: 12,
+                  fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: Colors.white)),
         ],
-      ),
-    );
-  }
-
-  Widget confirmModal() {
-    return Container(
-      height: 230,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(width: 2.0, color: Colors.grey.shade400),
-      ),
-      child: Center(
-        child: Icon(
-          Icons.photo,
-          color: Colors.grey.shade400,
-          size: 40,
-        ),
       ),
     );
   }
@@ -146,7 +149,7 @@ class ShowRequestDetailsScreen extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        title: Text("Request Details",
+        title: Text("Request",
             style: GoogleFonts.montserrat(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -173,7 +176,7 @@ class ShowRequestDetailsScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Category.tag("${data["Category"]}"),
+                child: Category.tag("${data["category"]}"),
               ),
             ),
             /* ----------------- Sub Title ---------------- */
@@ -195,13 +198,27 @@ class ShowRequestDetailsScreen extends StatelessWidget {
             ),
             /* ----------------- Date Time ---------------- */
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
                     dateTime == null
                         ? "time is null"
                         : "Created Time : ${dateTime.day}/${dateTime.month}/${dateTime.year}, ${dateTime.hour}:${dateTime.minute}",
+                    style: GoogleFonts.montserrat(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey.shade400)),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 5, 0, 10),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                    dateTime == null
+                        ? "time is null"
+                        : "Complete Time : ${dateTime.day}/${dateTime.month}/${dateTime.year}, ${dateTime.hour}:${dateTime.minute}",
                     style: GoogleFonts.montserrat(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
@@ -220,50 +237,6 @@ class ShowRequestDetailsScreen extends StatelessWidget {
                         color: Colors.black)),
               ),
             ),
-            // /* ----------------- Created By ---------------- */
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-            //   child: Align(
-            //     alignment: Alignment.topLeft,
-            //     child: FutureBuilder(
-            //       future: FirebaseFirestore.instance
-            //           .collection("user")
-            //           .doc(data["Created By"])
-            //           .get()
-            //           .then(
-            //         (value) {
-            //           String name = value.data() == null
-            //               ? data["Created By"]
-            //               : value.data()!["name"];
-            //           return name;
-            //         },
-            //       ),
-            //       builder: (context, snapshot) {
-            //         return Text(
-            //           data['Created By'] == null
-            //               ? "Created By : Anonymous"
-            //               : "Created By : ${snapshot.data}",
-            //           style: GoogleFonts.montserrat(
-            //               fontSize: 14,
-            //               fontWeight: FontWeight.w500,
-            //               color: Colors.black),
-            //         );
-            //       },
-            //     ),
-            //   ),
-            // ),
-            // /* ----------------- Phone ---------------- */
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-            //   child: Align(
-            //     alignment: Alignment.bottomLeft,
-            //     child: Text("Phone : 098-7654321",
-            //         style: GoogleFonts.montserrat(
-            //             fontSize: 14,
-            //             fontWeight: FontWeight.w500,
-            //             color: Colors.black)),
-            //   ),
-            // ),
             /* ----------------- Accepted By ---------------- */
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),

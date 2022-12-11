@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:helpee/components/category.dart';
+import 'package:helpee/screens/showAcceptHistory.dart';
+import 'package:helpee/screens/showCompleteHistory.dart';
 import 'package:helpee/screens/showCompleteRequest.dart';
 import 'package:helpee/screens/showAcceptRequest.dart';
 import 'package:helpee/screens/showRequestDetails.dart';
@@ -25,7 +27,7 @@ Future<Null> findLatLng2() async {
   //print('lat2 = $lat2 lng2 = $lng2');
 }
 
-Widget userRequest(String query, String status) {
+Widget userHistory(String query, String status) {
   return Expanded(
     child: StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
@@ -43,10 +45,10 @@ Widget userRequest(String query, String status) {
                 itemBuilder: (context, index) {
                   var data =
                       snapshot.data!.docs[index].data() as Map<String, dynamic>;
-                  var dis = Geolocator.distanceBetween(
-                          data['Lat'], data['Lng'], lat2!, lng2!) /
-                      1000;
-                  var disKm = dis.toStringAsFixed(2);
+                  // var dis = Geolocator.distanceBetween(
+                  //         data['Lat'], data['Lng'], lat2!, lng2!) /
+                  //     1000;
+                  // var disKm = dis.toStringAsFixed(2);
 
                   // Convert Timestamp to DateTime
                   DateTime? dateTime;
@@ -104,7 +106,7 @@ Widget userRequest(String query, String status) {
                                   ),
                                   /* ----------------- Distance Text ---------------- */
                                   Text(
-                                    "Distance $disKm kilometers.",
+                                    "Distance xx kilometers.",
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w400,
@@ -216,8 +218,7 @@ Widget userRequest(String query, String status) {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    showAcceptRequestDetailsScreen(
+                                builder: (context) => ShowAcceptHistoryScreen(
                                   data: data,
                                   docID: snapshot.data!.docs[index].id,
                                 ),
@@ -226,7 +227,7 @@ Widget userRequest(String query, String status) {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => CompleteRequestScreen(
+                                builder: (context) => CompleteHistoryScreen(
                                   data: data,
                                   docID: snapshot.data!.docs[index].id,
                                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:helpee/widgets/userHistoryWidget.dart';
 import 'package:helpee/widgets/userRequestWidget.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
@@ -109,13 +110,13 @@ class _UserRequestHistoryState extends State<UserRequestHistory> {
               child: TabBarView(
                 children: [
                   Column(
-                    children: [userRequest("Created By", "Available")],
+                    children: [userHistory("Created By", "Available")],
                   ),
                   Column(
-                    children: [userRequest("Created By", "In Progress")],
+                    children: [userHistory("Created By", "In Progress")],
                   ),
                   Column(
-                    children: [userRequest("Created By", "Completed")],
+                    children: [userHistory("Created By", "Completed")],
                   ),
                 ],
               ),
