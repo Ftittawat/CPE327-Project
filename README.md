@@ -1,6 +1,10 @@
-# helpee
+<!-- # Helpee -->
+<h1 align="center"> 
+    Helpee
+    <br>    
+  <a href="https://github.com/Ftittawat/CPE327-Project/tree/ton-2"><img src="image/Logo.png" alt="Helpee Logo" width="350"></a>
+</h1>
 
-A new Flutter project.
 
 ## Getting Started
 
@@ -14,6 +18,11 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+## About the project
+A Flutter project for CPE327_2022 KMUTT. This is a mobile application that can ask for help and help the one who ask for help. Mostly we focus on the process to create the application. In this project we use scrum framework to planing and manage project.
+
+### Features
 
 ### Requirements
 - Flutter Version: 3.3.4
