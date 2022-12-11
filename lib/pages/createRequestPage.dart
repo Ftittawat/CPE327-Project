@@ -292,22 +292,6 @@ class _CreateRequestState extends State<CreateRequest> {
       ),
     );
   }
-  // Future<void> showAlert(String title,String message) async{
-  //   showDialog(context: context,
-  //   builder: (BuildContext context) {
-  //     return AlertDialog(
-  //       title: Text(title),
-  //       content: Text(message),
-  //       actions: <Widget>[
-  //         createButton(
-  //           onpress
-  //         )
-  //       ],
-  //     )
-
-  //   },);
-
-  // }
 
   Future<void> uploadPicture() async {
     Random random = Random();
@@ -555,7 +539,7 @@ class _CreateRequestState extends State<CreateRequest> {
                           onPressed: () {
                             _goToMe();
                           },
-                          text: "select location",
+                          text: "My location",
                           icon: Icon(
                             Icons.location_pin,
                             color: Colors.white,
