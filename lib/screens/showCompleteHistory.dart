@@ -271,7 +271,7 @@ class CompleteHistoryScreen extends StatelessWidget {
             ),
             /* ----------------- Phone ---------------- */
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+              padding: const EdgeInsets.fromLTRB(0, 7, 0, 5),
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text("Phone : 098-7654321",

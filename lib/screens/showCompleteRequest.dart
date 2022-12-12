@@ -257,9 +257,9 @@ class CompleteRequestScreen extends StatelessWidget {
                   ),
                   builder: (context, snapshot) {
                     return Text(
-                      data['Created By'] == null
-                          ? "Created By : Anonymous"
-                          : "Created By : ${snapshot.data}",
+                      data['Name'] == null
+                          ? "Name : Anonymous"
+                          : "Name : ${snapshot.data}",
                       style: GoogleFonts.montserrat(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -271,12 +271,26 @@ class CompleteRequestScreen extends StatelessWidget {
             ),
             /* ----------------- Phone ---------------- */
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+              padding: const EdgeInsets.fromLTRB(0, 7, 0, 5),
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text("Phone : 098-7654321",
                     style: GoogleFonts.montserrat(
                         fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black)),
+              ),
+            ),
+            /* ----------------- Address ---------------- */
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                    "Address : 126 Pracha Uthit Rd., Bang Mod, Thung Khru, Bangkok 10140, Thailand",
+                    style: GoogleFonts.montserrat(
+                        fontSize: 14,
+                        height: 1.5,
                         fontWeight: FontWeight.w500,
                         color: Colors.black)),
               ),
