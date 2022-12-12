@@ -202,7 +202,7 @@ class showAcceptRequestDetailsScreen extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                           color: Colors.black)),
                 ),
-              ),
+              ),],
             ),
             /* ----------------- Show Helpee details ---------------- */
             Padding(
