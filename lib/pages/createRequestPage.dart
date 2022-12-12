@@ -84,7 +84,7 @@ class _CreateRequestState extends State<CreateRequest> {
     );
   }
 
-  String dropdownvalue = '';
+  String dropdownvalue = 'Other';
   var items = [
     'Mechanic',
     'Electric',
@@ -138,12 +138,6 @@ class _CreateRequestState extends State<CreateRequest> {
                   borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
                   borderRadius: BorderRadius.circular(10))),
         ),
-        validator: (Value) {
-          if (Value == null)
-            return "Required field";
-          else
-            return null;
-        },
         onChanged: ((value) {
           dropdownvalue = value!;
         }));
@@ -518,7 +512,7 @@ class _CreateRequestState extends State<CreateRequest> {
                       ),
                       /* ----------------- Map ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+                        padding: EdgeInsets.fromLTRB(30, 5, 30, 0),
                         child: GFButton(
                           onPressed: () {
                             _goToMe();
@@ -529,7 +523,7 @@ class _CreateRequestState extends State<CreateRequest> {
                             Icons.location_pin,
                             color: Colors.white,
                           ),
-                          shape: GFButtonShape.pills,
+                          shape: GFButtonShape.standard,
                           fullWidthButton: true,
                         ),
                       ),

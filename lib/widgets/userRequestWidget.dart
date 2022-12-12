@@ -166,6 +166,12 @@ Widget userRequest(String query, String status) {
                               ),
                             ),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 10, 0, 15),
+                            child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Category.status("${data['Status']}")),
+                          ),
                         ],
                       ),
                       trailing: PopupMenuButton(

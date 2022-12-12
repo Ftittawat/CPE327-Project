@@ -31,7 +31,9 @@ class ShowAcceptHistoryScreen extends StatelessWidget {
     );
   }
 
+
   Widget completeRequestButton(BuildContext context) {
+
     DocumentReference<Map<String, dynamic>> requestCollection =
         FirebaseFirestore.instance.collection("Request").doc(docID);
 
