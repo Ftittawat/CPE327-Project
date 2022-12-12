@@ -200,7 +200,7 @@ class showAcceptRequestDetailsScreen extends StatelessWidget {
                   child: Text(
                       dateTime == null
                           ? "time is null"
-                          : "Created Time : ${dateTime.day}/${dateTime.month}/${dateTime.year}, ${dateTime.hour}:${dateTime.minute}",
+                          : "Created Time: ${dateTime.day}/${dateTime.month}/${dateTime.year}, ${dateTime.hour}:${dateTime.minute}",
                       style: GoogleFonts.montserrat(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,

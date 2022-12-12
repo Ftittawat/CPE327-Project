@@ -284,6 +284,12 @@ class CompleteRequestScreen extends StatelessWidget {
                                     color: Colors.black)),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 10, 0, 15),
+                          child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Category.status("Completed")),
+                        ),
                       ],
                     );
                   },

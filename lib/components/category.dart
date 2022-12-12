@@ -11,6 +11,12 @@ Map categorycolor = {
   'other': Colors.blueGrey.shade300,
 };
 
+Map statuscolor = {
+  'In Progress': Colors.orange,
+  'Available': Colors.green,
+  'Completed': Colors.black,
+};
+
 class Category {
   static Widget tag(String name) {
     return Container(
@@ -63,6 +69,35 @@ class Category {
           child: Text(name,
               style: GoogleFonts.montserrat(
                   fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white)),
+        ),
+      ),
+    );
+  }
+
+  static Widget status(String name) {
+    return Container(
+      height: 25,
+      width: 100,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        color: statuscolor[name],
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.black38,
+        //     offset: Offset.fromDirection(2.0),
+        //     blurRadius: 2.0,
+        //   ),
+        // ],
+      ),
+      child: Align(
+        alignment: Alignment.center,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: Text(name,
+              style: GoogleFonts.montserrat(
+                  fontSize: 12,
                   fontWeight: FontWeight.w600,
                   color: Colors.white)),
         ),
