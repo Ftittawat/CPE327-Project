@@ -54,7 +54,7 @@ Widget displayAsGuest() {
                                 padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                                 child: Align(
                                   alignment: Alignment.centerLeft,
-                                  child: Category.tag("${data['category']}"),
+                                  child: Category.tag("${data['Category']}"),
                                 ),
                               ),
                               /* ----------------- Subtitle ---------------- */
@@ -187,7 +187,7 @@ Widget displayAsGuest() {
                               padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                               child: Align(
                                 alignment: Alignment.centerLeft,
-                                child: Category.tag("${data['category']}"),
+                                child: Category.tag("${data['Category']}"),
                               ),
                             ),
                             /* ----------------- Subtitle ---------------- */

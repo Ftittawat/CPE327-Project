@@ -3,30 +3,26 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/components/category.dart';
+import 'package:helpee/screens/showAcceptHistory.dart';
+import 'package:helpee/screens/showCompleteHistory.dart';
 import 'package:helpee/screens/showCompleteRequest.dart';
 import 'package:helpee/screens/showAcceptRequest.dart';
 import 'package:helpee/screens/showRequestDetails.dart';
 import 'package:location/location.dart';
 
-@override
-void initState() {
-  findLatLng2();
-}
-
 late String name;
-var lat2, lng2;
+var lat3, lng3;
 
-Future<Null> findLatLng2() async {
-  var location2 = new Location();
-  var currentLocation2 = await location2.getLocation();
-  lat2 = currentLocation2.latitude;
-  lng2 = currentLocation2.longitude;
+Future<Null> findLatLng3() async {
+  var location3 = new Location();
+  var currentLocation3 = await location3.getLocation();
+  lat3 = currentLocation3.latitude;
+  lng3 = currentLocation3.longitude;
   //print('lat2 = $lat2 lng2 = $lng2');
 }
 
-Widget userRequest(String query, String status) {
+Widget userHistory(String query, String status) {
   return Expanded(
     child: StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
@@ -45,7 +41,7 @@ Widget userRequest(String query, String status) {
                   var data =
                       snapshot.data!.docs[index].data() as Map<String, dynamic>;
                   var dis = Geolocator.distanceBetween(
-                          data['Lat'], data['Lng'], lat2!, lng2!) /
+                          data['Lat'], data['Lng'], lat3!, lng3!) /
                       1000;
                   var disKm = dis.toStringAsFixed(2);
 
@@ -182,110 +178,13 @@ Widget userRequest(String query, String status) {
                                 ));
                             print("docID : ${snapshot.data!.docs[index].id}");
                           }
-                          if (value == 2) {
-                            print("docID : ${snapshot.data!.docs[index].id}");
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  titlePadding:
-                                      EdgeInsets.fromLTRB(20, 20, 20, 0),
-                                  title: Text("Confirm Delete",
-                                      style: GoogleFonts.montserrat(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black)),
-                                  contentPadding:
-                                      EdgeInsets.fromLTRB(20, 20, 20, 0),
-                                  content: Text(
-                                      "Do you want to delete this request?",
-                                      style: GoogleFonts.montserrat(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black)),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text(
-                                        "Cancel",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(0xFF005792)),
-                                      ),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        // print("Delete Success!!");
-                                        Navigator.pop(context);
-                                        FirebaseFirestore.instance
-                                            .collection("Request")
-                                            .doc(snapshot.data!.docs[index].id)
-                                            .delete()
-                                            .then((val) {
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius
-                                                          .circular(10)),
-                                                  titlePadding:
-                                                      EdgeInsets
-                                                          .fromLTRB(20, 20, 20,
-                                                              0),
-                                                  title:
-                                                      Text("Delete Success!!",
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                                  fontSize: 16,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  color: Colors
-                                                                      .black)),
-                                                  contentPadding:
-                                                      EdgeInsets.fromLTRB(
-                                                          20, 20, 20, 0),
-                                                  content: Icon(
-                                                    Icons.done_rounded,
-                                                    color: Colors.blue,
-                                                    size: 64.0,
-                                                  ),
-                                                  actions: [
-                                                    TextButton(
-                                                        onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child: Text("OK"))
-                                                  ]);
-                                            },
-                                          );
-                                        });
-                                      },
-                                      child: Text(
-                                        "Delete Request",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(0xFF005792)),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          }
                         },
                         itemBuilder: (context) {
                           return [
                             PopupMenuItem(
                               value: 1,
                               child: Text(
-                                "Detail",
+                                "Edit",
                                 style: TextStyle(fontSize: 14),
                               ),
                             ),
@@ -314,8 +213,7 @@ Widget userRequest(String query, String status) {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    showAcceptRequestDetailsScreen(
+                                builder: (context) => ShowAcceptHistoryScreen(
                                   data: data,
                                   docID: snapshot.data!.docs[index].id,
                                 ),
@@ -324,7 +222,7 @@ Widget userRequest(String query, String status) {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => CompleteRequestScreen(
+                                builder: (context) => CompleteHistoryScreen(
                                   data: data,
                                   docID: snapshot.data!.docs[index].id,
                                 ),
@@ -360,5 +258,7 @@ Future<bool> checkVisible(String status) async {
   List<DocumentSnapshot> data = doc.docs;
   print(data.length); // Count of Documents in Collection
   var result = data.isNotEmpty ? true : false;
+  // print(result);
+  // return data.isNotEmpty ? true : false;
   return result;
 }

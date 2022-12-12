@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:helpee/widgets/userHistoryWidget.dart';
 import 'package:helpee/widgets/userRequestWidget.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
@@ -82,16 +83,6 @@ class _UserRequestHistoryState extends State<UserRequestHistory> {
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: Colors.black)),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 15),
-            child: IconButton(
-              icon: const Icon(Icons.notifications),
-              color: Colors.blueGrey.shade300,
-              onPressed: () {},
-            ),
-          ),
-        ],
       ),
       /* ----------------- Body ---------------- */
       body: Padding(
@@ -107,7 +98,7 @@ class _UserRequestHistoryState extends State<UserRequestHistory> {
                   height: 3,
                   bottomLeftRadius: 5,
                   bottomRightRadius: 5,
-                  horizontalPadding: 50,
+                  horizontalPadding: 28,
                   tabPosition: TabPosition.bottom,
                 ),
                 tabs: const [
@@ -119,13 +110,13 @@ class _UserRequestHistoryState extends State<UserRequestHistory> {
               child: TabBarView(
                 children: [
                   Column(
-                    children: [userRequest("Created By", "Available")],
+                    children: [userHistory("Created By", "Available")],
                   ),
                   Column(
-                    children: [userRequest("Created By", "In Progress")],
+                    children: [userHistory("Created By", "In Progress")],
                   ),
                   Column(
-                    children: [userRequest("Created By", "Completed")],
+                    children: [userHistory("Created By", "Completed")],
                   ),
                 ],
               ),

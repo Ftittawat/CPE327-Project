@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/screens/profilescreen/setting.dart';
@@ -17,8 +19,15 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final user = FirebaseAuth.instance.currentUser;
-  late String name, email, displayName;
+
+  final uid = FirebaseAuth.instance.currentUser?.uid;
+
+  late String name, displayName;
+
   var loginKey;
+  var email;
+  var phone;
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +48,157 @@ class _ProfileState extends State<Profile> {
         print(loginKey != null ? '==> LoginKey : $loginKey' : "Empty");
       });
     });
+  }
+
+  CollectionReference ref = FirebaseFirestore.instance.collection('user');
+  var phoneController = new TextEditingController();
+  var othersController = new TextEditingController();
+
+  Widget textLabel(String nametext) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+      child: Text(nametext,
+          style: GoogleFonts.montserrat(
+              fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black)),
+    );
+  }
+
+  Widget usernameBox() {
+    return TextField(
+      style: GoogleFonts.montserrat(
+          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+      decoration: InputDecoration(
+        enabled: false,
+        labelText:
+            FirebaseAuth.instance.currentUser?.displayName ?? 'DisplayName',
+        labelStyle: GoogleFonts.montserrat(
+            fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+        disabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
+            borderRadius: BorderRadius.circular(10)),
+        contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+      ),
+    );
+  }
+
+  Widget emailBox(String email) {
+    return TextField(
+      style: GoogleFonts.montserrat(
+          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+      decoration: InputDecoration(
+        enabled: false,
+        labelText: email,
+        disabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
+            borderRadius: BorderRadius.circular(10)),
+        contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+      ),
+    );
+  }
+
+  Widget phoneBox(String phoneNumber) {
+    return TextField(
+      controller: phoneController,
+      keyboardType: TextInputType.phone,
+      style: GoogleFonts.montserrat(
+          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+      decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
+              borderRadius: BorderRadius.circular(10))),
+      minLines: 1,
+      cursorColor: Color(0xFF005792),
+    );
+  }
+
+  Widget otherContactsBox(String? othersContact) {
+    return TextField(
+      controller: othersController,
+      style: GoogleFonts.montserrat(
+          fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+      decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
+              borderRadius: BorderRadius.circular(10)),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
+              borderRadius: BorderRadius.circular(10))),
+      minLines: 2,
+      maxLines: 3,
+      cursorColor: Color(0xFF005792),
+    );
+  }
+
+  Widget saveButton() {
+    return ElevatedButton(
+      onPressed: () async {
+        await ref.doc(uid).update({
+          // "Phone": controller.text,
+          "Phone": phoneController.text,
+          "Others Contact": othersController.text,
+        });
+
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+              title: Text("Success",
+                  style: GoogleFonts.montserrat(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black)),
+              contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "OK",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600, color: Color(0xFF005792)),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+      style: ElevatedButton.styleFrom(
+          backgroundColor: Color(0xFF005792),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Save Changes",
+              style: GoogleFonts.montserrat(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white)),
+        ],
+      ),
+    );
   }
 
   Widget skillBox(String skillname, Color boxcolor) {
@@ -67,132 +227,6 @@ class _ProfileState extends State<Profile> {
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                     color: Colors.white)),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget deleteButton() {
-    return Padding(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-        child: IconButton(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  title: Text("Delete",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black)),
-                  contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  content: Text("ยังลบไม่ได้นะจ้ะ",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black)),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        "Cancel",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF005792)),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Delete",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF005792)),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            );
-          },
-          icon: Icon(Icons.delete_outlined),
-          iconSize: 20,
-          splashRadius: 15,
-          color: Colors.grey.shade400,
-        ));
-  }
-
-  Widget historyAll() {
-    return Container(
-      height: 220,
-      width: MediaQuery.of(context).size.width,
-      color: Colors.white,
-      child: SizedBox(
-        child: DefaultTabController(
-          length: 3,
-          initialIndex: 0,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 30,
-                child: TabBar(
-                    labelColor: Colors.black,
-                    unselectedLabelColor: Colors.grey.shade400,
-                    indicatorColor: Colors.black,
-                    indicator: MaterialIndicator(
-                      height: 3,
-                      bottomLeftRadius: 5,
-                      bottomRightRadius: 5,
-                      horizontalPadding: 50,
-                      tabPosition: TabPosition.bottom,
-                    ),
-                    tabs: [
-                      Tab(
-                        child: Text("Available",
-                            style: GoogleFonts.montserrat(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            )),
-                      ),
-                      Tab(
-                        child: Text("In progress",
-                            style: GoogleFonts.montserrat(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            )),
-                      ),
-                      Tab(
-                        child: Text("Completed",
-                            style: GoogleFonts.montserrat(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            )),
-                      ),
-                    ]),
-              ),
-              Expanded(
-                child: TabBarView(
-                  children: [
-                    Column(
-                      children: [userRequest("Created By", "Available")],
-                    ),
-                    Column(
-                      children: [userRequest("Created By", "In Progress")],
-                    ),
-                    Column(
-                      children: [userRequest("Created By", "Completed")],
-                    ),
-                  ],
-                ),
-              ),
-            ],
           ),
         ),
       ),
@@ -235,103 +269,103 @@ class _ProfileState extends State<Profile> {
             ),
           ],
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              /* ----------------- Prifile Image ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                child: CircleAvatar(
-                  backgroundColor: Colors.grey.shade400,
-                  radius: 80,
-                  backgroundImage: NetworkImage(
-                      FirebaseAuth.instance.currentUser?.photoURL ??
-                          "assets/images/Memoji.png"),
-                  // backgroundImage: NetworkImage(
-                  //     user?.photoURL! ?? "assets/images/Memoji.png"),
-                ),
-              ),
-              /* ----------------- Username ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: Text(
-                    FirebaseAuth.instance.currentUser?.displayName ??
-                        'DisplayName',
-                    style: GoogleFonts.montserrat(
-                        fontSize: 27,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-              ),
-              /* ----------------- Address ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                child: Text("Thung khru, Bangkok.",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black)),
-              ),
-              /* ----------------- Your Skills Name ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Your Skills",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black)),
-                ),
-              ),
-              /* ----------------- Your Skills ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                child: SizedBox(
-                  height: 40,
-                  width: MediaQuery.of(context).size.width,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: Category.taginprofile('Mechanic')),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: Category.taginprofile('Electric')),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: Category.taginprofile('Technology')),
-                        Padding(
-                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                            child: Category.taginprofile('Wooden')),
-                      ],
+        body: SingleChildScrollView(
+          child: Center(
+              child: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+            future: FirebaseFirestore.instance
+                .collection('user')
+                .doc(user!.uid)
+                .get(),
+            builder: (_, snapshot) {
+              if (snapshot.hasData) {
+                Map<String, dynamic>? data = snapshot.data!.data();
+                phoneController = TextEditingController(text: data!['Phone']);
+                othersController =
+                    TextEditingController(text: data['Others Contact']);
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    /* ----------------- Prifile Image ---------------- */
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                      child: CircleAvatar(
+                        backgroundColor: Colors.grey.shade400,
+                        radius: 80,
+                        backgroundImage: NetworkImage(
+                            FirebaseAuth.instance.currentUser?.photoURL ??
+                                "assets/images/Memoji.png"),
+                      ),
                     ),
-                  ),
-                ),
-              ),
-              /* ----------------- History TabBar ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("History Request",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black)),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: historyAll(),
-                ),
-              ),
-            ],
-          ),
+                    /* ----------------- Username ---------------- */
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      child: Text(
+                          FirebaseAuth.instance.currentUser?.displayName ??
+                              'DisplayName',
+                          style: GoogleFonts.montserrat(
+                              fontSize: 27,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black)),
+                    ),
+                    /* ----------------- Address ---------------- */
+                    // Padding(
+                    //   padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                    //   child: Text("Thung khru, Bangkok.",
+                    //       style: GoogleFonts.montserrat(
+                    //           fontSize: 18,
+                    //           fontWeight: FontWeight.w500,
+                    //           color: Colors.black)),
+                    // ),
+                    /* ----------------- Show Email ---------------- */
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                      child: Column(
+                        children: [
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: textLabel('Email')),
+                          emailBox(data['email']),
+                        ],
+                      ),
+                    ),
+                    /* ----------------- Edit Phone ---------------- */
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                      child: Column(
+                        children: [
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: textLabel('Phone')),
+                          phoneBox(data['Phone']),
+                        ],
+                      ),
+                    ),
+                    /* ----------------- Edit Other Contact ---------------- */
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                      child: Column(
+                        children: [
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: textLabel('Other Contact (Optional)')),
+                          otherContactsBox(data['Others Contact']),
+                        ],
+                      ),
+                    ),
+                    /* ----------------- Save Button ---------------- */
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 20, 20, 150),
+                      child: SizedBox(
+                        height: 55.0,
+                        child: saveButton(),
+                      ),
+                    ),
+                  ],
+                );
+              }
+              return Center(child: CircularProgressIndicator());
+            },
+          )),
         ),
       ),
     );

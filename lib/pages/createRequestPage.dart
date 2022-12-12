@@ -94,7 +94,7 @@ class _CreateRequestState extends State<CreateRequest> {
     );
   }
 
-  String dropdownvalue = '';
+  String dropdownvalue = 'Other';
   var items = [
     'Mechanic',
     'Electronic',
@@ -152,13 +152,7 @@ class _CreateRequestState extends State<CreateRequest> {
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
                   borderRadius: BorderRadius.circular(10))),
-        ),
-        validator: (Value) {
-          if (Value == null)
-            return "Required field";
-          else
-            return null;
-        },
+        ),       
         onChanged: ((value) {
           dropdownvalue = value!;
         }));
@@ -226,16 +220,26 @@ class _CreateRequestState extends State<CreateRequest> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    Color(0xFF005792) //elevated btton background color
+                ),
             onPressed: () {
               chooseImage(ImageSource.camera);
             },
+            style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF005792)),
             icon: Icon(Icons.add_a_photo), //icon data for elevated button
             label: Text("Upload Image"), //label text
           ),
           ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    Color(0xFF005792) //elevated btton background color
+                ),
             onPressed: () {
               chooseImage(ImageSource.gallery);
             },
+            style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF005792)),
             icon:
                 Icon(Icons.add_photo_alternate), //icon data for elevated button
             label: Text("Choose Image"), //label text
@@ -516,7 +520,7 @@ class _CreateRequestState extends State<CreateRequest> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
+                        padding: EdgeInsets.fromLTRB(25, 10, 25, 5),
                         child: SizedBox(
                           //width: 0.0,
                           child: file == null
@@ -534,17 +538,19 @@ class _CreateRequestState extends State<CreateRequest> {
                       ),
                       /* ----------------- Map ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(25, 10, 25, 0),
+                        padding: EdgeInsets.fromLTRB(30, 5, 30, 0),
                         child: GFButton(
                           onPressed: () {
                             _goToMe();
                           },
-                          text: "select location",
+                          color: Color(0xFF005792),
+                          text: "My location",
                           icon: Icon(
                             Icons.location_pin,
                             color: Colors.white,
                           ),
-                          shape: GFButtonShape.pills,
+                          color: Color(0xFF005792),
+                          shape: GFButtonShape.standard,
                           fullWidthButton: true,
                         ),
                       ),
@@ -561,7 +567,7 @@ class _CreateRequestState extends State<CreateRequest> {
                       ),
                       /* ----------------- Create Button ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(20, 15, 20, 30),
+                        padding: EdgeInsets.fromLTRB(20, 15, 20, 20),
                         child: SizedBox(
                           height: 55.0,
                           child: createButton(),

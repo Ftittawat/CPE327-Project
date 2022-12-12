@@ -7,10 +7,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../components/category.dart';
 
-class ShowAllRequestScreen extends StatelessWidget {
+class CompleteRequestScreen extends StatelessWidget {
   final data;
   final String docID;
-  const ShowAllRequestScreen(
+  const CompleteRequestScreen(
       {super.key, required this.data, required this.docID});
 
   Widget imageBox() {
@@ -34,7 +34,7 @@ class ShowAllRequestScreen extends StatelessWidget {
     );
   }
 
-  Widget acceptRequestButton(BuildContext context) {
+  Widget acceptRequest(BuildContext context) {
     DocumentReference<Map<String, dynamic>> requestCollection =
         FirebaseFirestore.instance.collection("Request").doc(docID);
 
@@ -149,7 +149,7 @@ class ShowAllRequestScreen extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        title: Text("Request Acception",
+        title: Text("Request",
             style: GoogleFonts.montserrat(
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -164,7 +164,7 @@ class ShowAllRequestScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text("Topic: ${data["Topic"]}",
+                child: Text("${data["Topic"]}",
                     style: GoogleFonts.montserrat(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
@@ -176,39 +176,7 @@ class ShowAllRequestScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Category.tag("${data["Category"]}"),
-              ),
-            ),
-            /* ----------------- Created By ---------------- */
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: FutureBuilder(
-                  future: FirebaseFirestore.instance
-                      .collection("user")
-                      .doc(data["Created By"])
-                      .get()
-                      .then(
-                    (value) {
-                      String name = value.data() == null
-                          ? data["Created By"]
-                          : value.data()!["name"];
-                      return name;
-                    },
-                  ),
-                  builder: (context, snapshot) {
-                    return Text(
-                      data['Created By'] == null
-                          ? "Created By : Anonymous"
-                          : "Created By : ${snapshot.data}",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black),
-                    );
-                  },
-                ),
+                child: Category.tag("${data["category"]}"),
               ),
             ),
             /* ----------------- Sub Title ---------------- */
@@ -216,7 +184,7 @@ class ShowAllRequestScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Align(
                 alignment: Alignment.topLeft,
-                child: Text("Description: ${data['Description']}",
+                child: Text("${data['Description']}",
                     style: GoogleFonts.montserrat(
                         fontSize: 15,
                         fontWeight: FontWeight.w400,
@@ -230,7 +198,7 @@ class ShowAllRequestScreen extends StatelessWidget {
             ),
             /* ----------------- Date Time ---------------- */
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Align(
                 alignment: Alignment.bottomLeft,
                 child: Text(
@@ -243,12 +211,83 @@ class ShowAllRequestScreen extends StatelessWidget {
                         color: Colors.grey.shade400)),
               ),
             ),
-            /* ----------------- Accept Request ---------------- */
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-              child: SizedBox(
-                height: 55.0,
-                child: acceptRequestButton(context),
+              padding: const EdgeInsets.fromLTRB(0, 5, 0, 10),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                    dateTime == null
+                        ? "time is null"
+                        : "Complete Time : ${dateTime.day}/${dateTime.month}/${dateTime.year}, ${dateTime.hour}:${dateTime.minute}",
+                    style: GoogleFonts.montserrat(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey.shade400)),
+              ),
+            ),
+            /* ----------------- Contact ---------------- */
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text("Contact Details",
+                    style: GoogleFonts.montserrat(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+              ),
+            ),
+            /* ----------------- Show Helpee details ---------------- */
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: FutureBuilder(
+                  future: FirebaseFirestore.instance
+                      .collection('user')
+                      .doc(data["Created By"])
+                      .get()
+                      .then((value) {
+                    Map<String, dynamic>? userData = value.data();
+                    // print(userData);
+
+                    return userData;
+                  }),
+                  builder: (_, snapshot) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        /* ----------------- Created By ---------------- */
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text("Created By: ${snapshot.data!['name']}",
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black)),
+                          ),
+                        ),
+                        /* ----------------- Phone ---------------- */
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                          child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                                snapshot.data!['Phone'] == null
+                                    ? "Phone: NO PHONE."
+                                    : "Phone: ${snapshot.data!['Phone']}",
+                                style: GoogleFonts.montserrat(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black)),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
           ],
