@@ -291,6 +291,18 @@ class CompleteHistoryScreen extends StatelessWidget {
                 ),
               ),
             ),
+            /* ----------------- Phone ---------------- */
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 7, 0, 5),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text("Phone : 098-7654321",
+                    style: GoogleFonts.montserrat(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black)),
+              ),
+            ),
           ],
         ),
       ),
