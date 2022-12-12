@@ -182,121 +182,39 @@ Widget userRequest(String query, String status) {
                                 ));
                             print("docID : ${snapshot.data!.docs[index].id}");
                           }
-                          if (value == 2) {
-                            print("docID : ${snapshot.data!.docs[index].id}");
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  titlePadding:
-                                      EdgeInsets.fromLTRB(20, 20, 20, 0),
-                                  title: Text("Confirm Delete",
-                                      style: GoogleFonts.montserrat(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.black)),
-                                  contentPadding:
-                                      EdgeInsets.fromLTRB(20, 20, 20, 0),
-                                  content: Text(
-                                      "Do you want to delete this request?",
-                                      style: GoogleFonts.montserrat(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black)),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text(
-                                        "Cancel",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(0xFF005792)),
-                                      ),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        // print("Delete Success!!");
-                                        Navigator.pop(context);
-                                        FirebaseFirestore.instance
-                                            .collection("Request")
-                                            .doc(snapshot.data!.docs[index].id)
-                                            .delete()
-                                            .then((val) {
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius
-                                                          .circular(10)),
-                                                  titlePadding:
-                                                      EdgeInsets
-                                                          .fromLTRB(20, 20, 20,
-                                                              0),
-                                                  title:
-                                                      Text("Delete Success!!",
-                                                          style: GoogleFonts
-                                                              .montserrat(
-                                                                  fontSize: 16,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  color: Colors
-                                                                      .black)),
-                                                  contentPadding:
-                                                      EdgeInsets.fromLTRB(
-                                                          20, 20, 20, 0),
-                                                  content: Icon(
-                                                    Icons.done_rounded,
-                                                    color: Colors.blue,
-                                                    size: 64.0,
-                                                  ),
-                                                  actions: [
-                                                    TextButton(
-                                                        onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child: Text("OK"))
-                                                  ]);
-                                            },
-                                          );
-                                        });
-                                      },
-                                      child: Text(
-                                        "Delete Request",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(0xFF005792)),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
+                          if (value == 3) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CompleteRequestScreen(
+                                    data: data,
+                                    docID: snapshot.data!.docs[index].id,
+                                  ),
+                                ));
                           }
                         },
                         itemBuilder: (context) {
-                          return [
-                            PopupMenuItem(
-                              value: 1,
-                              child: Text(
-                                "Detail",
-                                style: TextStyle(fontSize: 14),
+                          if (status == 'In progress') {
+                            return [
+                              PopupMenuItem(
+                                value: 1,
+                                child: Text(
+                                  "Detail",
+                                  style: TextStyle(fontSize: 14),
+                                ),
                               ),
-                            ),
-                            PopupMenuItem(
-                              value: 2,
-                              child: Text(
-                                "Delete",
-                                style: TextStyle(fontSize: 14),
-                              ),
-                            ),
-                          ];
+                            ];
+                          } else {
+                            return [
+                              PopupMenuItem(
+                                value: 3, // see details with completed
+                                child: Text(
+                                  "Detail",
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              )
+                            ];
+                          }
                         },
                         offset: Offset(-10, 40),
                         shape: RoundedRectangleBorder(

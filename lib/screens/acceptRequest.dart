@@ -3,7 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:helpee/pages/userRequestPage.dart';
+import 'package:helpee/screens/showAcceptRequest.dart';
+import 'package:helpee/screens/showRequestDetails.dart';
+import 'package:helpee/widgets/userRequestWidget.dart';
 
 import '../components/category.dart';
 
@@ -71,11 +76,11 @@ class ShowAllRequestScreen extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    requestCollection.update({
-                      "Accepted By": FirebaseAuth.instance.currentUser?.uid,
-                      "Status": "In Progress",
-                    });
-                    print("Accept Success!!");
+                    // requestCollection.update({
+                    //   "Accepted By": FirebaseAuth.instance.currentUser?.uid,
+                    //   "Status": "In Progress",
+                    // });
+                    // print("Accept Success!!");
                     Navigator.pop(context);
                     showDialog(
                         context: context,
@@ -100,6 +105,15 @@ class ShowAllRequestScreen extends StatelessWidget {
                                 TextButton(
                                     onPressed: () {
                                       Navigator.pop(context);
+                                      Navigator.pop(context);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: ((context) =>
+                                              ShowRequestDetailsScreen(
+                                                  data: data, docID: docID)),
+                                        ),
+                                      );
                                     },
                                     child: Text("OK"))
                               ]);

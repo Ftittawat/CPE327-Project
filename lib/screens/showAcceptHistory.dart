@@ -31,27 +31,10 @@ class ShowAcceptHistoryScreen extends StatelessWidget {
     );
   }
 
-  Widget editRequest() {
-    return ElevatedButton(
-      onPressed: () {},
-      style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.grey,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Edit Request",
-              style: GoogleFonts.montserrat(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white)),
-        ],
-      ),
-    );
-  }
+  Widget completeRequestButton(BuildContext context) {
+    DocumentReference<Map<String, dynamic>> requestCollection =
+        FirebaseFirestore.instance.collection("Request").doc(docID);
 
-  Widget cancelRequest(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
         showDialog(
@@ -61,7 +44,7 @@ class ShowAcceptHistoryScreen extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-              title: Text("Cancel Request",
+              title: Text("Confirm",
                   style: GoogleFonts.montserrat(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -84,9 +67,41 @@ class ShowAcceptHistoryScreen extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    requestCollection.update({"Status": "Completed"});
+                    Navigator.pop(context);
+                    showDialog(
+                      context: context,
+                      builder: ((context) {
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                          title: Text("Completed !!",
+                              style: GoogleFonts.montserrat(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black)),
+                          contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                          content: Icon(
+                            Icons.done_rounded,
+                            color: Colors.blue,
+                            size: 64.0,
+                          ),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                },
+                                child: Text("OK"))
+                          ],
+                        );
+                      }),
+                    );
+                  },
                   child: Text(
-                    "Confirm",
+                    "Complete",
                     style: TextStyle(
                         fontWeight: FontWeight.w600, color: Color(0xFF005792)),
                   ),
@@ -97,35 +112,18 @@ class ShowAcceptHistoryScreen extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.red,
+          backgroundColor: Color(0xFF005792),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Cancel Request",
+          Text("Complete Request",
               style: GoogleFonts.montserrat(
-                  fontSize: 12,
+                  fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: Colors.white)),
         ],
-      ),
-    );
-  }
-
-  Widget confirmModal() {
-    return Container(
-      height: 230,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(width: 2.0, color: Colors.grey.shade400),
-      ),
-      child: Center(
-        child: Icon(
-          Icons.photo,
-          color: Colors.grey.shade400,
-          size: 40,
-        ),
       ),
     );
   }
@@ -273,6 +271,14 @@ class ShowAcceptHistoryScreen extends StatelessWidget {
                     );
                   },
                 ),
+              ),
+            ),
+            /* ----------------- Complete Request ---------------- */
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+              child: SizedBox(
+                height: 55.0,
+                child: completeRequestButton(context),
               ),
             ),
           ],

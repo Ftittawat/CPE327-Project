@@ -176,7 +176,7 @@ class CompleteRequestScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Category.tag("${data["category"]}"),
+                child: Category.tag("${data["Category"]}"),
               ),
             ),
             /* ----------------- Sub Title ---------------- */
@@ -218,7 +218,7 @@ class CompleteRequestScreen extends StatelessWidget {
                 child: Text(
                     dateTime == null
                         ? "time is null"
-                        : "Complete Time : ${dateTime.day}/${dateTime.month}/${dateTime.year}, ${dateTime.hour}:${dateTime.minute}",
+                        : "Completed Time : ${dateTime.day}/${dateTime.month}/${dateTime.year}, ${dateTime.hour}:${dateTime.minute}",
                     style: GoogleFonts.montserrat(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,

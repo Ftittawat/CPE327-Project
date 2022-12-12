@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:helpee/pages/userRequestPage.dart';
 
 import '../components/category.dart';
 
@@ -30,73 +31,6 @@ class showAcceptRequestDetailsScreen extends StatelessWidget {
                 size: 40,
               )
             : Image.network(imageURL),
-      ),
-    );
-  }
-
-  Widget completeRequest(BuildContext context) {
-    DocumentReference<Map<String, dynamic>> requestCollection =
-        FirebaseFirestore.instance.collection("Request").doc(docID);
-
-    return ElevatedButton(
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-              title: Text("Confirm",
-                  style: GoogleFonts.montserrat(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black)),
-              contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-              content: Text("Are You Sure?",
-                  style: GoogleFonts.montserrat(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black)),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    "Cancel",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600, color: Color(0xFF005792)),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    // requestCollection.update({"Status": "Completed"});
-                  },
-                  child: Text(
-                    "Complete",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600, color: Color(0xFF005792)),
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      },
-      style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFF005792),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Complete Request",
-              style: GoogleFonts.montserrat(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white)),
-        ],
       ),
     );
   }
@@ -144,7 +78,7 @@ class showAcceptRequestDetailsScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Category.tag("${data["category"]}"),
+                child: Category.tag("${data["Category"]}"),
               ),
             ),
 
@@ -243,14 +177,6 @@ class showAcceptRequestDetailsScreen extends StatelessWidget {
                     );
                   },
                 ),
-              ),
-            ),
-            /* ----------------- Complete Request ---------------- */
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-              child: SizedBox(
-                height: 55.0,
-                child: completeRequest(context),
               ),
             ),
           ],
