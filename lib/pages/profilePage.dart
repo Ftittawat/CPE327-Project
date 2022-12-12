@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/screens/profilescreen/setting.dart';
@@ -17,8 +19,15 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final user = FirebaseAuth.instance.currentUser;
-  late String name, email, displayName;
+
+  final uid = FirebaseAuth.instance.currentUser?.uid;
+
+  late String name, displayName;
+
   var loginKey;
+  var email;
+  var phone;
+
   @override
   void initState() {
     super.initState();
@@ -40,6 +49,10 @@ class _ProfileState extends State<Profile> {
       });
     });
   }
+
+  CollectionReference ref = FirebaseFirestore.instance.collection('user');
+  var phoneController = new TextEditingController();
+  var othersController = new TextEditingController();
 
   Widget textLabel(String nametext) {
     return Padding(
@@ -68,15 +81,13 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget emailBox() {
+  Widget emailBox(String email) {
     return TextField(
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
         enabled: false,
-        labelText: FirebaseAuth.instance.currentUser?.email ?? 'Email',
-        labelStyle: GoogleFonts.montserrat(
-            fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
+        labelText: email,
         disabledBorder: OutlineInputBorder(
             borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
             borderRadius: BorderRadius.circular(10)),
@@ -85,17 +96,13 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget phoneBox() {
+  Widget phoneBox(String phoneNumber) {
     return TextField(
+      controller: phoneController,
       keyboardType: TextInputType.phone,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-          // hintText: 'Phone',
-          // hintStyle: GoogleFonts.montserrat(
-          //     fontSize: 16,
-          //     fontWeight: FontWeight.w600,
-          //     color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           errorBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
@@ -114,16 +121,12 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget otherContactsBox() {
+  Widget otherContactsBox(String? othersContact) {
     return TextField(
+      controller: othersController,
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-          // hintText: 'Phone',
-          // hintStyle: GoogleFonts.montserrat(
-          //     fontSize: 16,
-          //     fontWeight: FontWeight.w600,
-          //     color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           errorBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 1.0, color: Colors.red.shade400),
@@ -145,7 +148,13 @@ class _ProfileState extends State<Profile> {
 
   Widget saveButton() {
     return ElevatedButton(
-      onPressed: () {
+      onPressed: () async {
+        await ref.doc(uid).update({
+          // "Phone": controller.text,
+          "Phone": phoneController.text,
+          "Others Contact": othersController.text,
+        });
+
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -262,89 +271,101 @@ class _ProfileState extends State<Profile> {
         ),
         body: SingleChildScrollView(
           child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                /* ----------------- Prifile Image ---------------- */
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  child: CircleAvatar(
-                    backgroundColor: Colors.grey.shade400,
-                    radius: 80,
-                    backgroundImage: NetworkImage(
-                        FirebaseAuth.instance.currentUser?.photoURL ??
-                            "assets/images/Memoji.png"),
-                    // backgroundImage: NetworkImage(
-                    //     user?.photoURL! ?? "assets/images/Memoji.png"),
-                  ),
-                ),
-                /* ----------------- Username ---------------- */
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: Text(
-                      FirebaseAuth.instance.currentUser?.displayName ??
-                          'DisplayName',
-                      style: GoogleFonts.montserrat(
-                          fontSize: 27,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black)),
-                ),
-                /* ----------------- Address ---------------- */
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                  child: Text("Thung khru, Bangkok.",
-                      style: GoogleFonts.montserrat(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black)),
-                ),
-                /* ----------------- Show Email ---------------- */
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  child: Column(
-                    children: [
-                      Align(
-                          alignment: Alignment.centerLeft,
-                          child: textLabel('Email')),
-                      emailBox(),
-                    ],
-                  ),
-                ),
-                /* ----------------- Edit Phone ---------------- */
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  child: Column(
-                    children: [
-                      Align(
-                          alignment: Alignment.centerLeft,
-                          child: textLabel('Phone')),
-                      phoneBox(),
-                    ],
-                  ),
-                ),
-                /* ----------------- Edit Other Contact ---------------- */
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  child: Column(
-                    children: [
-                      Align(
-                          alignment: Alignment.centerLeft,
-                          child: textLabel('Other Contact (Optional)')),
-                      otherContactsBox(),
-                    ],
-                  ),
-                ),
-                /* ----------------- Save Button ---------------- */
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 150),
-                  child: SizedBox(
-                    height: 55.0,
-                    child: saveButton(),
-                  ),
-                ),
-              ],
-            ),
-          ),
+              child: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+            future: FirebaseFirestore.instance
+                .collection('user')
+                .doc(user!.uid)
+                .get(),
+            builder: (_, snapshot) {
+              if (snapshot.hasData) {
+                Map<String, dynamic>? data = snapshot.data!.data();
+                phoneController = TextEditingController(text: data!['Phone']);
+                othersController =
+                    TextEditingController(text: data['Others Contact']);
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    /* ----------------- Prifile Image ---------------- */
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                      child: CircleAvatar(
+                        backgroundColor: Colors.grey.shade400,
+                        radius: 80,
+                        backgroundImage: NetworkImage(
+                            FirebaseAuth.instance.currentUser?.photoURL ??
+                                "assets/images/Memoji.png"),
+                      ),
+                    ),
+                    /* ----------------- Username ---------------- */
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      child: Text(
+                          FirebaseAuth.instance.currentUser?.displayName ??
+                              'DisplayName',
+                          style: GoogleFonts.montserrat(
+                              fontSize: 27,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black)),
+                    ),
+                    /* ----------------- Address ---------------- */
+                    // Padding(
+                    //   padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
+                    //   child: Text("Thung khru, Bangkok.",
+                    //       style: GoogleFonts.montserrat(
+                    //           fontSize: 18,
+                    //           fontWeight: FontWeight.w500,
+                    //           color: Colors.black)),
+                    // ),
+                    /* ----------------- Show Email ---------------- */
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                      child: Column(
+                        children: [
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: textLabel('Email')),
+                          emailBox(data['email']),
+                        ],
+                      ),
+                    ),
+                    /* ----------------- Edit Phone ---------------- */
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                      child: Column(
+                        children: [
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: textLabel('Phone')),
+                          phoneBox(data['Phone']),
+                        ],
+                      ),
+                    ),
+                    /* ----------------- Edit Other Contact ---------------- */
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                      child: Column(
+                        children: [
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: textLabel('Other Contact (Optional)')),
+                          otherContactsBox(data['Others Contact']),
+                        ],
+                      ),
+                    ),
+                    /* ----------------- Save Button ---------------- */
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 20, 20, 150),
+                      child: SizedBox(
+                        height: 55.0,
+                        child: saveButton(),
+                      ),
+                    ),
+                  ],
+                );
+              }
+              return Center(child: CircularProgressIndicator());
+            },
+          )),
         ),
       ),
     );

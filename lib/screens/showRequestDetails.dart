@@ -109,6 +109,62 @@ class ShowRequestDetailsScreen extends StatelessWidget {
                         color: Colors.grey.shade400)),
               ),
             ),
+            /* ----------------- Contact ---------------- */
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text("Contact Details",
+                    style: GoogleFonts.montserrat(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black)),
+              ),
+            ),
+            /* ----------------- Accepted By ---------------- */
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: FutureBuilder(
+                  future: FirebaseFirestore.instance
+                      .collection("user")
+                      .doc(data["Accepted By"])
+                      .get()
+                      .then(
+                    (value) {
+                      String name = value.data() == null
+                          ? data["Accepted By"]
+                          : value.data()!["name"];
+                      return name;
+                    },
+                  ),
+                  builder: (context, snapshot) {
+                    return Text(
+                      data["Accepted By"] == null
+                          ? "Accepted By : Available"
+                          : "Accepted By : ${snapshot.data}",
+                      style: GoogleFonts.montserrat(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black),
+                    );
+                  },
+                ),
+              ),
+            ),
+            /* ----------------- Phone ---------------- */
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text("Phone : Available",
+                    style: GoogleFonts.montserrat(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black)),
+              ),
+            ),
           ],
         ),
       ),
