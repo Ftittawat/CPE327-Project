@@ -152,7 +152,7 @@ class _CreateRequestState extends State<CreateRequest> {
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(width: 1.0, color: Color(0xFF005792)),
                   borderRadius: BorderRadius.circular(10))),
-        ),       
+        ),
         onChanged: ((value) {
           dropdownvalue = value!;
         }));
@@ -227,7 +227,6 @@ class _CreateRequestState extends State<CreateRequest> {
             onPressed: () {
               chooseImage(ImageSource.camera);
             },
-            style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF005792)),
             icon: Icon(Icons.add_a_photo), //icon data for elevated button
             label: Text("Upload Image"), //label text
           ),
@@ -239,7 +238,6 @@ class _CreateRequestState extends State<CreateRequest> {
             onPressed: () {
               chooseImage(ImageSource.gallery);
             },
-            style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF005792)),
             icon:
                 Icon(Icons.add_photo_alternate), //icon data for elevated button
             label: Text("Choose Image"), //label text
@@ -549,7 +547,6 @@ class _CreateRequestState extends State<CreateRequest> {
                             Icons.location_pin,
                             color: Colors.white,
                           ),
-                          color: Color(0xFF005792),
                           shape: GFButtonShape.standard,
                           fullWidthButton: true,
                         ),

@@ -202,67 +202,82 @@ class showAcceptRequestDetailsScreen extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                           color: Colors.black)),
                 ),
-              ),],
-            ),
-            /* ----------------- Show Helpee details ---------------- */
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: FutureBuilder(
-                  future: FirebaseFirestore.instance
-                      .collection('user')
-                      .doc(data["Created By"])
-                      .get()
-                      .then((value) {
-                    Map<String, dynamic>? userData = value.data();
-                    // print(userData);
-
-                    return userData;
-                  }),
-                  builder: (_, snapshot) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        /* ----------------- Created By ---------------- */
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                          child: Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Text("Created By: ${snapshot.data!['name']}",
-                                style: GoogleFonts.montserrat(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black)),
+              ),
+              /* ----------------- Show Helpee details ---------------- */
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: FutureBuilder(
+                    future: FirebaseFirestore.instance
+                        .collection('user')
+                        .doc(data["Created By"])
+                        .get()
+                        .then((value) {
+                      Map<String, dynamic>? userData = value.data();
+                      // print(userData);
+                      return userData;
+                    }),
+                    builder: (_, snapshot) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          /* ----------------- Created By ---------------- */
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                            child: Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Text(
+                                  "Created By: ${snapshot.data!['name']}",
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black)),
+                            ),
                           ),
-                        ),
-                        /* ----------------- Phone ---------------- */
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                          child: Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Text(
-                                snapshot.data!['Phone'] == null
-                                    ? "Phone: NO PHONE."
-                                    : "Phone: ${snapshot.data!['Phone']}",
-                                style: GoogleFonts.montserrat(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black)),
+                          /* ----------------- Phone ---------------- */
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                            child: Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Text(
+                                  snapshot.data!['Phone'] == null
+                                      ? "Phone: NO PHONE."
+                                      : "Phone: ${snapshot.data!['Phone']}",
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black)),
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
+                          /* ----------------- Address ---------------- */
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                            child: Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Text(
+                                  snapshot.data!['Address'] == null
+                                      ? "Address: -"
+                                      : "Address: ${snapshot.data!['Address']}",
+                                  style: GoogleFonts.montserrat(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black)),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
-            /* ----------------- Complete Request ---------------- */
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-              child: SizedBox(
-                height: 55.0,
-                child: completeRequest(context),
+              /* ----------------- Complete Request ---------------- */
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+                child: SizedBox(
+                  height: 55.0,
+                  child: completeRequest(context),
+                ),
               ),
             ],
           ),
