@@ -227,6 +227,7 @@ class _CreateRequestState extends State<CreateRequest> {
             onPressed: () {
               chooseImage(ImageSource.camera);
             },
+            style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF005792)),
             icon: Icon(Icons.add_a_photo), //icon data for elevated button
             label: Text("Upload Image"), //label text
           ),
@@ -238,6 +239,7 @@ class _CreateRequestState extends State<CreateRequest> {
             onPressed: () {
               chooseImage(ImageSource.gallery);
             },
+            style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF005792)),
             icon:
                 Icon(Icons.add_photo_alternate), //icon data for elevated button
             label: Text("Choose Image"), //label text
@@ -536,7 +538,7 @@ class _CreateRequestState extends State<CreateRequest> {
                       ),
                       /* ----------------- Map ---------------- */
                       Padding(
-                        padding: EdgeInsets.fromLTRB(25, 0, 25, 0),
+                        padding: EdgeInsets.fromLTRB(30, 5, 30, 0),
                         child: GFButton(
                           onPressed: () {
                             _goToMe();
@@ -547,7 +549,8 @@ class _CreateRequestState extends State<CreateRequest> {
                             Icons.location_pin,
                             color: Colors.white,
                           ),
-                          shape: GFButtonShape.pills,
+                          color: Color(0xFF005792),
+                          shape: GFButtonShape.standard,
                           fullWidthButton: true,
                         ),
                       ),

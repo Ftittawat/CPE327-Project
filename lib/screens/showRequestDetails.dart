@@ -31,105 +31,6 @@ class ShowRequestDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget editRequest() {
-    return ElevatedButton(
-      onPressed: () {},
-      style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.grey,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Edit Request",
-              style: GoogleFonts.montserrat(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white)),
-        ],
-      ),
-    );
-  }
-
-  Widget cancelRequest(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-              title: Text("Cancel Request",
-                  style: GoogleFonts.montserrat(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black)),
-              contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-              content: Text("Are You Sure?",
-                  style: GoogleFonts.montserrat(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black)),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    "Cancel",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600, color: Color(0xFF005792)),
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    "Confirm",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600, color: Color(0xFF005792)),
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      },
-      style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.red,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Cancel Request",
-              style: GoogleFonts.montserrat(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white)),
-        ],
-      ),
-    );
-  }
-
-  Widget confirmModal() {
-    return Container(
-      height: 230,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(width: 2.0, color: Colors.grey.shade400),
-      ),
-      child: Center(
-        child: Icon(
-          Icons.photo,
-          color: Colors.grey.shade400,
-          size: 40,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     DateTime? dateTime;
@@ -220,50 +121,6 @@ class ShowRequestDetailsScreen extends StatelessWidget {
                         color: Colors.black)),
               ),
             ),
-            // /* ----------------- Created By ---------------- */
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-            //   child: Align(
-            //     alignment: Alignment.topLeft,
-            //     child: FutureBuilder(
-            //       future: FirebaseFirestore.instance
-            //           .collection("user")
-            //           .doc(data["Created By"])
-            //           .get()
-            //           .then(
-            //         (value) {
-            //           String name = value.data() == null
-            //               ? data["Created By"]
-            //               : value.data()!["name"];
-            //           return name;
-            //         },
-            //       ),
-            //       builder: (context, snapshot) {
-            //         return Text(
-            //           data['Created By'] == null
-            //               ? "Created By : Anonymous"
-            //               : "Created By : ${snapshot.data}",
-            //           style: GoogleFonts.montserrat(
-            //               fontSize: 14,
-            //               fontWeight: FontWeight.w500,
-            //               color: Colors.black),
-            //         );
-            //       },
-            //     ),
-            //   ),
-            // ),
-            // /* ----------------- Phone ---------------- */
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-            //   child: Align(
-            //     alignment: Alignment.bottomLeft,
-            //     child: Text("Phone : 098-7654321",
-            //         style: GoogleFonts.montserrat(
-            //             fontSize: 14,
-            //             fontWeight: FontWeight.w500,
-            //             color: Colors.black)),
-            //   ),
-            // ),
             /* ----------------- Accepted By ---------------- */
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -285,7 +142,7 @@ class ShowRequestDetailsScreen extends StatelessWidget {
                   builder: (context, snapshot) {
                     return Text(
                       data["Accepted By"] == null
-                          ? "Accepted By : Anonymous"
+                          ? "Accepted By : Available"
                           : "Accepted By : ${snapshot.data}",
                       style: GoogleFonts.montserrat(
                           fontSize: 14,
@@ -301,7 +158,7 @@ class ShowRequestDetailsScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text("Phone : 098-7654321",
+                child: Text("Phone : Available",
                     style: GoogleFonts.montserrat(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
