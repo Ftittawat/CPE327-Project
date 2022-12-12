@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:helpee/components/utils.dart';
 import 'package:helpee/pages/allRequestPage.dart';
 import 'package:helpee/pages/createRequestPage.dart';
+import 'package:helpee/pages/homeGuestPage.dart';
 import 'package:helpee/pages/profilePage.dart';
 import 'package:helpee/pages/userRequestHistoryPage.dart';
 import 'package:helpee/pages/userRequestPage.dart';
@@ -272,7 +273,7 @@ class _MyAppState extends State<MyApp> {
                       minWidth: 80,
                       onPressed: () {
                         setState(() {
-                          currentScreen = AllRequest();
+                          currentScreen = HomeGuest();
                           currentTab = 0;
                         });
                       },

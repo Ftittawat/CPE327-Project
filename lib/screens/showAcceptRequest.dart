@@ -103,6 +103,18 @@ class showAcceptRequestDetailsScreen extends StatelessWidget {
     );
   }
 
+  Set<Marker> mapMarker() {
+    return <Marker>[
+      Marker(
+          markerId: MarkerId('myLocation'),
+          position: LatLng(data['Lat'], data['Lng']),
+          infoWindow: InfoWindow(
+            title: "Request Location",
+            snippet: "Lat = ${data['Lat']}, Lng =${data['Lng']} ",
+          ))
+    ].toSet();
+  }
+
   Widget mapBox() {
     Completer<GoogleMapController> _controller = Completer();
     LatLng latLng = LatLng(data['Lat'], data['Lng']);
@@ -123,6 +135,7 @@ class showAcceptRequestDetailsScreen extends StatelessWidget {
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
+        markers: mapMarker(),
       ),
     );
   }
