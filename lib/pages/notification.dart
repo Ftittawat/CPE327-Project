@@ -79,11 +79,6 @@ class _NotificationscreenState extends State<Notificationscreen> {
                           fontWeight: FontWeight.w600,
                           color: Colors.black)),
                   contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  // content: Text("Are You Sure?",
-                  //     style: GoogleFonts.montserrat(
-                  //         fontSize: 14,
-                  //         fontWeight: FontWeight.w500,
-                  //         color: Colors.black)),
                   actions: [
                     TextButton(
                       onPressed: () {

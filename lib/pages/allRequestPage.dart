@@ -324,15 +324,6 @@ class _AllRequestState extends State<AllRequest> {
           ),
         ),
         actions: <Widget>[
-          // Padding(
-          //   padding: const EdgeInsets.only(right: 0),
-          //   child: IconButton(
-          //     icon: const Icon(Icons.notifications),
-          //     splashRadius: 20,
-          //     color: Color(0xFF005792),
-          //     onPressed: () {},
-          //   ),
-          // ),
           Padding(
             padding: const EdgeInsets.only(right: 20),
             child: checkKey == 0

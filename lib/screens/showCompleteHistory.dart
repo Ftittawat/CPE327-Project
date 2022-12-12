@@ -176,7 +176,7 @@ class CompleteHistoryScreen extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Category.tag("${data["category"]}"),
+                child: Category.tag("${data["Category"]}"),
               ),
             ),
             /* ----------------- Sub Title ---------------- */

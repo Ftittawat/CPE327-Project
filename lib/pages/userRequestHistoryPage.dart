@@ -110,13 +110,15 @@ class _UserRequestHistoryState extends State<UserRequestHistory> {
               child: TabBarView(
                 children: [
                   Column(
-                    children: [userHistory("Created By", "Available")],
+                    children: [userHistory("Created By", "Available", "")],
                   ),
                   Column(
-                    children: [userHistory("Created By", "In Progress")],
+                    children: [userHistory("Created By", "In Progress", "")],
                   ),
                   Column(
-                    children: [userHistory("Created By", "Completed")],
+                    children: [
+                      userHistory("Created By", "Completed", "Cancel"),
+                    ],
                   ),
                 ],
               ),

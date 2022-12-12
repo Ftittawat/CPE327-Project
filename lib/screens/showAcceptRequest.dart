@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:helpee/pages/userRequestPage.dart';
 
 import '../components/category.dart';
 
@@ -35,6 +36,7 @@ class showAcceptRequestDetailsScreen extends StatelessWidget {
       ),
     );
   }
+
 
   Widget completeRequest(BuildContext context) {
     DocumentReference<Map<String, dynamic>> requestCollection =
@@ -140,6 +142,7 @@ class showAcceptRequestDetailsScreen extends StatelessWidget {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     DateTime? dateTime;
@@ -179,13 +182,15 @@ class showAcceptRequestDetailsScreen extends StatelessWidget {
                           color: Color(0xFF005792))),
                 ),
               ),
-              /* ----------------- Category ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Category.tag("${data["category"]}"),
-                ),
+
+            ),
+            /* ----------------- Category ---------------- */
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Category.tag("${data["Category"]}"),
+
               ),
 
               /* ----------------- Sub Title ---------------- */
@@ -308,16 +313,10 @@ class showAcceptRequestDetailsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              /* ----------------- Complete Request ---------------- */
-              Padding(
-                padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                child: SizedBox(
-                  height: 55.0,
-                  child: completeRequest(context),
-                ),
-              ),
-            ],
-          ),
+
+            ),
+          ],
+
         ),
       ),
     );

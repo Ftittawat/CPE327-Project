@@ -53,11 +53,6 @@ class _CreateRequestState extends State<CreateRequest> {
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-          // hintText: 'Topic',
-          // hintStyle: GoogleFonts.montserrat(
-          //     fontSize: 16,
-          //     fontWeight: FontWeight.w600,
-          //     color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
@@ -76,11 +71,6 @@ class _CreateRequestState extends State<CreateRequest> {
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-          // hintText: 'Description',
-          // hintStyle: GoogleFonts.montserrat(
-          //     fontSize: 16,
-          //     fontWeight: FontWeight.w600,
-          //     color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
@@ -97,7 +87,7 @@ class _CreateRequestState extends State<CreateRequest> {
   String dropdownvalue = 'Other';
   var items = [
     'Mechanic',
-    'Electronic',
+    'Electric',
     'Technology',
     'Food & Medicine',
     'Garden',
@@ -138,11 +128,6 @@ class _CreateRequestState extends State<CreateRequest> {
         items: items,
         dropdownDecoratorProps: DropDownDecoratorProps(
           dropdownSearchDecoration: InputDecoration(
-              // hintText: 'Category',
-              // hintStyle: GoogleFonts.montserrat(
-              //     fontSize: 16,
-              //     fontWeight: FontWeight.w600,
-              //     color: Colors.grey.shade400),
               contentPadding:
                   EdgeInsets.symmetric(vertical: 15, horizontal: 15),
               enabledBorder: OutlineInputBorder(
@@ -163,11 +148,6 @@ class _CreateRequestState extends State<CreateRequest> {
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-          // hintText: 'Address',
-          // hintStyle: GoogleFonts.montserrat(
-          //     fontSize: 16,
-          //     fontWeight: FontWeight.w600,
-          //     color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
@@ -186,11 +166,6 @@ class _CreateRequestState extends State<CreateRequest> {
       style: GoogleFonts.montserrat(
           fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black),
       decoration: InputDecoration(
-          // hintText: 'Zip Code',
-          // hintStyle: GoogleFonts.montserrat(
-          //     fontSize: 16,
-          //     fontWeight: FontWeight.w600,
-          //     color: Colors.grey.shade400),
           contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 1.0, color: Colors.grey.shade400),
@@ -355,6 +330,7 @@ class _CreateRequestState extends State<CreateRequest> {
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
+                    setState(() {});
                   },
                   child: Text(
                     "OK",

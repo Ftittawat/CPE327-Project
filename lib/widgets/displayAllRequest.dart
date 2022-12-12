@@ -41,7 +41,7 @@ Widget displayAllRequest() {
   print("uid from displayAll: " + uid2.toString());
 
   query = collection
-      // .where("Created By", isNotEqualTo: uid2)
+      // .where("Created By", isEqualTo: uid2)
       .where("Status", isEqualTo: "Available")
       .snapshots();
 

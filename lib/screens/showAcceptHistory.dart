@@ -31,7 +31,9 @@ class ShowAcceptHistoryScreen extends StatelessWidget {
     );
   }
 
-  Widget completeRequest(BuildContext context) {
+
+  Widget completeRequestButton(BuildContext context) {
+
     DocumentReference<Map<String, dynamic>> requestCollection =
         FirebaseFirestore.instance.collection("Request").doc(docID);
 
@@ -67,7 +69,39 @@ class ShowAcceptHistoryScreen extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    requestCollection.update({"Status": "Completed"});
+                    Navigator.pop(context);
+                    showDialog(
+                      context: context,
+                      builder: ((context) {
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          titlePadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                          title: Text("Completed !!",
+                              style: GoogleFonts.montserrat(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black)),
+                          contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                          content: Icon(
+                            Icons.done_rounded,
+                            color: Colors.blue,
+                            size: 64.0,
+                          ),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                },
+                                child: Text("OK"))
+                          ],
+                        );
+                      }),
+                    );
+                  },
                   child: Text(
                     "Complete",
                     style: TextStyle(
@@ -239,6 +273,14 @@ class ShowAcceptHistoryScreen extends StatelessWidget {
                     );
                   },
                 ),
+              ),
+            ),
+            /* ----------------- Complete Request ---------------- */
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+              child: SizedBox(
+                height: 55.0,
+                child: completeRequestButton(context),
               ),
             ),
           ],

@@ -53,6 +53,7 @@ class ShowRequestDetailsScreen extends StatelessWidget {
                 fontWeight: FontWeight.w600,
                 color: Colors.black)),
       ),
+      /* ----------------- Body ---------------- */
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: Column(
