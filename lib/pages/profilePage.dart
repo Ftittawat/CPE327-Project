@@ -201,38 +201,6 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget skillBox(String skillname, Color boxcolor) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-      child: Container(
-        height: 30,
-        width: 100,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          color: boxcolor,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black45,
-              offset: Offset.fromDirection(2.0),
-              blurRadius: 2.0,
-            ),
-          ],
-        ),
-        child: Align(
-          alignment: Alignment.center,
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: Text(skillname,
-                style: GoogleFonts.montserrat(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white)),
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -307,18 +275,9 @@ class _ProfileState extends State<Profile> {
                               fontWeight: FontWeight.w600,
                               color: Colors.black)),
                     ),
-                    /* ----------------- Address ---------------- */
-                    // Padding(
-                    //   padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                    //   child: Text("Thung khru, Bangkok.",
-                    //       style: GoogleFonts.montserrat(
-                    //           fontSize: 18,
-                    //           fontWeight: FontWeight.w500,
-                    //           color: Colors.black)),
-                    // ),
                     /* ----------------- Show Email ---------------- */
                     Padding(
-                      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                      padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
                       child: Column(
                         children: [
                           Align(
@@ -356,7 +315,7 @@ class _ProfileState extends State<Profile> {
                     ),
                     /* ----------------- Save Button ---------------- */
                     Padding(
-                      padding: EdgeInsets.fromLTRB(20, 20, 20, 150),
+                      padding: EdgeInsets.fromLTRB(20, 20, 20, 50),
                       child: SizedBox(
                         height: 55.0,
                         child: saveButton(),

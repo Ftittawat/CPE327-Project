@@ -303,8 +303,6 @@ class _AllRequestState extends State<AllRequest> {
     );
   }
 
-  // var isVisible = checkVisible("In Progress");
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -357,10 +355,10 @@ class _AllRequestState extends State<AllRequest> {
           children: [
             Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 10), child: searchBox()),
-            Padding(
-                padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                child: Align(
-                    alignment: Alignment.centerLeft, child: filterButton())),
+            // Padding(
+            //     padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+            //     child: Align(
+            //         alignment: Alignment.centerLeft, child: filterButton())),
             Padding(
               padding: const EdgeInsets.fromLTRB(5, 0, 0, 3),
               child: FutureBuilder(
@@ -368,7 +366,6 @@ class _AllRequestState extends State<AllRequest> {
                 builder: (context, snapshot) {
                   return Visibility(
                     visible: false,
-                    // visible: checkVisible("In Progress"),
                     child: Column(
                       children: [
                         Row(
