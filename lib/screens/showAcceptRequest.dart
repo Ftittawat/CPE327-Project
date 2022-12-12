@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -102,11 +104,25 @@ class showAcceptRequestDetailsScreen extends StatelessWidget {
   }
 
   Widget mapBox() {
+    Completer<GoogleMapController> _controller = Completer();
+    LatLng latLng = LatLng(data['Lat'], data['Lng']);
+    CameraPosition cameraPosition = CameraPosition(
+      target: latLng,
+      zoom: 16.0,
+    );
+
     return Container(
       height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(width: 1.0, color: Colors.grey.shade400),
+      ),
+      child: GoogleMap(
+        initialCameraPosition: cameraPosition,
+        mapType: MapType.normal,
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
       ),
     );
   }
@@ -263,6 +279,14 @@ class showAcceptRequestDetailsScreen extends StatelessWidget {
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.black)),
+                            ),
+                          ),
+                          /* ----------------- Contact ---------------- */
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                            child: Align(
+                              alignment: Alignment.bottomLeft,
+                              child: mapBox(),
                             ),
                           ),
                         ],

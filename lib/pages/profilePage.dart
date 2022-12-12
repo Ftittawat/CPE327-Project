@@ -336,7 +336,9 @@ class _ProfileState extends State<Profile> {
                           Align(
                               alignment: Alignment.centerLeft,
                               child: textLabel('Phone')),
-                          phoneBox(data['Phone']),
+                          phoneBox(data['Phone'] == null
+                              ? "Phone: NO PHONE."
+                              : "Phone: ${data['Phone']}"),
                         ],
                       ),
                     ),
