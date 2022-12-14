@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:helpee/models/ListNotification.dart';
+import 'package:helpee/models/listNotification.dart';
 import 'package:helpee/screens/showNotification.dart';
 
 import '../components/authen_service.dart';
@@ -178,13 +178,13 @@ class _NotificationscreenState extends State<Notificationscreen> {
                     trailing: cancelButton(),
                     isThreeLine: true,
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ShowNotificationScreen(
-                              listNotification: notification),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => ShowNotificationScreen(
+                      //         listNotification: notification),
+                      //   ),
+                      // );
                     }),
               );
             },

@@ -21,6 +21,7 @@ class HomeGuest extends StatefulWidget {
 }
 
 class _HomeGuestState extends State<HomeGuest> {
+  /*---------------------- Get Started ---------------------- */
   Widget seeRequest() {
     return Card(
       elevation: 3.0,
@@ -76,6 +77,7 @@ class _HomeGuestState extends State<HomeGuest> {
     );
   }
 
+  /*---------------------- Emergency Call ---------------------- */
   Widget emergencycall(String name, String phonenumber, String imagepath) {
     return Card(
       elevation: 1.0,
@@ -175,9 +177,7 @@ class _HomeGuestState extends State<HomeGuest> {
                     context,
                     MaterialPageRoute(builder: (context) => LoginWithGoogle()),
                   ).then((value) {
-                    setState(() {
-                      print(" ## Set State Work");
-                    });
+                    setState(() {});
                   });
                 },
               )),
