@@ -262,9 +262,9 @@ class ShowAcceptHistoryScreen extends StatelessWidget {
                                 child: Align(
                                   alignment: Alignment.bottomLeft,
                                   child: Text(
-                                      snapshot.data!['Phone'] == null
+                                      snapshot.data!['phone'] == null
                                           ? "Phone: NO PHONE."
-                                          : "Phone: ${snapshot.data!['Phone']}",
+                                          : "Phone: ${snapshot.data!['phone']}",
                                       style: GoogleFonts.montserrat(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,

@@ -276,9 +276,9 @@ class CompleteHistoryScreen extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.bottomLeft,
                             child: Text(
-                                snapshot.data!['Phone'] == null
+                                snapshot.data!['phone'] == null
                                     ? "Phone: NO PHONE."
-                                    : "Phone: ${snapshot.data!['Phone']}",
+                                    : "Phone: ${snapshot.data!['phone']}",
                                 style: GoogleFonts.montserrat(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
@@ -289,18 +289,6 @@ class CompleteHistoryScreen extends StatelessWidget {
                     );
                   },
                 ),
-              ),
-            ),
-            /* ----------------- Phone ---------------- */
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 7, 0, 5),
-              child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Text("Phone : 098-7654321",
-                    style: GoogleFonts.montserrat(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black)),
               ),
             ),
           ],
