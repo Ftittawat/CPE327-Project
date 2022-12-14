@@ -110,7 +110,7 @@ class ShowAllRequestScreen extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                           builder: ((context) =>
-                                              ShowRequestDetailsScreen(
+                                              showAcceptRequestDetailsScreen(
                                                   data: data, docID: docID)),
                                         ),
                                       );

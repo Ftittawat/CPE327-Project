@@ -156,8 +156,8 @@ class _ProfileState extends State<Profile> {
     return ElevatedButton(
       onPressed: () async {
         await ref.doc(uid).update({
-          "Phone": phoneController.text,
-          "Others Contact": othersController.text,
+          "phone": phoneController.text,
+          "other": othersController.text,
         });
 
         showDialog(
@@ -254,9 +254,8 @@ class _ProfileState extends State<Profile> {
             builder: (_, snapshot) {
               if (snapshot.hasData) {
                 Map<String, dynamic>? data = snapshot.data!.data();
-                phoneController = TextEditingController(text: data!['Phone']);
-                othersController =
-                    TextEditingController(text: data['Others Contact']);
+                phoneController = TextEditingController(text: data!['phone']);
+                othersController = TextEditingController(text: data['other']);
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -301,10 +300,10 @@ class _ProfileState extends State<Profile> {
                         children: [
                           Align(
                               alignment: Alignment.centerLeft,
-                              child: textLabel('Phone')),
-                          phoneBox(data['Phone'] == null
+                              child: textLabel('phone')),
+                          phoneBox(data['phone'] == null
                               ? "Phone: NO PHONE."
-                              : "Phone: ${data['Phone']}"),
+                              : "Phone: ${data['phone']}"),
                         ],
                       ),
                     ),
@@ -316,7 +315,7 @@ class _ProfileState extends State<Profile> {
                           Align(
                               alignment: Alignment.centerLeft,
                               child: textLabel('Other Contact (Optional)')),
-                          otherContactsBox(data['Others Contact']),
+                          otherContactsBox(data['other']),
                         ],
                       ),
                     ),

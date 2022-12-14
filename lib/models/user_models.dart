@@ -4,18 +4,26 @@ import 'dart:convert';
 class UserModel {
   String name;
   String email;
+  String? phone;
+  String? other;
   UserModel({
     required this.name,
     required this.email,
+    this.phone,
+    this.other,
   });
 
   UserModel copyWith({
     String? name,
     String? email,
+    String? phone,
+    String? other,
   }) {
     return UserModel(
       name: name ?? this.name,
       email: email ?? this.email,
+      phone: phone ?? this.phone,
+      other: other ?? this.other,
     );
   }
 
@@ -23,6 +31,8 @@ class UserModel {
     return <String, dynamic>{
       'name': name,
       'email': email,
+      'phone': phone,
+      'other': other,
     };
   }
 
@@ -30,6 +40,8 @@ class UserModel {
     return UserModel(
       name: map['name'] as String,
       email: map['email'] as String,
+      phone: map['phone'] != null ? map['phone'] as String : null,
+      other: map['other'] != null ? map['other'] as String : null,
     );
   }
 
@@ -39,15 +51,22 @@ class UserModel {
       UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'UserModel(name: $name, email: $email)';
+  String toString() {
+    return 'UserModel(name: $name, email: $email, phone: $phone, other: $other)';
+  }
 
   @override
   bool operator ==(covariant UserModel other) {
     if (identical(this, other)) return true;
 
-    return other.name == name && other.email == email;
+    return other.name == name &&
+        other.email == email &&
+        other.phone == phone &&
+        other.other == other;
   }
 
   @override
-  int get hashCode => name.hashCode ^ email.hashCode;
+  int get hashCode {
+    return name.hashCode ^ email.hashCode ^ phone.hashCode ^ other.hashCode;
+  }
 }

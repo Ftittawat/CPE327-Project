@@ -16,6 +16,19 @@ class LoginWithGoogle extends StatefulWidget {
 
 class _LoginWithGoogleState extends State<LoginWithGoogle> {
   late String email, password, name, uid;
+  String? phone;
+
+  String getPhoneNumber(String uid) {
+    DocumentReference documentReference =
+        FirebaseFirestore.instance.collection('user').doc(uid);
+    String phone = "";
+    documentReference.get().then((snapshot) {
+      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+      phone = data['phone'];
+      print('###  phone =  $phone ###');
+    });
+    return phone;
+  }
 
   Future<Null> processSignInGoogle() async {
     print(" # Logging in ... #");
@@ -40,8 +53,10 @@ class _LoginWithGoogleState extends State<LoginWithGoogle> {
               .signInWithCredential(authCredential)
               .then((value3) async {
             uid = value3.user!.uid;
+            phone = getPhoneNumber(uid);
+
             print(
-                " # Login With Gmail Success With name = $name, email = $email, uid =$uid #");
+                " # Login With Gmail Success With name = $name, email = $email, uid =$uid , phone = $phone #");
             insertValueToCloudFirestore();
 
             // await FirebaseFirestore.instance
@@ -64,7 +79,10 @@ class _LoginWithGoogleState extends State<LoginWithGoogle> {
   }
 
   Future<Null> insertValueToCloudFirestore() async {
-    UserModel user = UserModel(email: email, name: name);
+    UserModel user = UserModel(
+      email: email,
+      name: name,
+    );
     Map<String, dynamic> data = user.toMap();
     await Firebase.initializeApp().then((value) async {
       await FirebaseFirestore.instance
