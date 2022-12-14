@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../components/category.dart';
 
@@ -248,62 +249,71 @@ class showAcceptRequestDetailsScreen extends StatelessWidget {
                       return userData;
                     }),
                     builder: (_, snapshot) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          /* ----------------- Created By ---------------- */
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                            child: Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Text(
-                                  "Created By: ${snapshot.data!['name']}",
-                                  style: GoogleFonts.montserrat(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black)),
-                            ),
-                          ),
-                          /* ----------------- Phone ---------------- */
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                            child: Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Text(
-                                  snapshot.data!['Phone'] == null
-                                      ? "Phone: NO PHONE."
-                                      : "Phone: ${snapshot.data!['Phone']}",
-                                  style: GoogleFonts.montserrat(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black)),
-                            ),
-                          ),
-                          /* ----------------- Address ---------------- */
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                            child: Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Text(
-                                  snapshot.data!['Address'] == null
-                                      ? "Address: -"
-                                      : "Address: ${snapshot.data!['Address']}",
-                                  style: GoogleFonts.montserrat(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black)),
-                            ),
-                          ),
-                          /* ----------------- Contact ---------------- */
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
-                            child: Align(
-                              alignment: Alignment.bottomLeft,
-                              child: mapBox(),
-                            ),
-                          ),
-                        ],
-                      );
+                      return (snapshot.connectionState ==
+                              ConnectionState.waiting)
+                          ? Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                /* ----------------- Created By ---------------- */
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                  child: Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Text(
+                                        "Created By: ${snapshot.data!['name']}",
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black)),
+                                  ),
+                                ),
+                                /* ----------------- Phone ---------------- */
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                  child: Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Text(
+                                        snapshot.data!['Phone'] == null
+                                            ? "Phone: NO PHONE."
+                                            : "Phone: ${snapshot.data!['Phone']}",
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black)),
+                                  ),
+                                ),
+                                /* ----------------- Address ---------------- */
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                  child: Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Text(
+                                        snapshot.data!['Address'] == null
+                                            ? "Address: -"
+                                            : "Address: ${snapshot.data!['Address']}",
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black)),
+                                  ),
+                                ),
+                                /* ----------------- Contact ---------------- */
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 10, 0, 20),
+                                  child: Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: mapBox(),
+                                  ),
+                                ),
+                              ],
+                            );
                     },
                   ),
                 ),
