@@ -54,6 +54,7 @@ class _ProfileState extends State<Profile> {
   var phoneController = new TextEditingController();
   var othersController = new TextEditingController();
 
+  /* ----------------- Text Label ---------------- */
   Widget textLabel(String nametext) {
     return Padding(
       padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
@@ -63,6 +64,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+  /* ----------------- Username Field ---------------- */
   Widget usernameBox() {
     return TextField(
       style: GoogleFonts.montserrat(
@@ -81,6 +83,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+  /* ----------------- Email Field ---------------- */
   Widget emailBox(String email) {
     return TextField(
       style: GoogleFonts.montserrat(
@@ -96,6 +99,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+  /* ----------------- Phone Field ---------------- */
   Widget phoneBox(String phoneNumber) {
     return TextField(
       controller: phoneController,
@@ -121,6 +125,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+  /* ----------------- Other Contact Field ---------------- */
   Widget otherContactsBox(String? othersContact) {
     return TextField(
       controller: othersController,
@@ -146,6 +151,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+  /* ----------------- Save Button ---------------- */
   Widget saveButton() {
     return ElevatedButton(
       onPressed: () async {
@@ -207,6 +213,7 @@ class _ProfileState extends State<Profile> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
+        /* ----------------- AppBar ---------------- */
         appBar: AppBar(
           centerTitle: true,
           toolbarHeight: 60,
@@ -236,6 +243,7 @@ class _ProfileState extends State<Profile> {
             ),
           ],
         ),
+        /* ----------------- Body ---------------- */
         body: SingleChildScrollView(
           child: Center(
               child: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(

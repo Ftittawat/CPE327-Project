@@ -407,6 +407,7 @@ class _CreateRequestState extends State<CreateRequest> {
                 child: Scaffold(
                   resizeToAvoidBottomInset: false,
                   backgroundColor: Colors.white,
+                  /* ----------------- Appbar ---------------- */
                   appBar: AppBar(
                     centerTitle: true,
                     toolbarHeight: 60,
@@ -418,6 +419,7 @@ class _CreateRequestState extends State<CreateRequest> {
                             fontWeight: FontWeight.w600,
                             color: Colors.black)),
                   ),
+                  /* ----------------- Body ---------------- */
                   body: SingleChildScrollView(
                       child: Center(
                           child: Column(
@@ -512,7 +514,7 @@ class _CreateRequestState extends State<CreateRequest> {
                         endIndent: 20,
                         color: Colors.black,
                       ),
-                      /* ----------------- Map ---------------- */
+                      /* ----------------- My Location ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(30, 5, 30, 0),
                         child: GFButton(
@@ -529,6 +531,7 @@ class _CreateRequestState extends State<CreateRequest> {
                           fullWidthButton: true,
                         ),
                       ),
+                      /* ----------------- Map ---------------- */
                       Padding(
                         padding: EdgeInsets.fromLTRB(20, 5, 20, 10),
                         child: mapBox(),

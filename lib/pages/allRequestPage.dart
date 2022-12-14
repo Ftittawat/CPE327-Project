@@ -92,7 +92,7 @@ class _AllRequestState extends State<AllRequest> {
     );
   }
 
-  /*---------------------- Save Box ---------------------- */
+  /*---------------------- Save Button ---------------------- */
   Widget saveButton() {
     return ElevatedButton(
       onPressed: () {
@@ -358,6 +358,7 @@ class _AllRequestState extends State<AllRequest> {
             //     padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
             //     child: Align(
             //         alignment: Alignment.centerLeft, child: filterButton())),
+            /* ----------------- In Progress Bar ---------------- */
             Padding(
               padding: const EdgeInsets.fromLTRB(5, 0, 0, 3),
               child: FutureBuilder(
@@ -391,6 +392,7 @@ class _AllRequestState extends State<AllRequest> {
                 },
               ),
             ),
+            /* ----------------- Available Bar ---------------- */
             Padding(
               padding: const EdgeInsets.fromLTRB(5, 0, 0, 3),
               child: Align(
@@ -415,6 +417,7 @@ class _AllRequestState extends State<AllRequest> {
               ),
             ),
             // displayAllRequest(checkKey),
+            /* ----------------- Show Request ---------------- */
             Container(
                 child:
                     (checkKey == 1) ? displayAllRequest() : displayAsGuest()),
