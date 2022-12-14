@@ -92,6 +92,8 @@ class _CreateRequestState extends State<CreateRequest> {
     'Food & Medicine',
     'Garden',
     'Other',
+    'Wooden',
+    'Plumbing'
   ];
 
   Widget categoryBox() {

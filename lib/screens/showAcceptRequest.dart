@@ -227,9 +227,9 @@ class showAcceptRequestDetailsScreen extends StatelessWidget {
                                   child: Align(
                                     alignment: Alignment.bottomLeft,
                                     child: Text(
-                                        snapshot.data!['Address'] == null
+                                        data!['Address'] == null
                                             ? "Address: -"
-                                            : "Address: ${snapshot.data!['Address']}",
+                                            : "Address: ${data!['Address']}",
                                         style: GoogleFonts.montserrat(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500,

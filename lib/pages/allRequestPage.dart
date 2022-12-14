@@ -420,7 +420,7 @@ class _AllRequestState extends State<AllRequest> {
             /* ----------------- Show Request ---------------- */
             Container(
                 child:
-                    (checkKey == 1) ? displayAllRequest() : displayAsGuest()),
+                    (checkKey == 1) ? displayAllRequest(keywords) : displayAsGuest()),
           ],
         ),
       ),

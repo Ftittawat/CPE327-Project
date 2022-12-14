@@ -9,6 +9,7 @@ Map categorycolor = {
   'plumbing': Colors.lightBlue.shade300,
   'garden': Colors.green.shade300,
   'other': Colors.blueGrey.shade300,
+  
 };
 
 Map statuscolor = {
