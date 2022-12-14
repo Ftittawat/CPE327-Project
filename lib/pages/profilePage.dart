@@ -150,7 +150,6 @@ class _ProfileState extends State<Profile> {
     return ElevatedButton(
       onPressed: () async {
         await ref.doc(uid).update({
-          // "Phone": controller.text,
           "Phone": phoneController.text,
           "Others Contact": othersController.text,
         });
@@ -253,7 +252,7 @@ class _ProfileState extends State<Profile> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    /* ----------------- Prifile Image ---------------- */
+                    /* ----------------- Profile Image ---------------- */
                     Padding(
                       padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
                       child: CircleAvatar(

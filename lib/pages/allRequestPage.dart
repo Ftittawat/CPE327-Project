@@ -115,7 +115,6 @@ class _AllRequestState extends State<AllRequest> {
     );
   }
 
-  /*---------------------- Save Box ---------------------- */
   bool _selected = false;
 
   /*---------------------- Distance Slider ---------------------- */

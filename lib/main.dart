@@ -9,7 +9,7 @@ import 'package:helpee/pages/profilePage.dart';
 import 'package:helpee/pages/userRequestHistoryPage.dart';
 import 'package:helpee/pages/userRequestPage.dart';
 import 'package:helpee/screens/loginwithgoogle.dart';
-import 'package:helpee/screens/pleaselogin.dart';
+import 'package:helpee/screens/pleaseLogin.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:helpee/widgets/displayAllRequest.dart';
 import 'package:helpee/widgets/userHistoryWidget.dart';
@@ -95,9 +95,10 @@ class _MyAppState extends State<MyApp> {
   //   PleaseLogin(),
   // ];
 
+  /// This widget is home page for logged in user.
+  /// Switch page with bottom navigation bar
   Widget home1() {
     return MaterialApp(
-      // home: Register(),
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         /* ----------------- Body ---------------- */
@@ -230,13 +231,10 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  /// This widget is home page for guest user.
+  /// Switch page with bottom navigation bar
   Widget home2() {
     return MaterialApp(
-      // initialRoute: '/',
-      // routes: {
-      //   '/': (context) => const TestHome(),
-      // },
-      // home: Register(),
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         /* ----------------- Body ---------------- */

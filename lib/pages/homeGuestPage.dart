@@ -80,13 +80,9 @@ class _HomeGuestState extends State<HomeGuest> {
     return Card(
       elevation: 1.0,
       color: Colors.white,
-      // shape: RoundedRectangleBorder(
-      //   borderRadius: BorderRadius.circular(20),
-      // ), (launch('tel://+191')
       child: InkWell(
         onTap: () {},
         child: Container(
-          // color: Colors.grey.shade100,
           height: 80,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
@@ -200,7 +196,6 @@ class _HomeGuestState extends State<HomeGuest> {
                   builder: (context, snapshot) {
                     return Visibility(
                       visible: false,
-                      // visible: checkVisible("In Progress"),
                       child: Column(
                         children: [
                           Row(

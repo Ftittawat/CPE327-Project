@@ -117,7 +117,7 @@ class _UserRequestHistoryState extends State<UserRequestHistory> {
                   ),
                   Column(
                     children: [
-                      userHistory("Created By", "Completed", "Cancel"),
+                      userHistory("Created By", "Completed", "Cancel")
                     ],
                   ),
                 ],

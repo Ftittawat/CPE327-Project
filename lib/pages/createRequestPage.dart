@@ -65,7 +65,7 @@ class _CreateRequestState extends State<CreateRequest> {
     );
   }
 
-  Widget descriptionbox() {
+  Widget descriptionBox() {
     return TextFormField(
       controller: DescriptionController,
       style: GoogleFonts.montserrat(
@@ -284,6 +284,8 @@ class _CreateRequestState extends State<CreateRequest> {
     //Uri pic = Uri.file(new File(file));
   }
 
+  /// This widget is to send information of request
+  /// to store in firebase.
   Widget createButton() {
     return ElevatedButton(
       onPressed: () async {
@@ -441,7 +443,7 @@ class _CreateRequestState extends State<CreateRequest> {
                             Align(
                                 alignment: Alignment.centerLeft,
                                 child: textLabel('Description')),
-                            descriptionbox(),
+                            descriptionBox(),
                           ],
                         ),
                       ),

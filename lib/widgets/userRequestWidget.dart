@@ -213,7 +213,7 @@ Widget userRequest(String query, String status) {
                           } else {
                             return [
                               PopupMenuItem(
-                                value: 3, // see details with completed
+                                value: 3, // see details with completed request
                                 child: Text(
                                   "Detail",
                                   style: TextStyle(fontSize: 14),
@@ -275,6 +275,7 @@ Widget userRequest(String query, String status) {
   );
 }
 
+/// function for check the visible tab for in progress task.
 Future<bool> checkVisible(String status) async {
   QuerySnapshot doc = await FirebaseFirestore.instance
       .collection("Request")
