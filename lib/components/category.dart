@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 Map categorycolor = {
   'mechanic': Colors.indigo.shade300,
-  'electronic': Colors.orange.shade300,
+  'electric': Colors.orange.shade300,
   'technology': Colors.teal.shade300,
   'wooden': Colors.brown.shade300,
   'plumbing': Colors.lightBlue.shade300,
