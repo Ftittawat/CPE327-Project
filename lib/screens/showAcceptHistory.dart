@@ -31,9 +31,7 @@ class ShowAcceptHistoryScreen extends StatelessWidget {
     );
   }
 
-
   Widget completeRequestButton(BuildContext context) {
-
     DocumentReference<Map<String, dynamic>> requestCollection =
         FirebaseFirestore.instance.collection("Request").doc(docID);
 
@@ -238,39 +236,43 @@ class ShowAcceptHistoryScreen extends StatelessWidget {
                     return userData;
                   }),
                   builder: (_, snapshot) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        /* ----------------- Accepted By ---------------- */
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                          child: Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Text(
-                                "Accepted By: ${snapshot.data!['name']}",
-                                style: GoogleFonts.montserrat(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black)),
-                          ),
-                        ),
-                        /* ----------------- Phone ---------------- */
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-                          child: Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Text(
-                                snapshot.data!['Phone'] == null
-                                    ? "Phone: NO PHONE."
-                                    : "Phone: ${snapshot.data!['Phone']}",
-                                style: GoogleFonts.montserrat(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black)),
-                          ),
-                        ),
-                      ],
-                    );
+                    return (snapshot.connectionState == ConnectionState.waiting)
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              /* ----------------- Accepted By ---------------- */
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                child: Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Text(
+                                      "Accepted By: ${snapshot.data!['name']}",
+                                      style: GoogleFonts.montserrat(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black)),
+                                ),
+                              ),
+                              /* ----------------- Phone ---------------- */
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                                child: Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Text(
+                                      snapshot.data!['Phone'] == null
+                                          ? "Phone: NO PHONE."
+                                          : "Phone: ${snapshot.data!['Phone']}",
+                                      style: GoogleFonts.montserrat(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black)),
+                                ),
+                              ),
+                            ],
+                          );
                   },
                 ),
               ),
