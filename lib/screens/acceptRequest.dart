@@ -76,10 +76,10 @@ class ShowAllRequestScreen extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    // requestCollection.update({
-                    //   "Accepted By": FirebaseAuth.instance.currentUser?.uid,
-                    //   "Status": "In Progress",
-                    // });
+                    requestCollection.update({
+                      "Accepted By": FirebaseAuth.instance.currentUser?.uid,
+                      "Status": "In Progress",
+                    });
                     // print("Accept Success!!");
                     Navigator.pop(context);
                     showDialog(
